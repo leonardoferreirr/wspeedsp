@@ -102,9 +102,6 @@ strong,b{font-weight:600}
 .heroi h1 strong{font-weight:600;display:block}
 .heroi .lead{margin-top:26px}
 .heroi .ctas{margin-top:34px}
-.heroi__nota{margin-top:26px;display:flex;flex-wrap:wrap;gap:6px 22px;color:var(--tinta3);font-size:14px}
-.heroi__nota span{display:inline-flex;align-items:center;gap:8px}
-.heroi__nota span::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--chama)}
 
 /* palco: pôster + canvas 3D no mesmo quadro */
 .palco{position:relative;aspect-ratio:1;width:min(100%,600px);margin-inline:auto;touch-action:pan-y}
@@ -392,8 +389,7 @@ body.tem-itens .flutua .orcf{transform:none;opacity:1}
   .heroi .palco{width:min(100%,340px)}
   .heroi .lead,.prod .lead{margin-inline:auto}
   .heroi .ctas,.prod .ctas{justify-content:center}
-  .heroi__nota{justify-content:center}
-  .heroi .barra::after{margin-inline:auto;transform-origin:center}
+    .heroi .barra::after{margin-inline:auto;transform-origin:center}
   .palco{width:min(100%,460px)}
   .prateleira{grid-template-columns:repeat(2,1fr);row-gap:44px}
   .comparar>div:first-child,.molas>div:first-child,.usinagem>div:last-child,.fluxo>div:last-child{text-align:center}

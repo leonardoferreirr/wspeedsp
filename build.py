@@ -576,9 +576,8 @@ def home():
 <h1 class="barra rev"><strong>Fabricamos</strong> bujões roscados e posicionadores com mola e esfera</h1>
 </div>
 <div class="heroi__b">
-<p class="lead rev" style="--d:.08s">Bujões DIN 906, 908 e 910 e posicionadores em aço oxidado ou inox, com o desenho técnico e a tabela de medidas de cada peça. Você escolhe a rosca, monta a lista e recebe o orçamento pelo WhatsApp.</p>
+<p class="lead rev" style="--d:.08s">Bujões DIN 906, 908 e 910 e posicionadores em aço oxidado ou inox, com o desenho técnico e a tabela de medidas de cada peça. Você escolhe a rosca, monta a lista e recebe o orçamento pelo WhatsApp, com envio para todo o Brasil.</p>
 <div class="ctas rev" style="--d:.16s">{btn("Ver as peças", "#pecas", "escuro", "baixo")}{btn(TEL_VER, zap_link("heroi"), "linha", "zap")}</div>
-<div class="heroi__nota rev" style="--d:.24s"><span>Aço oxidado e inox</span><span>Medidas especiais sob encomenda</span><span>Envio para todo o Brasil</span></div>
 </div>
 <div class="heroi__v">
 <div class="palco" style="--sombra:{SOMBRA["910"]}" data-visor="{visor_cfg("910", dims_padrao(p910))}" data-poster="/assets/img/pecas/{{tipo}}-{{mat}}-800.webp" data-pecas="{e(json.dumps(pecas_heroi, ensure_ascii=False), quote=True)}">

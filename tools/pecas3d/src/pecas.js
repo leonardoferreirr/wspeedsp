@@ -16,7 +16,6 @@ import {
   Shape, ShapeGeometry, SphereGeometry, PlaneGeometry, BoxGeometry, TubeGeometry, Curve, Vector3,
   BackSide, DoubleSide, Box3, Sphere, Color,
 } from 'three';
-import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 
 const TAU = Math.PI * 2;
 const lim = (v, a, b) => Math.min(b, Math.max(a, v));
@@ -228,14 +227,14 @@ function cabecaSextavada(S, y0, M, nA = 240, nY = 40) {
   return { lado: g, topo: disco(rTopo, y0 + M, true), rTopo };
 }
 
+// Mantém cada parte como malha própria (indexada, leve). Fundir tudo sem índice multiplicava os
+// vértices por 6 e a placa de vídeo travava ~1 s a cada troca de peça.
 function juntar(lista) {
-  const limpos = lista.map((g) => {
-    const n = g.index ? g.toNonIndexed() : g;
-    for (const k of Object.keys(n.attributes)) if (k !== 'position' && k !== 'normal') n.deleteAttribute(k);
-    if (!n.attributes.normal) n.computeVertexNormals();
-    return n;
+  return lista.map((g) => {
+    for (const k of Object.keys(g.attributes)) if (k !== 'position' && k !== 'normal') g.deleteAttribute(k);
+    if (!g.attributes.normal) g.computeVertexNormals();
+    return g;
   });
-  return mergeGeometries(limpos, false);
 }
 
 // ------------------------------------------------------------------ peças
@@ -465,45 +464,58 @@ export function criarVisor(canvas, op = {}) {
     }
   }
 
+  function materialDe(m) {
+    if (m.userData.papel === 'esfera') return mats.esfera;
+    return m.userData.papel === 'mola' && mat !== 'inox' ? mats.mola : mats.corpo;
+  }
   function aplicarMaterial() {
     const novo = MATERIAIS[mat === 'inox' ? 'inox' : 'aco']();
     mats.corpo.dispose();
     mats.corpo = novo;
-    if (atual) atual.traverse((m) => {
-      if (!m.isMesh || m.userData.papel === 'esfera') return;
-      const mola = m.morphTargetInfluences;
-      m.material = mola && mat !== 'inox' ? mats.mola : mats.corpo;
-    });
+    if (atual) atual.traverse((m) => { if (m.isMesh) m.material = materialDe(m); });
   }
 
-  function mostrar(tipo, dm, o = {}) {
-    if (o.material && o.material !== mat) { mat = o.material; aplicarMaterial(); }
+  // peças já montadas ficam guardadas: voltar a uma peça reaproveita o que já está na placa de vídeo
+  const guardadas = new Map();
+  function montarGrupo(tipo, dm) {
     const p = montarPeca(tipo, dm);
     const g = new Group();
-    const corpo = new Mesh(p.corpo, p.mola && mat !== 'inox' ? mats.mola : mats.corpo);
-    corpo.userData.papel = p.mola && mat !== 'inox' ? 'mola' : 'corpo';
-    if (p.mola) corpo.morphTargetInfluences = [morph];
-    g.add(corpo);
+    for (const geo of Array.isArray(p.corpo) ? p.corpo : [p.corpo]) {
+      const m = new Mesh(geo);
+      m.userData.papel = p.mola ? 'mola' : 'corpo';
+      if (p.mola) m.morphTargetInfluences = [morph];
+      g.add(m);
+    }
     if (p.esfera) {
-      const e = new Mesh(p.esfera, mats.esfera);
+      const e = new Mesh(p.esfera);
       e.userData.papel = 'esfera';
       g.add(e);
     }
     // centraliza e normaliza pelo raio da esfera envolvente (todas as medidas ocupam o mesmo quadro)
-    const caixa = new Box3().setFromObject(g);
-    const esf = caixa.getBoundingSphere(new Sphere());
-    const k = (op.escala || 1.12) / esf.radius;
-    g.children.forEach((m) => {
-      m.geometry.translate(-esf.center.x, -esf.center.y, -esf.center.z);
-    });
-    g.scale.setScalar(k);
-    g.userData.k = k;
-    if (atual) {
-      pivo.remove(atual);
-      atual.traverse((m) => { if (m.isMesh) m.geometry.dispose(); });
+    const esf = new Box3().setFromObject(g).getBoundingSphere(new Sphere());
+    g.children.forEach((m) => m.geometry.translate(-esf.center.x, -esf.center.y, -esf.center.z));
+    g.userData.k = (op.escala || 1.12) / esf.radius;
+    g.scale.setScalar(g.userData.k);
+    return g;
+  }
+
+  function mostrar(tipo, dm, o = {}) {
+    if (o.material && o.material !== mat) { mat = o.material; aplicarMaterial(); }
+    const chave = tipo + JSON.stringify(dm);
+    let g = guardadas.get(chave);
+    if (g) guardadas.delete(chave);
+    else g = montarGrupo(tipo, dm);
+    guardadas.set(chave, g);
+    while (guardadas.size > 10) {
+      const [k0, g0] = guardadas.entries().next().value;
+      guardadas.delete(k0);
+      if (g0 === atual) { guardadas.set(k0, g0); continue; }
+      g0.traverse((m) => { if (m.isMesh) m.geometry.dispose(); });
     }
+    g.traverse((m) => { if (m.isMesh) m.material = materialDe(m); });
+    if (atual && atual !== g) pivo.remove(atual);
     atual = g;
-    pivo.add(g);
+    if (!g.parent) pivo.add(g);
     entrando = o.instante ? 1 : 0;
     desenhar();
   }
