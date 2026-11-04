@@ -1,0 +1,14 @@
+<!doctype html><meta charset="utf-8"><title>render</title>
+<style>html,body{margin:0;background:transparent}canvas{display:block}</style>
+<canvas id="c" width="800" height="800" style="width:800px;height:800px"></canvas>
+<script type="module">
+import { criarVisor } from '/assets/js/pecas3d.js';
+const visor = criarVisor(document.getElementById('c'), { foto: true, auto: false, arrastar: false, dpr: 1 });
+window.renderizar = (tipo, dims, o = {}) => {
+  visor.angulo(o.yaw ?? -0.5, o.pitch ?? 0.42);
+  visor.mostrar(tipo, dims, { material: o.material || 'aco', instante: true });
+  if (o.comprimir != null) visor.comprimir(o.comprimir);
+  return visor.foto(o.w || 800, o.h || 800);
+};
+window.pronto = true;
+</script>

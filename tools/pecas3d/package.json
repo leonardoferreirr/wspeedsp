@@ -1,0 +1,13 @@
+{
+  "name": "wspeedsp-pecas3d",
+  "private": true,
+  "type": "module",
+  "description": "Pecas industriais em 3D geradas a partir das tabelas DIN (assets/js/pecas3d.js)",
+  "scripts": {
+    "pacote": "esbuild src/pecas.js --bundle --minify --format=esm --target=es2020 --legal-comments=none --outfile=../../assets/js/pecas3d.js"
+  },
+  "dependencies": {
+    "esbuild": "^0.24.0",
+    "three": "^0.169.0"
+  }
+}

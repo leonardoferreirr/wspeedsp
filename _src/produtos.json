@@ -1,0 +1,967 @@
+{
+ "_fonte": "Medidas pela norma DIN (906, 908, 910), transcritas do catálogo técnico da FBP em 04/11/2026; posicionador pela tabela do OM615 da Ômega Fix (similar ao GN 615). O M5 da Ômega vinha com curso '9', corrigido para 0,9 pela proporção da série.",
+ "produtos": [
+  {
+   "slug": "bujao-din-906",
+   "tipo": "906",
+   "codigo": "DIN 906",
+   "nome": "Bujão DIN 906",
+   "sub": "cônico com sextavado interno",
+   "titulo_seo": "Bujão DIN 906 cônico com sextavado interno: BSPT, NPTF e métrica",
+   "desc_seo": "Bujão DIN 906 cônico com sextavado interno em aço e inox. Tabela de medidas (L, S, T, W) para rosca BSPT, NPTF e métrica 1:16. Orçamento pelo WhatsApp e envio para todo o Brasil.",
+   "reconhecer": "Sem cabeça e sem colar: a rosca é cônica e o sextavado fica por dentro. Rosqueia até ficar rente à peça.",
+   "texto": "O bujão DIN 906 veda furos roscados sem ficar para fora da peça. Como a rosca é cônica, a vedação acontece no próprio aperto, e por isso ele aparece em blocos hidráulicos, bombas, redutores, cárteres e linhas de óleo e graxa de máquinas agrícolas.",
+   "letras": [
+    [
+     "L",
+     "comprimento total"
+    ],
+    [
+     "S",
+     "medida da chave Allen"
+    ],
+    [
+     "T",
+     "profundidade do sextavado"
+    ],
+    [
+     "W",
+     "espessura mínima abaixo do sextavado"
+    ]
+   ],
+   "tabelas": [
+    {
+     "id": "bspt",
+     "rotulo": "BSPT",
+     "titulo": "DIN 906 rosca BSPT (cônica 1:16)",
+     "rosca": "bspt",
+     "cab": [
+      "Rosca - fios",
+      "L",
+      "S",
+      "T",
+      "W"
+     ],
+     "linhas": [
+      [
+       "1/8\"-28",
+       8,
+       5,
+       4,
+       2
+      ],
+      [
+       "1/4\"-19",
+       10,
+       7,
+       5,
+       2
+      ],
+      [
+       "3/8\"-19",
+       10,
+       8,
+       5,
+       2
+      ],
+      [
+       "1/2\"-14",
+       10,
+       10,
+       5,
+       2
+      ],
+      [
+       "3/4\"-14",
+       12,
+       12,
+       6,
+       2
+      ],
+      [
+       "1\"-11",
+       12,
+       17,
+       6,
+       2
+      ],
+      [
+       "1.1/4\"-11",
+       18,
+       22,
+       11.5,
+       3
+      ],
+      [
+       "1.1/2\"-11",
+       20,
+       24,
+       11.5,
+       4
+      ]
+     ]
+    },
+    {
+     "id": "metrica",
+     "rotulo": "Métrica",
+     "titulo": "DIN 906 rosca métrica cônica 1:16",
+     "rosca": "metrica-conica",
+     "cab": [
+      "Rosca × passo",
+      "L",
+      "S",
+      "T",
+      "W"
+     ],
+     "linhas": [
+      [
+       "M8 × 1,0",
+       8,
+       4,
+       4,
+       2
+      ],
+      [
+       "M10 × 1,0",
+       8,
+       5,
+       4,
+       2
+      ],
+      [
+       "M12 × 1,5",
+       10,
+       6,
+       5,
+       2
+      ],
+      [
+       "M14 × 1,5",
+       10,
+       7,
+       5,
+       2
+      ],
+      [
+       "M16 × 1,5",
+       10,
+       8,
+       5,
+       2
+      ],
+      [
+       "M18 × 1,5",
+       10,
+       8,
+       5,
+       2
+      ],
+      [
+       "M20 × 1,5",
+       10,
+       10,
+       5,
+       2
+      ],
+      [
+       "M22 × 1,5",
+       10,
+       10,
+       5,
+       2
+      ],
+      [
+       "M24 × 1,5",
+       12,
+       12,
+       6,
+       2
+      ],
+      [
+       "M26 × 1,5",
+       12,
+       12,
+       6,
+       2
+      ],
+      [
+       "M30 × 1,5",
+       12,
+       17,
+       6,
+       2
+      ],
+      [
+       "M36 × 1,5",
+       15,
+       19,
+       7.5,
+       3
+      ]
+     ]
+    },
+    {
+     "id": "nptf",
+     "rotulo": "NPTF",
+     "titulo": "DIN 906 rosca NPTF",
+     "rosca": "nptf",
+     "cab": [
+      "Rosca - fios",
+      "L",
+      "S (pol.)",
+      "T",
+      "W"
+     ],
+     "linhas": [
+      [
+       "1/16\"-27",
+       8,
+       "5/32\"",
+       5,
+       2
+      ],
+      [
+       "1/8\"-27",
+       8,
+       "3/16\"",
+       5,
+       2
+      ],
+      [
+       "1/4\"-18",
+       11,
+       "1/4\"",
+       5.5,
+       2.5
+      ],
+      [
+       "3/8\"-18",
+       12.7,
+       "5/16\"",
+       6.5,
+       3
+      ],
+      [
+       "1/2\"-14",
+       14.2,
+       "3/8\"",
+       8,
+       3
+      ],
+      [
+       "3/4\"-14",
+       15.8,
+       "9/16\"",
+       8,
+       3.5
+      ],
+      [
+       "1\"-11,5",
+       19,
+       "5/8\"",
+       9.5,
+       5
+      ],
+      [
+       "1.1/4\"-11,5",
+       20.6,
+       "3/4\"",
+       11,
+       5
+      ],
+      [
+       "1.1/2\"-11,5",
+       20.6,
+       "1\"",
+       11,
+       5
+      ],
+      [
+       "2\"-11,5",
+       22.2,
+       "1\"",
+       11,
+       5.5
+      ]
+     ]
+    }
+   ],
+   "faq": [
+    [
+     "O DIN 906 precisa de anel de vedação?",
+     "Normalmente não. A rosca cônica veda no aperto, e em linhas de alta pressão muita gente completa com veda-rosca líquido."
+    ],
+    [
+     "Qual a diferença entre BSPT e NPTF?",
+     "As duas são cônicas, mas a BSPT tem filete de 55° (padrão inglês, mais comum em máquinas europeias e nacionais) e a NPTF tem filete de 60° (padrão americano). O número de fios por polegada também muda em algumas medidas."
+    ]
+   ]
+  },
+  {
+   "slug": "bujao-din-908",
+   "tipo": "908",
+   "codigo": "DIN 908",
+   "nome": "Bujão DIN 908",
+   "sub": "com colar e sextavado interno",
+   "titulo_seo": "Bujão DIN 908 com colar e sextavado interno: BSP e métrica",
+   "desc_seo": "Bujão DIN 908 com colar e sextavado interno em aço e inox. Tabela de medidas (D, C, L, S, T) para rosca BSP e métrica. Orçamento pelo WhatsApp e envio para todo o Brasil.",
+   "reconhecer": "Tem um colar redondo em cima e o sextavado por dentro. A rosca é reta e o colar encosta na peça.",
+   "texto": "O bujão DIN 908 tem rosca reta e um colar que encosta na face da peça, onde vai o anel de vedação. Ocupa pouca altura, já que o aperto é com chave Allen, e é muito usado em carcaças de redutores, blocos de válvulas e tanques de óleo.",
+   "letras": [
+    [
+     "D",
+     "diâmetro do colar"
+    ],
+    [
+     "C",
+     "altura do colar"
+    ],
+    [
+     "L",
+     "comprimento da rosca"
+    ],
+    [
+     "S",
+     "medida da chave Allen"
+    ],
+    [
+     "T",
+     "profundidade do sextavado"
+    ]
+   ],
+   "tabelas": [
+    {
+     "id": "bsp",
+     "rotulo": "BSP",
+     "titulo": "DIN 908 rosca BSP",
+     "rosca": "bsp",
+     "cab": [
+      "Rosca - fios",
+      "D",
+      "C",
+      "L",
+      "S",
+      "T"
+     ],
+     "linhas": [
+      [
+       "1/8\"-28",
+       14,
+       3,
+       8,
+       5,
+       5
+      ],
+      [
+       "1/4\"-19",
+       18,
+       3,
+       12,
+       6,
+       7
+      ],
+      [
+       "3/8\"-19",
+       22,
+       3,
+       12,
+       8,
+       7.5
+      ],
+      [
+       "1/2\"-14",
+       26,
+       4,
+       14,
+       10,
+       7.5
+      ],
+      [
+       "3/4\"-14",
+       32,
+       4,
+       16,
+       12,
+       9
+      ],
+      [
+       "1\"-11",
+       39,
+       5,
+       16,
+       17,
+       9
+      ],
+      [
+       "1.1/4\"-11",
+       49,
+       5,
+       16,
+       22,
+       10.5
+      ],
+      [
+       "1.1/2\"-11",
+       55,
+       5,
+       16,
+       24,
+       10.5
+      ],
+      [
+       "2\"-11",
+       68,
+       5,
+       20,
+       32,
+       14
+      ]
+     ]
+    },
+    {
+     "id": "metrica",
+     "rotulo": "Métrica",
+     "titulo": "DIN 908 rosca métrica",
+     "rosca": "metrica",
+     "cab": [
+      "Rosca × passo",
+      "D",
+      "C",
+      "L",
+      "S",
+      "T"
+     ],
+     "linhas": [
+      [
+       "M10 × 1,0",
+       14,
+       3,
+       8,
+       5,
+       5
+      ],
+      [
+       "M12 × 1,5",
+       17,
+       3,
+       12,
+       6,
+       7
+      ],
+      [
+       "M14 × 1,5",
+       19,
+       3,
+       12,
+       6,
+       7
+      ],
+      [
+       "M16 × 1,5",
+       21,
+       3,
+       12,
+       8,
+       7.5
+      ],
+      [
+       "M18 × 1,5",
+       23,
+       4,
+       12,
+       8,
+       7.5
+      ],
+      [
+       "M20 × 1,5",
+       25,
+       4,
+       14,
+       10,
+       7.5
+      ],
+      [
+       "M22 × 1,5",
+       27,
+       4,
+       14,
+       10,
+       7.5
+      ],
+      [
+       "M24 × 1,5",
+       29,
+       4,
+       14,
+       12,
+       7.5
+      ],
+      [
+       "M26 × 1,5",
+       31,
+       4,
+       16,
+       12,
+       9
+      ],
+      [
+       "M30 × 1,5",
+       36,
+       4,
+       16,
+       17,
+       9
+      ],
+      [
+       "M36 × 1,5",
+       42,
+       5,
+       16,
+       19,
+       10.5
+      ]
+     ]
+    }
+   ],
+   "faq": [
+    [
+     "O DIN 908 usa anel de vedação?",
+     "Sim. Como a rosca é reta, quem veda é o anel embaixo do colar, que pode ser de cobre, alumínio ou borracha com aço, conforme a pressão e o fluido."
+    ],
+    [
+     "Posso trocar um DIN 908 por um DIN 910?",
+     "Na maioria dos casos sim, porque a rosca e o colar seguem as mesmas medidas. A diferença é a chave: o 908 aperta com Allen e o 910 com chave de boca ou estrela."
+    ]
+   ]
+  },
+  {
+   "slug": "bujao-din-910",
+   "tipo": "910",
+   "codigo": "DIN 910",
+   "nome": "Bujão DIN 910",
+   "sub": "com cabeça sextavada e colar",
+   "titulo_seo": "Bujão DIN 910 com cabeça sextavada e colar: BSP e métrica",
+   "desc_seo": "Bujão DIN 910 com cabeça sextavada e colar em aço e inox. Tabela de medidas (D, M, L, C, S) para rosca BSP e métrica. Orçamento pelo WhatsApp e envio para todo o Brasil.",
+   "reconhecer": "Tem cabeça sextavada por fora, como um parafuso, e um colar redondo embaixo dela.",
+   "texto": "O bujão DIN 910 é o bujão de dreno mais conhecido: cabeça sextavada para chave de boca, colar para o anel de vedação e rosca reta. É o que vai no cárter, na caixa de câmbio, no diferencial e nos reservatórios hidráulicos de tratores e máquinas.",
+   "letras": [
+    [
+     "D",
+     "diâmetro do colar"
+    ],
+    [
+     "M",
+     "altura da cabeça"
+    ],
+    [
+     "L",
+     "comprimento da rosca"
+    ],
+    [
+     "C",
+     "altura do colar"
+    ],
+    [
+     "S",
+     "medida da chave de boca"
+    ]
+   ],
+   "tabelas": [
+    {
+     "id": "bsp",
+     "rotulo": "BSP",
+     "titulo": "DIN 910 rosca BSP",
+     "rosca": "bsp",
+     "cab": [
+      "Rosca - fios",
+      "D",
+      "M",
+      "L",
+      "C",
+      "S"
+     ],
+     "linhas": [
+      [
+       "1/8\"-28",
+       14,
+       6,
+       8,
+       3,
+       10
+      ],
+      [
+       "1/4\"-19",
+       18,
+       6,
+       12,
+       3,
+       13
+      ],
+      [
+       "3/8\"-19",
+       22,
+       6,
+       12,
+       3,
+       17
+      ],
+      [
+       "1/2\"-14",
+       26,
+       8,
+       14,
+       4,
+       19
+      ],
+      [
+       "3/4\"-14",
+       32,
+       10,
+       16,
+       4,
+       24
+      ],
+      [
+       "1\"-11",
+       39,
+       11,
+       16,
+       5,
+       27
+      ],
+      [
+       "1.1/4\"-11",
+       49,
+       12,
+       16,
+       5,
+       30
+      ],
+      [
+       "1.1/2\"-11",
+       55,
+       12,
+       16,
+       5,
+       30
+      ]
+     ]
+    },
+    {
+     "id": "metrica",
+     "rotulo": "Métrica",
+     "titulo": "DIN 910 rosca métrica",
+     "rosca": "metrica",
+     "cab": [
+      "Rosca × passo",
+      "D",
+      "M",
+      "L",
+      "C",
+      "S"
+     ],
+     "linhas": [
+      [
+       "M10 × 1,0",
+       14,
+       6,
+       8,
+       3,
+       10
+      ],
+      [
+       "M12 × 1,5",
+       17,
+       6,
+       12,
+       3,
+       13
+      ],
+      [
+       "M14 × 1,5",
+       19,
+       6,
+       12,
+       3,
+       13
+      ],
+      [
+       "M16 × 1,5",
+       21,
+       6,
+       12,
+       3,
+       17
+      ],
+      [
+       "M18 × 1,5",
+       23,
+       8,
+       12,
+       4,
+       17
+      ],
+      [
+       "M20 × 1,5",
+       25,
+       8,
+       14,
+       4,
+       19
+      ],
+      [
+       "M22 × 1,5",
+       27,
+       8,
+       14,
+       4,
+       19
+      ],
+      [
+       "M24 × 1,5",
+       29,
+       9,
+       14,
+       4,
+       22
+      ],
+      [
+       "M26 × 1,5",
+       31,
+       10,
+       16,
+       4,
+       24
+      ],
+      [
+       "M30 × 1,5",
+       36,
+       10,
+       16,
+       4,
+       24
+      ],
+      [
+       "M36 × 1,5",
+       42,
+       11,
+       16,
+       5,
+       27
+      ]
+     ]
+    }
+   ],
+   "faq": [
+    [
+     "Qual anel de vedação usar com o DIN 910?",
+     "O mais comum é o anel de cobre ou de alumínio, do mesmo diâmetro interno da rosca. Em sistemas de pressão mais alta entra o anel de aço com borracha vulcanizada."
+    ],
+    [
+     "O DIN 910 serve como bujão de dreno de cárter?",
+     "Serve. É o modelo padrão de dreno em motores, câmbios e diferenciais, desde que a rosca e o comprimento batam com o furo."
+    ]
+   ]
+  },
+  {
+   "slug": "posicionador-com-mola-e-esfera",
+   "tipo": "posicionador",
+   "codigo": "Posicionador",
+   "nome": "Posicionador com mola e esfera",
+   "sub": "com fenda, rosca métrica",
+   "titulo_seo": "Posicionador com mola e esfera em aço e inox: M3 a M16",
+   "desc_seo": "Posicionador com mola e esfera (parafuso posicionador com fenda) em aço oxidado e inox, de M3 a M16. Tabela com esfera, curso e força. Orçamento pelo WhatsApp e envio para todo o Brasil.",
+   "reconhecer": "É um parafuso sem cabeça, com fenda atrás e uma esfera na ponta que afunda quando você aperta.",
+   "texto": "O posicionador com mola e esfera trava, localiza e indexa peças: a esfera afunda com a pressão e volta pela mola, dando aquele clique de posição. É usado em gabaritos, dispositivos de fixação, moldes, estampos e em mecanismos de máquinas que precisam parar sempre no mesmo ponto.",
+   "letras": [
+    [
+     "d1",
+     "rosca"
+    ],
+    [
+     "L",
+     "comprimento"
+    ],
+    [
+     "D2",
+     "diâmetro da esfera"
+    ],
+    [
+     "l1",
+     "quanto a esfera fica para fora"
+    ],
+    [
+     "F",
+     "força da mola no fim do curso, em newtons"
+    ]
+   ],
+   "tabelas": [
+    {
+     "id": "metrica",
+     "rotulo": "Métrica",
+     "titulo": "Posicionador com mola e esfera, rosca métrica",
+     "rosca": "metrica-grossa",
+     "cab": [
+      "Rosca",
+      "L",
+      "D2",
+      "l1",
+      "F (N)"
+     ],
+     "linhas": [
+      [
+       "M3",
+       7,
+       1.5,
+       0.4,
+       4.5
+      ],
+      [
+       "M4",
+       9,
+       2.5,
+       0.8,
+       12
+      ],
+      [
+       "M4",
+       15,
+       2.5,
+       0.8,
+       12
+      ],
+      [
+       "M5",
+       12,
+       3,
+       0.9,
+       13
+      ],
+      [
+       "M5",
+       20,
+       3,
+       0.9,
+       13
+      ],
+      [
+       "M6",
+       14,
+       3.5,
+       1,
+       15
+      ],
+      [
+       "M6",
+       20,
+       3.5,
+       1,
+       15
+      ],
+      [
+       "M6",
+       25,
+       3.5,
+       1,
+       15
+      ],
+      [
+       "M6",
+       30,
+       3.5,
+       1,
+       15
+      ],
+      [
+       "M8",
+       16,
+       5,
+       1.5,
+       35
+      ],
+      [
+       "M8",
+       20,
+       5,
+       1.5,
+       35
+      ],
+      [
+       "M8",
+       25,
+       5,
+       1.5,
+       35
+      ],
+      [
+       "M8",
+       30,
+       5,
+       1.5,
+       35
+      ],
+      [
+       "M10",
+       19,
+       6,
+       2,
+       45
+      ],
+      [
+       "M10",
+       25,
+       6,
+       2,
+       45
+      ],
+      [
+       "M10",
+       35,
+       6,
+       2,
+       45
+      ],
+      [
+       "M12",
+       22,
+       8,
+       2.5,
+       60
+      ],
+      [
+       "M12",
+       30,
+       8,
+       2.5,
+       60
+      ],
+      [
+       "M12",
+       35,
+       8,
+       2.5,
+       60
+      ],
+      [
+       "M16",
+       24,
+       10,
+       3.5,
+       110
+      ]
+     ]
+    }
+   ],
+   "faq": [
+    [
+     "Qual a diferença entre o posicionador de aço e o de inox?",
+     "O de aço tem oxidação preta e serve para a maioria das máquinas. O inox não enferruja, então é o indicado para ambiente úmido, contato com água, alimentos ou produtos químicos."
+    ],
+    [
+     "Como escolher a força do posicionador?",
+     "Quanto maior a rosca, maior a esfera e mais forte a mola. Se a peça precisa travar com firmeza, suba uma medida; se é só um ponto de referência, a menor que couber resolve."
+    ]
+   ]
+  }
+ ]
+}

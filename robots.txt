@@ -1,0 +1,4 @@
+User-agent: *
+Disallow:
+
+Sitemap: https://wspeedsp.vercel.app/sitemap.xml

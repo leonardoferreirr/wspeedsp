@@ -1,0 +1,9 @@
+.audit/
+node_modules/
+.DS_Store
+_src/shots/
+_src/renders/
+_src/teste/
+_src/briefing-audios.txt
+_src/post-instagram.jpeg
+_src/logo-crop*.png
