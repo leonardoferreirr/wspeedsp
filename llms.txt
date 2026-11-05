@@ -7,6 +7,7 @@
 - [Bujão DIN 908 com colar e sextavado interno](https://wspeedsp.vercel.app/bujao-din-908): O bujão DIN 908 tem rosca reta e um colar que encosta na face da peça, onde vai o anel de vedação. Ocupa pouca altura, já que o aperto é com chave Allen, e é muito usado em carcaças de redutores, blocos de válvulas e tanques de óleo.
 - [Bujão DIN 910 com cabeça sextavada e colar](https://wspeedsp.vercel.app/bujao-din-910): O bujão DIN 910 é o bujão de dreno mais conhecido: cabeça sextavada para chave de boca, colar para o anel de vedação e rosca reta. É o que vai no cárter, na caixa de câmbio, no diferencial e nos reservatórios hidráulicos de tratores e máquinas.
 - [Posicionador com mola e esfera com fenda, rosca métrica](https://wspeedsp.vercel.app/posicionador-com-mola-e-esfera): O posicionador com mola e esfera trava, localiza e indexa peças: a esfera afunda com a pressão e volta pela mola, dando aquele clique de posição. É usado em gabaritos, dispositivos de fixação, moldes, estampos e em mecanismos de máquinas que precisam parar sempre no mesmo ponto.
+- [Bucha roscada reta e com colar](https://wspeedsp.vercel.app/bucha-roscada)
 - [Molas de compressão sob medida](https://wspeedsp.vercel.app/molas-de-compressao)
 - [Usinagem sob medida](https://wspeedsp.vercel.app/usinagem)
 

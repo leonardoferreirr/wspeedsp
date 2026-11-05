@@ -1,7 +1,7 @@
 # W Speed: site da linha industrial
 
 Catálogo da W Speed (@wfix.speed) com bujões DIN 906, 908 e 910,
-posicionador com mola e esfera, molas de compressão e usinagem sob medida. A pessoa escolhe a medida
+posicionador com mola e esfera, bucha roscada, molas de compressão e usinagem sob medida. A pessoa escolhe a medida
 na tabela, monta a lista de orçamento e a lista vai pronta para o WhatsApp (11) 98890-4107.
 
 ## Como rodar
@@ -47,6 +47,7 @@ O SEO aparece em 69 só porque o `noindex` está ligado de propósito.
 - [ ] Depois do domínio: `DOMINIO = "https://www.wspeedsp.com.br"`, `INDEXAR = True`, Google Search
       Console com o sitemap e Perfil da Empresa no Google. O cliente dele procura no Google.
 - [ ] Fotos das molas e das peças usinadas (ele disse que ia mandar).
+- [ ] Bucha roscada: ele mandou só fotos (de outro fabricante, a FWL, então ficam fora do site). Falta a tabela de medidas dele; até lá a página pede as medidas no formulário. Confirmar também o material (no site, aço zincado) e se faz em inox.
 - [ ] Confirmar o material do aço (a FBP usa 9SMn28, classe 5.8; a Ômega, SAE 1020). O site diz só
       "aço com oxidação preta".
 - [ ] Confirmar se ele fabrica todas as medidas da tabela, inclusive a série NPTF.

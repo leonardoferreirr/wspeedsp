@@ -2,8 +2,9 @@
 """Gera as imagens das peças (aço e inox) pelo mesmo motor 3D do site.
    quadrado/ : enquadramento igual ao do visor 3D (o pôster vira o 3D sem pulo)
    recorte/  : justo na peça, para os cards e a prateleira
-   python3 tools/renders.py"""
-import json, subprocess
+   python3 tools/renders.py                    (todas)
+   python3 tools/renders.py bucha bucha-colar  (só esses tipos)"""
+import json, subprocess, sys
 from pathlib import Path
 from PIL import Image
 
@@ -19,11 +20,18 @@ BASE = {
     "910": {"rosca": "1/2\"-14", "tipoRosca": "bsp", "D": 26, "M": 8, "L": 14, "C": 4, "S": 19},
     "posicionador": {"rosca": "M8", "L": 20, "D2": 5, "l1": 1.5},
     "mola": {"fio": 2, "De": 18, "voltas": 9, "Lo": 46},
+    # proporções tiradas das fotos do cliente; no site não aparecem como medida de catálogo
+    "bucha": {"de": 14, "pe": 1.75, "di": 8.5, "pi": 1.5, "L": 24},
+    "bucha-colar": {"de": 14, "pe": 1.75, "di": 9.5, "pi": 1.5, "L": 15, "D": 18, "C": 2.8},
 }
-ANG = {"posicionador": (1.4, 0.36), "mola": (0.2, 0.28)}
+ANG = {"posicionador": (1.4, 0.36), "mola": (0.2, 0.28), "bucha": (-0.5, 0.72), "bucha-colar": (-0.5, 0.72)}
+MATS = {"bucha": ("zincado",), "bucha-colar": ("zincado",)}
+SO = set(sys.argv[1:])
 lista = []
 for tipo, dims in BASE.items():
-    for mat in ("aco", "inox"):
+    if SO and tipo not in SO:
+        continue
+    for mat in MATS.get(tipo, ("aco", "inox")):
         yaw, pitch = ANG.get(tipo, (-0.5, 0.42))
         lista.append({"nome": f"{tipo}-{mat}", "tipo": tipo, "dims": dims, "material": mat, "yaw": yaw, "pitch": pitch, "w": 1100, "h": 1100})
 (TMP / "lista.json").write_text(json.dumps(lista))

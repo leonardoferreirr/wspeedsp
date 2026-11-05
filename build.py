@@ -100,8 +100,9 @@ def sombras():
     """Altura da sombra no palco: logo abaixo do pé de cada peça no pôster (mesmo enquadramento do 3D)."""
     from PIL import Image
     out = {}
-    for t in ("906", "908", "910", "posicionador", "mola"):
-        im = Image.open(RAIZ / f"assets/img/pecas/{t}-aco-800.webp").convert("RGBA")
+    for t in ("906", "908", "910", "posicionador", "mola", "bucha", "bucha-colar"):
+        mat = "zincado" if t.startswith("bucha") else "aco"
+        im = Image.open(RAIZ / f"assets/img/pecas/{t}-{mat}-800.webp").convert("RGBA")
         baixo = im.getchannel("A").point(lambda a: 255 if a > 20 else 0).getbbox()[3] / im.height
         out[t] = f"{max(2.0, (1 - baixo) * 100 - 4.5):.1f}%"
     return out
@@ -363,6 +364,33 @@ def desenho_usinagem():
     return s + c + "</svg>"
 
 
+def desenho_bucha():
+    s = svg_ini("0 0 560 300", "Desenho técnico da bucha roscada com as medidas d1, d2, L, D e C")
+    cx, cy = 130, 156
+    s += centros(cx, cy, 112)
+    s += f'<circle cx="{cx}" cy="{cy}" r="96" fill="none" stroke="{TRACO}" stroke-width="1.6"/>'
+    s += f'<circle cx="{cx}" cy="{cy}" r="60" fill="none" stroke="{TRACO}" stroke-width=".8"/>'
+    s += f'<circle cx="{cx}" cy="{cy}" r="50" fill="none" stroke="{TRACO}" stroke-width="1.6"/>'
+    s += ext((cx - 96, cy, cx - 96, 30), (cx + 96, cy, cx + 96, 30))
+    s += cota(cx - 96, 36, cx + 96, 36, "D", cx, 26)
+    s += ext((cx - 60, cy + 8, cx - 60, cy + 126), (cx + 60, cy + 8, cx + 60, cy + 126))
+    s += cota(cx - 60, cy + 120, cx + 60, cy + 120, "d1", cx, cy + 143)
+    # lateral
+    x, yt, yc, yb = 386, 56, 86, 236
+    s += caminho(f"M{x-92} {yt} H{x+92} L{x+96} {yt+4} V{yc} H{x-96} V{yt+4} Z")
+    s += caminho(f"M{x-74} {yc} V{yb-6} L{x-68} {yb} H{x+68} L{x+74} {yb-6} V{yc}")
+    s += linhas([(x - 66, yc + 12, x - 66, yb - 4), (x + 66, yc + 12, x + 66, yb - 4)], TRACO, .8)
+    s += linhas([(x - 50, yt, x - 50, yb), (x + 50, yt, x + 50, yb)], TRACO, 1.1, "5 3")
+    s += linhas([(x - 60, yt + 6, x - 60, yb - 6), (x + 60, yt + 6, x + 60, yb - 6)], TRACO, .7, "5 3")
+    s += linhas([(x, yt - 14, x, yb + 14)], CENTRO, .8, "12 3 2 3")
+    s += ext((x + 96, yt, x + 142, yt), (x + 96, yc, x + 142, yc), (x + 74, yb, x + 142, yb))
+    s += cota(x + 134, yt, x + 134, yc, "C", x + 146, (yt + yc) / 2 + 6, "start")
+    s += cota(x + 134, yc, x + 134, yb, "L", x + 146, (yc + yb) / 2 + 6, "start")
+    s += ext((x - 74, yb, x - 74, 268), (x + 74, yb, x + 74, 268))
+    s += cota(x - 74, 262, x + 74, 262, "d2", x, 286)
+    return s + "</svg>"
+
+
 DESENHO = {"906": desenho_906, "908": desenho_908, "910": desenho_910, "posicionador": desenho_posicionador}
 
 
@@ -435,6 +463,7 @@ def topo(rota):
 <nav class="nav" id="nav" aria-label="Principal">
 <div class="sub"><button type="button" aria-expanded="false">Bujões {ic("chev", 1.8)}</button><ul>{sub}</ul></div>
 <a href="/posicionador-com-mola-e-esfera"{atual("/posicionador-com-mola-e-esfera")}>Posicionadores</a>
+<a href="/bucha-roscada"{atual("/bucha-roscada")}>Buchas</a>
 <a href="/molas-de-compressao"{atual("/molas-de-compressao")}>Molas</a>
 <a href="/usinagem"{atual("/usinagem")}>Usinagem</a>
 </nav>
@@ -449,8 +478,8 @@ def rodape():
     return f'''<footer class="rodape"><div class="wrap">
 <div class="rodape__grade">
 <div><img class="logo" src="/assets/img/logo-negativo-160.webp" width="163" height="54" alt="W Speed" loading="lazy">
-<p>Fabricação de bujões DIN 906, 908 e 910, posicionadores com mola e esfera, molas de compressão e usinagem sob medida, com envio para todo o Brasil.</p></div>
-<div><p class="rodape__tit">Peças</p><ul>{links}<li><a href="/molas-de-compressao">Molas de compressão</a></li><li><a href="/usinagem">Usinagem sob medida</a></li></ul></div>
+<p>Bujões DIN 906, 908 e 910, posicionadores com mola e esfera, buchas roscadas, molas de compressão e usinagem sob medida, com envio para todo o Brasil.</p></div>
+<div><p class="rodape__tit">Peças</p><ul>{links}<li><a href="/bucha-roscada">Bucha roscada</a></li><li><a href="/molas-de-compressao">Molas de compressão</a></li><li><a href="/usinagem">Usinagem sob medida</a></li></ul></div>
 <div><p class="rodape__tit">Contato</p><ul><li><a href="{zap_link("rodape")}">WhatsApp {TEL_VER}</a></li><li><a href="{INSTAGRAM}" target="_blank" rel="noopener">Instagram @wfix.speed</a></li><li><a href="#" data-abre-orc>Minha lista de orçamento</a></li></ul></div>
 </div>
 <div class="rodape__base"><span>© {date.today().year} W Speed</span><span>Medidas conforme as normas DIN. As imagens das peças são geradas a partir dessas medidas.</span></div>
@@ -599,6 +628,14 @@ def home():
 <span class="seta seta--chama">Ver medidas {SETA}</span>
 <a class="cobre" href="/{p["slug"]}" aria-label="Ver medidas do {e(p["nome"])}"></a>
 </article>'''
+    wb, hb = dims_recorte("bucha-colar", "zincado", 300)
+    cards += f'''<article class="peca rev" style="--d:.32s">
+<div class="peca__img"><img src="/assets/img/pecas/bucha-colar-zincado-recorte-300.webp" width="{wb}" height="{hb}" alt="Bucha roscada com colar, zincada" loading="lazy" decoding="async"><span class="linha-chama"></span></div>
+<h3>Bucha roscada</h3><p class="sub">reta ou com colar</p>
+<p class="rec">{e(BUCHA_RECONHECER)}</p>
+<span class="seta seta--chama">Ver a peça {SETA}</span>
+<a class="cobre" href="/bucha-roscada" aria-label="Ver a bucha roscada"></a>
+</article>'''
     pecas = f'''<section class="sec" id="pecas"><div class="wrap">
 <div class="centro"><h2 class="tit barra centro rev">Qual é a sua peça?</h2>
 <p class="lead rev" style="margin-top:22px">Muitas vezes quem compra recebe só o nome ou a peça velha na mão. Compare pelo formato e abra a ficha com o desenho e as medidas.</p></div>
@@ -608,7 +645,7 @@ def home():
     comparar = f'''<section class="sec" style="padding-top:0"><div class="wrap comparar">
 <div>
 <h2 class="tit barra rev">Em aço oxidado ou em <strong>inox</strong></h2>
-<p class="lead rev" style="margin-top:22px">Todas as peças saem nos dois materiais. Arraste a linha sobre a imagem para comparar.</p>
+<p class="lead rev" style="margin-top:22px">Bujões e posicionadores saem nos dois materiais. Arraste a linha sobre a imagem para comparar.</p>
 <ul class="rev"><li><i></i><span><b>Aço oxidado.</b> O acabamento preto protege contra a ferrugem do dia a dia e atende a maior parte das máquinas, tratores e sistemas hidráulicos.</span></li>
 <li><i class="inox"></i><span><b>Inox.</b> Não enferruja, então é o indicado para ambiente úmido, contato com água, alimentos ou produtos químicos.</span></li></ul>
 </div>
@@ -846,6 +883,65 @@ def molas():
                   corpo, "/molas-de-compressao", preload_peca("mola"), extra)
 
 
+# ------------------------------------------------------------------ bucha roscada
+BUCHA_RECONHECER = "É um cilindro vazado de ponta a ponta, com rosca por fora e por dentro. Pode ser reta ou ter um colar em uma das pontas."
+# proporções tiradas das fotos do cliente: servem para desenhar o 3D, não são medidas de catálogo
+BUCHA_DIMS = {"bucha": {"de": 14, "pe": 1.75, "di": 8.5, "pi": 1.5, "L": 24},
+              "bucha-colar": {"de": 14, "pe": 1.75, "di": 9.5, "pi": 1.5, "L": 15, "D": 18, "C": 2.8}}
+
+
+def bucha():
+    faq = [
+        ("Para que serve a bucha roscada?",
+         "Ela dá uma rosca nova ao furo. Serve para recuperar rosca espanada, para reforçar rosca em alumínio e outros materiais moles e para adaptar uma medida de parafuso a outra."),
+        ("Qual a diferença entre a bucha reta e a com colar?",
+         "A reta entra por inteiro no furo. A com colar encosta na face da peça, o que limita a profundidade e dá um apoio a mais."),
+        ("Como pedir a medida certa?",
+         "Informe a rosca interna, a rosca externa e o comprimento. Se não souber, mande uma foto da peça ao lado de um paquímetro pelo WhatsApp que a gente ajuda."),
+    ]
+    variante = lambda rot, tipo, modelo, ativo: (
+        f'<button type="button" class="chip" aria-pressed="{"true" if ativo else "false"}" '
+        f'data-variante="{e(json.dumps({"tipo": tipo, "dims": BUCHA_DIMS[tipo], "sombra": SOMBRA[tipo], "modelo": modelo}, ensure_ascii=False), quote=True)}">{rot}</button>')
+    corpo = f'''<section class="cab-prod">{facetas()}
+<div class="wrap prod">
+<div>
+<div class="palco" style="--sombra:{SOMBRA["bucha-colar"]}" data-visor="{visor_cfg("bucha-colar", BUCHA_DIMS["bucha-colar"], "zincado", -0.5, 0.72)}" data-poster="/assets/img/pecas/{{tipo}}-{{mat}}-800.webp">
+{img_peca("bucha-colar", "zincado", alt="Bucha roscada com colar, zincada", lazy=False)}
+<span class="palco__dica">{ic("giro", 1.5)} Arraste para girar</span>
+</div>
+<div class="controles"><div class="seletor" role="group" aria-label="Modelo da bucha" data-alvo=".prod .palco">{variante("Com colar", "bucha-colar", "com colar", True)}{variante("Reta", "bucha", "reta", False)}</div></div>
+</div>
+<div>
+<nav class="migalhas" aria-label="Você está em"><a href="/">Início</a><span aria-hidden="true">/</span><a href="/#pecas">Peças</a><span aria-hidden="true">/</span><span>Bucha roscada</span></nav>
+<h1 class="barra">Bucha <strong>roscada</strong><span class="sub" style="display:block">rosca interna e externa, reta ou com colar</span></h1>
+<p class="lead">A bucha roscada tem rosca por fora e por dentro: ela entra no furo da peça e entrega uma rosca nova no lugar. É o caminho para recuperar rosca espanada, reforçar rosca em alumínio e adaptar uma medida de parafuso a outra.</p>
+<p class="reconhecer"><b>Como reconhecer:</b> {e(BUCHA_RECONHECER)}</p>
+<form class="form escolha" data-sob-medida="bucha" data-nome="Bucha roscada" data-img="/assets/img/pecas/bucha-colar-zincado-recorte-300.webp">
+<label>Rosca interna<input name="ri" placeholder="Ex.: M8 × 1,25" data-rot="rosca interna"></label>
+<label>Rosca externa<input name="re" placeholder="Ex.: M14 × 1,5" data-rot="rosca externa"></label>
+<label>Comprimento (mm)<input name="l" inputmode="decimal" placeholder="Ex.: 20" data-rot="comprimento" data-un="mm"></label>
+<label>Modelo<select name="modelo" data-rot="modelo"><option value="com colar">Com colar</option><option value="reta">Reta</option></select></label>
+<label>Material<select name="material" data-rot="material"><option value="aço zincado">Aço zincado</option><option value="outro material (ver obs.)">Outro</option></select></label>
+<label>Quantidade<input name="qtd" inputmode="numeric" value="100" data-rot="qtd"></label>
+<label class="inteiro">Observação<input name="obs" placeholder="Aplicação, se tem amostra..." data-rot="obs."></label>
+<button class="btn btn--escuro" type="submit">{ic("carrinho", 1.6)}<span>Adicionar ao orçamento</span></button>
+</form>
+</div>
+</div></section>
+<section class="sec" id="medidas" style="padding-top:clamp(40px,6vw,80px)"><div class="wrap">
+<h2 class="tit barra rev">O que informar no <strong>pedido</strong></h2>
+<div class="tecnico">
+<div class="prancha">{desenho_bucha()}</div>
+<div><dl class="legenda"><div><dt>d1</dt><dd>rosca interna, a do parafuso que vai entrar</dd></div><div><dt>d2</dt><dd>rosca externa, a que fica no furo da peça</dd></div><div><dt>L</dt><dd>comprimento da rosca externa</dd></div><div><dt>D, C</dt><dd>diâmetro e altura do colar, no modelo com colar</dd></div></dl></div>
+</div>
+{perguntas_html(faq)}
+</div></section>'''
+    extra = ld(faq_ld(faq)) + ld(migalhas_ld([("Início", "/"), ("Bucha roscada", "/bucha-roscada")]))
+    return pagina("Bucha roscada reta e com colar: rosca interna e externa | W Speed",
+                  "Bucha roscada reta e com colar, com rosca interna e externa, para recuperar rosca espanada e reforçar rosca em alumínio. Informe as medidas e peça o orçamento pelo WhatsApp. Envio para todo o Brasil.",
+                  corpo, "/bucha-roscada", preload_peca("bucha-colar", "zincado"), extra)
+
+
 # ------------------------------------------------------------------ usinagem
 def usinagem():
     corpo = f'''<section class="cab-prod">{facetas()}
@@ -921,13 +1017,13 @@ def nao_achou():
 def main():
     import subprocess
     subprocess.run([str(ESBUILD), str(JS_FONTE), "--minify", "--target=es2017", "--legal-comments=none", f"--outfile={JS}"], check=True, capture_output=True)
-    paginas = {"index.html": home(), "molas-de-compressao.html": molas(), "usinagem.html": usinagem(),
+    paginas = {"index.html": home(), "bucha-roscada.html": bucha(), "molas-de-compressao.html": molas(), "usinagem.html": usinagem(),
                "obrigado.html": obrigado(), "404.html": nao_achou()}
     for p in PRODUTOS:
         paginas[p["slug"] + ".html"] = produto(p)
     for nome, html in paginas.items():
         (RAIZ / nome).write_text(html)
-    rotas = ["/"] + ["/" + p["slug"] for p in PRODUTOS] + ["/molas-de-compressao", "/usinagem"]
+    rotas = ["/"] + ["/" + p["slug"] for p in PRODUTOS] + ["/bucha-roscada", "/molas-de-compressao", "/usinagem"]
     hoje = date.today().isoformat()
     (RAIZ / "sitemap.xml").write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
                                       + "".join(f"<url><loc>{DOMINIO}{r}</loc><lastmod>{hoje}</lastmod></url>" for r in rotas) + "</urlset>\n")
@@ -935,6 +1031,7 @@ def main():
     linhas_llms = [f"# W Speed\n\n> Fabricação de bujões DIN 906, 908 e 910, posicionadores com mola e esfera (aço oxidado e inox), molas de compressão e usinagem sob medida. Orçamento pelo WhatsApp, envio para todo o Brasil.\n\n## Peças"]
     for p in PRODUTOS:
         linhas_llms.append(f"- [{p['nome']} {p['sub']}]({DOMINIO}/{p['slug']}): {p['texto']}")
+    linhas_llms.append(f"- [Bucha roscada reta e com colar]({DOMINIO}/bucha-roscada)")
     linhas_llms.append(f"- [Molas de compressão sob medida]({DOMINIO}/molas-de-compressao)\n- [Usinagem sob medida]({DOMINIO}/usinagem)")
     linhas_llms.append(f"\n## Contato\nWhatsApp: {TEL_VER}\nInstagram: {INSTAGRAM}\nSite: {DOMINIO}/\n")
     (RAIZ / "llms.txt").write_text("\n".join(linhas_llms))

@@ -6,7 +6,7 @@
   var reduz = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   var $ = function (s, el) { return (el || d).querySelector(s); };
   var $$ = function (s, el) { return Array.prototype.slice.call((el || d).querySelectorAll(s)); };
-  var MAT = { aco: 'aço oxidado', inox: 'inox' };
+  var MAT = { aco: 'aço oxidado', inox: 'inox', zincado: 'aço zincado' };
 
   /* ---------------- revelar ao rolar */
   var revs = $$('.rev');
@@ -230,6 +230,22 @@
     var ciclo = function () { if (auto && !d.hidden && heroi.classList.contains('vivo')) mostrarPeca((atual + 1) % dados.length); tAuto = setTimeout(ciclo, 5200); };
     tAuto = setTimeout(ciclo, 6500);
   }
+
+  /* ---------------- modelos da bucha: reta ou com colar */
+  var botoesVar = $$('[data-variante]');
+  var selModelo = $('form[data-sob-medida="bucha"] select[name="modelo"]');
+  function trocarVariante(b) {
+    var alvo = $(b.closest('[data-alvo]').dataset.alvo), cfg = JSON.parse(b.dataset.variante);
+    botoesVar.forEach(function (x) { x.setAttribute('aria-pressed', x === b); });
+    if (cfg.sombra) alvo.style.setProperty('--sombra', cfg.sombra);
+    estado(alvo, { tipo: cfg.tipo, dims: cfg.dims });
+    iniciar3D();
+    if (selModelo) selModelo.value = cfg.modelo;
+  }
+  botoesVar.forEach(function (b) { b.addEventListener('click', function () { trocarVariante(b); }); });
+  if (selModelo) selModelo.addEventListener('change', function () {
+    botoesVar.forEach(function (b) { if (JSON.parse(b.dataset.variante).modelo === selModelo.value) trocarVariante(b); });
+  });
 
   /* ---------------- aço x inox lado a lado */
   $$('.lado').forEach(function (el) {

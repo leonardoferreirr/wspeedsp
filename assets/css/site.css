@@ -129,12 +129,13 @@ strong,b{font-weight:600}
 .heroi__legenda a{color:var(--tinta);font-weight:500;border-bottom:1px solid rgba(20,21,24,.25);white-space:nowrap}
 
 /* ---------- prateleira: qual é a sua peça */
-.prateleira{position:relative;display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(16px,2.4vw,32px);margin-top:clamp(40px,6vw,72px)}
+.prateleira{--vao:clamp(16px,2.2vw,28px);position:relative;display:flex;flex-wrap:wrap;justify-content:center;gap:var(--vao);margin-top:clamp(40px,6vw,72px)}
+.prateleira>.peca{flex:0 0 calc((100% - 4*var(--vao))/5);min-width:0}
 .peca{display:flex;flex-direction:column;align-items:center;text-align:center;position:relative}
 .peca__img{position:relative;height:clamp(150px,17vw,230px);width:100%;display:flex;align-items:flex-end;justify-content:center;padding-bottom:14px}
 .peca__img::after{content:"";position:absolute;left:4%;right:4%;bottom:0;height:3px;border-radius:3px;background:linear-gradient(90deg,rgba(20,21,24,.0),rgba(20,21,24,.18) 20%,rgba(20,21,24,.18) 80%,rgba(20,21,24,0))}
 .peca__img::before{content:"";position:absolute;left:22%;right:22%;bottom:8px;height:14px;border-radius:50%;background:radial-gradient(closest-side,rgba(17,18,21,.3),transparent);filter:blur(3px)}
-.peca__img img{position:relative;max-height:100%;width:auto;transition:transform .55s cubic-bezier(.2,.8,.2,1)}
+.peca__img img{position:relative;max-height:100%;max-width:100%;width:auto;height:auto;transition:transform .55s cubic-bezier(.2,.8,.2,1)}
 .peca:hover .peca__img img{transform:translateY(-10px) rotate(-3deg)}
 .peca__img .linha-chama{position:absolute;left:4%;right:4%;bottom:0;height:3px;border-radius:3px;background:var(--chama);transform:scaleX(0);transition:transform .5s;z-index:1}
 .peca:hover .linha-chama,.peca:focus-within .linha-chama{transform:scaleX(1)}
@@ -382,6 +383,10 @@ body.tem-itens .flutua .orcf{transform:none;opacity:1}
   body.menu-aberto .nav .sub ul{position:static;opacity:1;visibility:visible;transform:none;box-shadow:none;background:transparent;padding:6px 0;min-width:0}
   body.menu-aberto .nav .sub>button{display:none}
 }
+@media (max-width:1100px) and (min-width:901px){
+  .prateleira{row-gap:44px}
+  .prateleira>.peca{flex-basis:calc((100% - 2*var(--vao))/3)}
+}
 @media (max-width:900px){
   .heroi__grade,.prod,.comparar,.molas,.usinagem,.fluxo,.tecnico{grid-template-columns:1fr}
   .heroi__grade{min-height:0;padding-top:28px;text-align:center;grid-template-areas:"a" "v" "b"}
@@ -391,7 +396,8 @@ body.tem-itens .flutua .orcf{transform:none;opacity:1}
   .heroi .ctas,.prod .ctas{justify-content:center}
     .heroi .barra::after{margin-inline:auto;transform-origin:center}
   .palco{width:min(100%,460px)}
-  .prateleira{grid-template-columns:repeat(2,1fr);row-gap:44px}
+  .prateleira{row-gap:44px}
+  .prateleira>.peca{flex-basis:calc((100% - var(--vao))/2)}
   .comparar>div:first-child,.molas>div:first-child,.usinagem>div:last-child,.fluxo>div:last-child{text-align:center}
   .comparar .barra::after,.molas .barra::after,.usinagem .barra::after,.fluxo .barra::after{margin-inline:auto;transform-origin:center}
   .comparar .lead,.molas .lead,.usinagem .lead,.fluxo .lead{margin-inline:auto}

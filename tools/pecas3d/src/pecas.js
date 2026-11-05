@@ -3,8 +3,8 @@
 //
 // API
 //   criarVisor(canvas, { dpr, auto, arrastar, aoPronto }) -> visor
-//   visor.mostrar(tipo, dims, { material, instante })   tipo: '906' | '908' | '910' | 'posicionador' | 'mola'
-//   visor.material('aco' | 'inox')
+//   visor.mostrar(tipo, dims, { material, instante })   tipo: '906' | '908' | '910' | 'posicionador' | 'mola' | 'bucha' | 'bucha-colar'
+//   visor.material('aco' | 'inox' | 'zincado')
 //   visor.comprimir(k)  (mola: 0 solta, 1 comprimida)
 //   visor.foto(largura, altura) -> dataURL PNG com fundo transparente
 //   visor.pausar() / visor.retomar() / visor.destruir()
@@ -59,12 +59,13 @@ export function medida(v) {
  * Superfície da rosca helicoidal entre y0 (ponta) e y1. Raio maior pode variar (cônica).
  * corte(x, y, z) -> true para descartar triângulos (fenda do posicionador).
  */
-function rosca({ y0, y1, rMaj0, rMaj1, passo, prof, segA = 128, porPasso = 14, chPonta = true, chTopo = false, ch, corte }) {
+function rosca({ y0, y1, rMaj0, rMaj1, passo, prof, segA = 128, porPasso = 14, chPonta = true, chTopo = false, ch, corte, redondo = false }) {
   const len = y1 - y0;
   const nY = lim(Math.ceil((len / passo) * porPasso), 12, 420);
   ch = ch ?? prof * 1.1;
   const pos = new Float32Array((nY + 1) * segA * 3);
-  let o = 0;
+  const sulco = redondo ? new Float32Array((nY + 1) * segA) : null;
+  let o = 0, os = 0;
   for (let j = 0; j <= nY; j++) {
     const y = y0 + (len * j) / nY;
     const rMaj = rMaj0 + ((rMaj1 - rMaj0) * (y - y0)) / len;
@@ -75,7 +76,8 @@ function rosca({ y0, y1, rMaj0, rMaj1, passo, prof, segA = 128, porPasso = 14, c
       f -= Math.floor(f);
       const tri = 1 - Math.abs(2 * f - 1);
       let k = lim((tri - 0.1) / 0.78, 0, 1);
-      k = suave(k) * 0.45 + k * 0.55;
+      k = redondo ? 1 - Math.pow(1 - tri, 2.4) : suave(k) * 0.45 + k * 0.55;
+      if (sulco) sulco[os++] = 1 - k;
       let r = rMin + prof * k;
       if (chPonta) r = Math.min(r, rMin - ch * 0.35 + (y - y0) * 1.0);
       if (chTopo) r = Math.min(r, rMin - ch * 0.35 + (y1 - y) * 1.0);
@@ -97,6 +99,7 @@ function rosca({ y0, y1, rMaj0, rMaj1, passo, prof, segA = 128, porPasso = 14, c
   }
   const g = new BufferGeometry();
   g.setAttribute('position', new Float32BufferAttribute(pos, 3));
+  if (sulco) g.setAttribute('sulco', new Float32BufferAttribute(sulco, 1));
   g.setIndex(idx);
   g.computeVertexNormals();
   return g;
@@ -231,7 +234,7 @@ function cabecaSextavada(S, y0, M, nA = 240, nY = 40) {
 // vértices por 6 e a placa de vídeo travava ~1 s a cada troca de peça.
 function juntar(lista) {
   return lista.map((g) => {
-    for (const k of Object.keys(g.attributes)) if (k !== 'position' && k !== 'normal') g.deleteAttribute(k);
+    for (const k of Object.keys(g.attributes)) if (k !== 'position' && k !== 'normal' && k !== 'sulco') g.deleteAttribute(k);
     if (!g.attributes.normal) g.computeVertexNormals();
     return g;
   });
@@ -326,6 +329,74 @@ function posicionador(dm) {
   return { corpo, esfera };
 }
 
+/** Rosca interna de um furo passante: normais para o eixo; nas pontas abre até um círculo (entrada do chanfro). */
+function roscaInterna({ y0, y1, rMin, passo, prof, segA = 96, porPasso = 12 }) {
+  const len = y1 - y0;
+  const nY = lim(Math.ceil((len / passo) * porPasso), 12, 320);
+  const rFim = rMin + prof * 1.02;
+  const pos = new Float32Array((nY + 1) * segA * 3);
+  const sulco = new Float32Array((nY + 1) * segA);
+  let o = 0, os = 0;
+  for (let j = 0; j <= nY; j++) {
+    const y = y0 + (len * j) / nY;
+    for (let i = 0; i < segA; i++) {
+      const a = (i / segA) * TAU;
+      let f = y / passo - a / TAU;
+      f -= Math.floor(f);
+      const tri = 1 - Math.abs(2 * f - 1);
+      let k = lim((tri - 0.1) / 0.78, 0, 1);
+      k = suave(k) * 0.45 + k * 0.55;
+      sulco[os++] = 0.34 + 0.66 * (1 - k);
+      let r = rMin + prof * (1 - k);
+      r = Math.max(r, rFim - (y - y0), rFim - (y1 - y));
+      pos[o++] = r * Math.cos(a);
+      pos[o++] = y;
+      pos[o++] = r * Math.sin(a);
+    }
+  }
+  const idx = [];
+  for (let j = 0; j < nY; j++) for (let i = 0; i < segA; i++) {
+    const a = j * segA + i, b = j * segA + ((i + 1) % segA), c = (j + 1) * segA + i, d = (j + 1) * segA + ((i + 1) % segA);
+    idx.push(a, b, c, b, d, c);
+  }
+  const g = new BufferGeometry();
+  g.setAttribute('position', new Float32BufferAttribute(pos, 3));
+  g.setAttribute('sulco', new Float32BufferAttribute(sulco, 1));
+  g.setIndex(idx);
+  g.computeVertexNormals();
+  return g;
+}
+
+/** Bucha roscada: rosca por fora e por dentro, furo passante. Reta (ponta lisa em cima) ou com colar. */
+function bucha(dm) {
+  const de = dm.de || 14, pe = dm.pe || 1.75, di = dm.di || 8, pi = dm.pi || 1.25, L = dm.L || 28;
+  const rMaj = de / 2, prof = pe * 0.42, chE = prof * 1.1, rMin = rMaj - prof, rFimE = rMin - chE * 0.35;
+  const profI = pi * 0.54, rMinI = di / 2 - profI, rFimI = rMinI + profI * 1.02;
+  const cBoca = Math.max(pi * 0.45, 0.5), rBoca = rFimI + cBoca * 0.75;
+
+  const partes = [];
+  let yRosca, yTopo;
+  if (dm.colar) {
+    const C = dm.C || L * 0.14, D = dm.D || de * 1.3, hPesc = pe * 1.15;
+    yRosca = L - hPesc; yTopo = L + C;
+    const R = D / 2, ch = C * 0.13, rPesc = rMaj - prof * 0.12;
+    partes.push(torno([
+      [rFimE, yRosca], [rPesc, yRosca + prof * 0.9], [rPesc, L], [R - ch * 0.7, L], [R, L + ch * 0.7],
+      [R, yTopo - ch], [R - ch, yTopo], [rBoca, yTopo], [rFimI, yTopo - cBoca],
+    ]));
+  } else {
+    const hBanda = pe * 1.7, chB = pe * 0.34, rBanda = rMaj - prof * 0.1;
+    yRosca = L - hBanda; yTopo = L;
+    partes.push(torno([
+      [rFimE, yRosca], [rBanda, yRosca + prof * 0.9], [rBanda, L - chB], [rBanda - chB, L], [rBoca, L], [rFimI, L - cBoca],
+    ]));
+  }
+  partes.push(rosca({ y0: 0, y1: yRosca, rMaj0: rMaj, rMaj1: rMaj, passo: pe, prof, ch: chE, chPonta: true, chTopo: true, redondo: true }));
+  partes.push(roscaInterna({ y0: cBoca, y1: yTopo - cBoca, rMin: rMinI, passo: pi, prof: profI }));
+  partes.push(torno([[rFimI, cBoca], [rBoca, 0], [rFimE, 0]]));
+  return { corpo: juntar(partes) };
+}
+
 // Mola de compressão com as pontas fechadas (espiras encostadas)
 class Helice extends Curve {
   constructor(R, voltas, fio, passo) {
@@ -396,7 +467,7 @@ function tampar(tubo, seg, rad) {
 }
 
 export function montarPeca(tipo, dm) {
-  const f = { 906: bujao906, 908: bujao908, 910: bujao910, posicionador, mola }[tipo];
+  const f = { 906: bujao906, 908: bujao908, 910: bujao910, posicionador, mola, bucha, 'bucha-colar': (d) => bucha({ ...d, colar: true }) }[tipo];
   return f(dm);
 }
 
@@ -426,10 +497,48 @@ function ambiente(renderer) {
   return tex;
 }
 
+// Zincado amarelo (bicromatizado): fosco, oliva-dourado, com manchas rosadas e esverdeadas e um grão fino.
+// As manchas saem de um ruído na posição da peça (em mm), mais esticado na volta do que na altura.
+function materialZincado() {
+  const m = new MeshPhysicalMaterial({ color: 0xffffff, metalness: 1, roughness: 0.37 });
+  m.customProgramCacheKey = () => 'zincado-v2';
+  m.onBeforeCompile = (sh) => {
+    sh.vertexShader = sh.vertexShader
+      .replace('#include <common>', '#include <common>\nattribute float sulco;\nvarying vec3 vPeca;\nvarying float vSulco;')
+      .replace('#include <begin_vertex>', '#include <begin_vertex>\nvPeca = position;\nvSulco = sulco;');
+    sh.fragmentShader = sh.fragmentShader
+      .replace('#include <common>', `#include <common>
+varying vec3 vPeca;
+varying float vSulco;
+float zh(vec3 p){ p = fract(p * 0.3183099 + 0.1); p *= 17.0; return fract(p.x * p.y * p.z * (p.x + p.y + p.z)); }
+float zn(vec3 x){ vec3 i = floor(x), f = fract(x); f = f * f * (3.0 - 2.0 * f);
+  return mix(mix(mix(zh(i), zh(i + vec3(1,0,0)), f.x), mix(zh(i + vec3(0,1,0)), zh(i + vec3(1,1,0)), f.x), f.y),
+             mix(mix(zh(i + vec3(0,0,1)), zh(i + vec3(1,0,1)), f.x), mix(zh(i + vec3(0,1,1)), zh(i + vec3(1,1,1)), f.x), f.y), f.z); }
+float zf(vec3 p){ return 0.55 * zn(p) + 0.3 * zn(p * 2.1 + 3.7) + 0.15 * zn(p * 4.3 + 9.1); }
+vec3 zl(vec3 c){ return pow(c, vec3(2.2)); }`)
+      .replace('#include <color_fragment>', `#include <color_fragment>
+{
+  vec3 q = vPeca * vec3(0.16, 0.42, 0.16);
+  float a = zf(q + 11.0), b = zf(q * 1.3 + 41.0);
+  vec3 oliva = zl(vec3(0.60, 0.54, 0.34)), ouro = zl(vec3(0.74, 0.64, 0.38)), rosa = zl(vec3(0.72, 0.55, 0.42)), verde = zl(vec3(0.54, 0.54, 0.32));
+  vec3 cor = mix(oliva, ouro, smoothstep(0.32, 0.62, a));
+  cor = mix(cor, rosa, smoothstep(0.54, 0.74, b) * 0.75);
+  cor = mix(cor, verde, smoothstep(0.56, 0.76, 1.0 - b) * 0.6);
+  cor *= 0.975 + 0.05 * zn(vPeca * 16.0);
+  cor *= mix(1.0, 0.24, pow(clamp(vSulco, 0.0, 1.0), 1.4));
+  diffuseColor.rgb = cor;
+}`)
+      .replace('#include <roughnessmap_fragment>', `#include <roughnessmap_fragment>
+roughnessFactor = clamp(roughnessFactor + (zn(vPeca * 11.0) - 0.5) * 0.07, 0.05, 1.0);`);
+  };
+  return m;
+}
+
 const MATERIAIS = {
   aco: () => new MeshPhysicalMaterial({ color: 0x34363b, metalness: 1, roughness: 0.32, clearcoat: 0.55, clearcoatRoughness: 0.2 }),
   inox: () => new MeshPhysicalMaterial({ color: 0xc9ccd1, metalness: 1, roughness: 0.22 }),
   mola: () => new MeshPhysicalMaterial({ color: 0x3a3c41, metalness: 1, roughness: 0.28, clearcoat: 0.6, clearcoatRoughness: 0.15, side: DoubleSide }),
+  zincado: () => materialZincado(),
   esfera: () => new MeshPhysicalMaterial({ color: 0xeef0f2, metalness: 1, roughness: 0.05 }),
 };
 
@@ -469,7 +578,7 @@ export function criarVisor(canvas, op = {}) {
     return m.userData.papel === 'mola' && mat !== 'inox' ? mats.mola : mats.corpo;
   }
   function aplicarMaterial() {
-    const novo = MATERIAIS[mat === 'inox' ? 'inox' : 'aco']();
+    const novo = (MATERIAIS[mat] || MATERIAIS.aco)();
     mats.corpo.dispose();
     mats.corpo = novo;
     if (atual) atual.traverse((m) => { if (m.isMesh) m.material = materialDe(m); });
