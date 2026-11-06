@@ -161,24 +161,22 @@ strong,b{font-weight:600}
 .comparar li i.inox{background:linear-gradient(135deg,#f4f5f7,#9da2a9);box-shadow:inset 0 0 0 1px rgba(0,0,0,.12)}
 .comparar li b{color:var(--tinta);font-weight:500}
 
-/* ---------- molas (bloco escuro) */
+/* ---------- bloco escuro */
 .escuro{background:var(--grafite);color:#e9eaec;position:relative;isolation:isolate;overflow:hidden}
 .escuro::before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(60% 70% at 78% 40%,rgba(255,255,255,.07),transparent 70%),radial-gradient(40% 50% at 10% 100%,rgba(255,138,31,.08),transparent 70%)}
 .escuro .lead{color:#a9adb4}
 .escuro .tit{color:#fff}
-.molas{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,5vw,72px);align-items:center}
-.molas .palco::before{background:radial-gradient(closest-side,rgba(0,0,0,.55),transparent)}
-.molas .palco{width:min(100%,520px)}
-.molas .palco__dica{color:#8d929a}
-.molas__tipos{margin:28px 0 0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
-.molas__tipos a{display:flex;flex-direction:column;height:100%;padding:14px;text-align:left;border-radius:var(--raio-p);background:#f1f2f3;color:var(--tinta2);font-size:13.5px;line-height:1.4;transition:background .2s}
-.molas__tipos a:hover{background:#fff}
-.molas__tipos img{display:block;height:92px;width:100%;object-fit:contain;margin-bottom:12px}
-.molas__tipos b{display:block;color:var(--tinta);font-weight:500;font-size:15px;line-height:1.25;margin-bottom:3px}
+.lead--cheia{max-width:none}
+.prateleira--3>.peca{flex-basis:calc((100% - 2*var(--vao))/3)}
+.escuro .peca h3{color:#fff}
+.escuro .peca .sub{color:#8d929a}
+.escuro .peca p.rec{color:#a9adb4}
+.escuro .seta--chama{color:var(--c1)}
+.escuro .peca__img::after{background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.22) 20%,rgba(255,255,255,.22) 80%,rgba(255,255,255,0))}
+.escuro .peca__img::before{background:radial-gradient(closest-side,rgba(0,0,0,.6),transparent)}
 .tipos-mola{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 20px}
 a.chip{display:inline-flex;align-items:center}
 .chip[aria-current="page"]{background:var(--tinta);border-color:var(--tinta);color:#fff}
-@media (max-width:620px){.molas__tipos{grid-template-columns:1fr}.molas__tipos a{flex-direction:row;align-items:center;gap:14px}.molas__tipos img{width:76px;height:76px;margin:0;flex:none}}
 .escuro .ctas{margin-top:32px}
 
 /* ---------- usinagem */
@@ -394,7 +392,7 @@ body.tem-itens .flutua .orcf{transform:none;opacity:1}
   .prateleira>.peca{flex-basis:calc((100% - 2*var(--vao))/3)}
 }
 @media (max-width:900px){
-  .heroi__grade,.prod,.comparar,.molas,.usinagem,.fluxo,.tecnico{grid-template-columns:1fr}
+  .heroi__grade,.prod,.comparar,.usinagem,.fluxo,.tecnico{grid-template-columns:1fr}
   .heroi__grade{min-height:0;padding-top:28px;text-align:center;grid-template-areas:"a" "v" "b"}
   .heroi__v{margin:10px 0 18px}
   .heroi .palco{width:min(100%,340px)}
@@ -404,12 +402,11 @@ body.tem-itens .flutua .orcf{transform:none;opacity:1}
   .palco{width:min(100%,460px)}
   .prateleira{row-gap:44px}
   .prateleira>.peca{flex-basis:calc((100% - var(--vao))/2)}
-  .comparar>div:first-child,.molas>div:first-child,.usinagem>div:last-child,.fluxo>div:last-child{text-align:center}
-  .comparar .barra::after,.molas .barra::after,.usinagem .barra::after,.fluxo .barra::after{margin-inline:auto;transform-origin:center}
-  .comparar .lead,.molas .lead,.usinagem .lead,.fluxo .lead{margin-inline:auto}
+  .comparar>div:first-child,.usinagem>div:last-child,.fluxo>div:last-child{text-align:center}
+  .comparar .barra::after,.usinagem .barra::after,.fluxo .barra::after{margin-inline:auto;transform-origin:center}
+  .comparar .lead,.usinagem .lead,.fluxo .lead{margin-inline:auto}
   .comparar ul,.passos{text-align:left;max-width:520px;margin-inline:auto}
   .escuro .ctas,.usinagem .ctas,.fluxo .ctas{justify-content:center}
-  .molas .palco{order:-1}
   .usinagem>div:last-child{order:-1}
   .final{grid-template-columns:1fr;text-align:center}
   .final .ctas{justify-content:center}
@@ -445,7 +442,6 @@ body.tem-itens .flutua .orcf{transform:none;opacity:1}
   .seletor{gap:6px}
   .chip{height:38px;padding:0 14px;font-size:13.5px}
   .chip .din{display:none}
-  .molas__lista{grid-template-columns:1fr}
   th,td{padding:11px 8px;font-size:14px}
   th:first-child,td:first-child{padding-left:14px}
   td.add button{width:36px;height:36px}

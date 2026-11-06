@@ -260,21 +260,6 @@
     pos();
   });
 
-  /* ---------------- mola comprime ao rolar */
-  var palcoMola = $('.molas .palco');
-  if (palcoMola) {
-    var molaRaf = 0;
-    var comprime = function () {
-      molaRaf = 0;
-      var v = palcoMola._visor; if (!v) return;
-      var r = palcoMola.getBoundingClientRect(), h = innerHeight;
-      var c = (r.top + r.height / 2 - h / 2) / (h * 0.6);
-      v.comprimir(Math.max(0, 1 - Math.abs(c)) * 0.95);
-    };
-    addEventListener('scroll', function () { if (!molaRaf) molaRaf = requestAnimationFrame(comprime); }, { passive: true });
-    d.addEventListener('pecas3d', comprime);
-  }
-
   /* ---------------- no celular, o botão flutuante sai da frente da coluna do + */
   var tabs = $$('.tabela');
   if (tabs.length && 'IntersectionObserver' in window) {

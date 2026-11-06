@@ -36,7 +36,7 @@ ANG = {"posicionador": (1.4, 0.36), "mola": (0.2, 0.28), "bucha": (-0.5, 0.72), 
        "mola-tracao": (-0.45, 0.14), "mola-torcao": (-0.32, 0.34)}
 MATS = {"bucha": ("zincado",), "bucha-colar": ("zincado",),
         "mola-reforcada": ("aco",), "mola-aberta": ("aco",), "mola-barril": ("zinco",), "mola-pequena": ("inox",),
-        "mola-tracao": ("aco",), "mola-torcao": ("zinco",)}
+        "mola-tracao": ("aco", "zinco"), "mola-torcao": ("zinco",)}
 SO = set(sys.argv[1:])
 lista = []
 for tipo, dims in BASE.items():

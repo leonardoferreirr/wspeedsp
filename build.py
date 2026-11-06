@@ -502,6 +502,12 @@ MOLAS_TIPOS = [("Molas de compressão", "trabalham sendo apertadas", "/molas-de-
                ("Molas de torção", "trabalham girando", "/molas-de-torcao", "mola-torcao")]
 
 
+# na faixa escura da página inicial as molas aparecem claras, para o arame não sumir no fundo
+MOLAS_CASA = [("Mola de compressão", "trabalha sendo apertada", "Com a mola solta, as espiras ficam afastadas umas das outras. Ao ser apertada, ela encurta e empurra de volta.", "/molas-de-compressao", "mola", "inox"),
+              ("Mola de tração", "trabalha sendo esticada", "Com a mola solta, as espiras ficam encostadas umas nas outras, e cada ponta termina em um gancho.", "/molas-de-tracao", "mola-tracao", "zinco"),
+              ("Mola de torção", "trabalha girando", "O corpo é um anel de espiras encostadas, e duas pernas saem dele, retas ou com a ponta dobrada.", "/molas-de-torcao", "mola-torcao", "zinco")]
+
+
 def topo(rota):
     cur = ' aria-current="page"'
     sub = "".join(
@@ -715,22 +721,20 @@ def home():
 </div>
 </div></section>'''
 
-    tipos_molas = ""
-    for n, d, r, t in MOLAS_TIPOS:
-        mt = MOLA_3D[t]["material"]
+    cartoes_molas = ""
+    for i, (n, sb, rec, r, t, mt) in enumerate(MOLAS_CASA):
         wm, hm = dims_recorte(t, mt, 300)
-        tipos_molas += (f'<li><a href="{r}"><img src="/assets/img/pecas/{t}-{mt}-recorte-300.webp" width="{wm}" height="{hm}" alt="" loading="lazy" decoding="async">'
-                        f'<span><b>{n}</b>{d}</span></a></li>')
-    molas = f'''<section class="sec escuro"><div class="wrap molas">
-<div>
-<h2 class="tit barra rev">Molas <strong>sob medida</strong></h2>
-<p class="lead rev" style="margin-top:22px">Também fabricamos molas de compressão, de tração e de torção. Você passa as medidas ou manda uma amostra, e a gente produz na quantidade que a sua produção precisa.</p>
-<ul class="molas__tipos rev">{tipos_molas}</ul>
-</div>
-<div class="palco rev" style="--sombra:{SOMBRA["mola"]}" data-visor="{visor_cfg("mola", {"fio": 2, "De": 18, "voltas": 9, "Lo": 46}, "inox")}" data-poster="/assets/img/pecas/{{tipo}}-{{mat}}-800.webp">
-{img_peca("mola", "inox", alt="Mola de compressão com as pontas fechadas", sizes="(max-width:900px) 92vw, 520px")}
-<span class="palco__dica">{ic("giro", 1.5)} Arraste para girar</span>
-</div>
+        cartoes_molas += f'''<article class="peca rev" style="--d:{i * .08:.2f}s">
+<div class="peca__img"><img src="/assets/img/pecas/{t}-{mt}-recorte-300.webp" width="{wm}" height="{hm}" alt="{n}" loading="lazy" decoding="async"><span class="linha-chama"></span></div>
+<h3>{n}</h3><p class="sub">{sb}</p>
+<p class="rec">{rec}</p>
+<span class="seta seta--chama">Ver medidas {SETA}</span>
+<a class="cobre" href="{r}" aria-label="Ver medidas da {n.lower()}"></a>
+</article>'''
+    molas = f'''<section class="sec escuro"><div class="wrap">
+<div class="centro"><h2 class="tit barra centro rev">Molas <strong>sob medida</strong></h2>
+<p class="lead lead--cheia rev" style="margin-top:22px">Também fabricamos molas de compressão, de tração e de torção. Você passa as medidas ou manda uma amostra, e a gente produz na quantidade que a sua produção precisa.</p></div>
+<div class="prateleira prateleira--3">{cartoes_molas}</div>
 </div></section>'''
 
     usinagem = f'''<section class="sec"><div class="wrap usinagem">
