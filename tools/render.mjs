@@ -22,7 +22,7 @@ const pg = await nav.newPage({ viewport: { width: 1000, height: 1000 } });
 pg.on('console', (m) => { if (m.type() === 'error') console.log('console:', m.text()); });
 pg.on('pageerror', (e) => console.log('pageerror:', e.message));
 await pg.goto(`http://127.0.0.1:${porta}/tools/render.html`);
-await pg.waitForFunction(() => window.pronto === true, null, { timeout: 30000 });
+await pg.waitForFunction(() => window.pronto === true, null, { timeout: 300000 });
 for (const it of lista) {
   const t0 = Date.now();
   const url = await pg.evaluate(([tipo, dims, o]) => window.renderizar(tipo, dims, o), [it.tipo, it.dims, it]);

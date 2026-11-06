@@ -231,16 +231,21 @@
     tAuto = setTimeout(ciclo, 6500);
   }
 
-  /* ---------------- modelos da bucha: reta ou com colar */
+  /* ---------------- modelos da peça (bucha, mola) */
   var botoesVar = $$('[data-variante]');
-  var selModelo = $('form[data-sob-medida="bucha"] select[name="modelo"]');
+  var selModelo = $('form[data-sob-medida] select[name="modelo"]');
+  var selMaterial = $('form[data-sob-medida] select[name="material"]');
   function trocarVariante(b) {
     var alvo = $(b.closest('[data-alvo]').dataset.alvo), cfg = JSON.parse(b.dataset.variante);
     botoesVar.forEach(function (x) { x.setAttribute('aria-pressed', x === b); });
     if (cfg.sombra) alvo.style.setProperty('--sombra', cfg.sombra);
-    estado(alvo, { tipo: cfg.tipo, dims: cfg.dims });
+    var novo = { tipo: cfg.tipo, dims: cfg.dims };
+    if (cfg.material) novo.material = cfg.material;
+    estado(alvo, novo);
+    if (alvo._visor && cfg.pitch != null) alvo._visor.angulo(cfg.yaw, cfg.pitch);
     iniciar3D();
     if (selModelo) selModelo.value = cfg.modelo;
+    if (selMaterial && cfg.matForm) selMaterial.value = cfg.matForm;
   }
   botoesVar.forEach(function (b) { b.addEventListener('click', function () { trocarVariante(b); }); });
   if (selModelo) selModelo.addEventListener('change', function () {

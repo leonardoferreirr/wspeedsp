@@ -170,9 +170,15 @@ strong,b{font-weight:600}
 .molas .palco::before{background:radial-gradient(closest-side,rgba(0,0,0,.55),transparent)}
 .molas .palco{width:min(100%,520px)}
 .molas .palco__dica{color:#8d929a}
-.molas__lista{margin:28px 0 0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:rgba(255,255,255,.08);border-radius:var(--raio-p);overflow:hidden}
-.molas__lista li{background:var(--grafite2);padding:16px 18px;font-size:14.5px;color:#a9adb4;line-height:1.45}
-.molas__lista li b{display:block;color:#fff;font-weight:500;font-size:15px;margin-bottom:2px}
+.molas__tipos{margin:28px 0 0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.molas__tipos a{display:flex;flex-direction:column;height:100%;padding:14px;text-align:left;border-radius:var(--raio-p);background:#f1f2f3;color:var(--tinta2);font-size:13.5px;line-height:1.4;transition:background .2s}
+.molas__tipos a:hover{background:#fff}
+.molas__tipos img{display:block;height:92px;width:100%;object-fit:contain;margin-bottom:12px}
+.molas__tipos b{display:block;color:var(--tinta);font-weight:500;font-size:15px;line-height:1.25;margin-bottom:3px}
+.tipos-mola{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 20px}
+a.chip{display:inline-flex;align-items:center}
+.chip[aria-current="page"]{background:var(--tinta);border-color:var(--tinta);color:#fff}
+@media (max-width:620px){.molas__tipos{grid-template-columns:1fr}.molas__tipos a{flex-direction:row;align-items:center;gap:14px}.molas__tipos img{width:76px;height:76px;margin:0;flex:none}}
 .escuro .ctas{margin-top:32px}
 
 /* ---------- usinagem */

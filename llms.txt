@@ -1,6 +1,6 @@
 # W Speed
 
-> Fabricação de bujões DIN 906, 908 e 910, posicionadores com mola e esfera (aço oxidado e inox), molas de compressão e usinagem sob medida. Orçamento pelo WhatsApp, envio para todo o Brasil.
+> Fabricação de bujões DIN 906, 908 e 910, posicionadores com mola e esfera (aço oxidado e inox), molas de compressão, tração e torção e usinagem sob medida. Orçamento pelo WhatsApp, envio para todo o Brasil.
 
 ## Peças
 - [Bujão DIN 906 cônico com sextavado interno](https://wspeedsp.vercel.app/bujao-din-906): O bujão DIN 906 veda furos roscados sem ficar para fora da peça. Como a rosca é cônica, a vedação acontece no próprio aperto, e por isso ele aparece em blocos hidráulicos, bombas, redutores, cárteres e linhas de óleo e graxa de máquinas agrícolas.
@@ -9,6 +9,8 @@
 - [Posicionador com mola e esfera com fenda, rosca métrica](https://wspeedsp.vercel.app/posicionador-com-mola-e-esfera): O posicionador com mola e esfera trava, localiza e indexa peças: a esfera afunda com a pressão e volta pela mola, dando aquele clique de posição. É usado em gabaritos, dispositivos de fixação, moldes, estampos e em mecanismos de máquinas que precisam parar sempre no mesmo ponto.
 - [Bucha roscada reta e com colar](https://wspeedsp.vercel.app/bucha-roscada)
 - [Molas de compressão sob medida](https://wspeedsp.vercel.app/molas-de-compressao)
+- [Molas de tração sob medida](https://wspeedsp.vercel.app/molas-de-tracao)
+- [Molas de torção sob medida](https://wspeedsp.vercel.app/molas-de-torcao)
 - [Usinagem sob medida](https://wspeedsp.vercel.app/usinagem)
 
 ## Contato

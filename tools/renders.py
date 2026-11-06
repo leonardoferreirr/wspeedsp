@@ -23,9 +23,20 @@ BASE = {
     # proporções tiradas das fotos do cliente; no site não aparecem como medida de catálogo
     "bucha": {"de": 14, "pe": 1.75, "di": 8.5, "pi": 1.5, "L": 24},
     "bucha-colar": {"de": 14, "pe": 1.75, "di": 9.5, "pi": 1.5, "L": 15, "D": 18, "C": 2.8},
+    # molas: proporções tiradas das fotos do cliente; também não são medidas de catálogo
+    "mola-reforcada": {"fio": 4, "De": 40, "voltas": 4.5, "Lo": 38},
+    "mola-aberta": {"fio": 1.8, "De": 30, "voltas": 5.5, "Lo": 62},
+    "mola-barril": {"fio": 1.2, "De": 16, "barril": 8.5, "voltas": 32, "Lo": 80},
+    "mola-pequena": {"fio": 0.8, "De": 15, "voltas": 9, "Lo": 24},
+    "mola-tracao": {"fio": 1.2, "De": 10, "voltas": 26.5, "hasteA": 40, "hasteB": 17, "gancho": 4.2, "cauda": 5},
+    "mola-torcao": {"fio": 2, "De": 40, "voltas": 4, "perna": 56, "dobraAng": 70, "ponta": 14, "volta": 9, "inclina": -24},
 }
-ANG = {"posicionador": (1.4, 0.36), "mola": (0.2, 0.28), "bucha": (-0.5, 0.72), "bucha-colar": (-0.5, 0.72)}
-MATS = {"bucha": ("zincado",), "bucha-colar": ("zincado",)}
+ANG = {"posicionador": (1.4, 0.36), "mola": (0.2, 0.28), "bucha": (-0.5, 0.72), "bucha-colar": (-0.5, 0.72),
+       "mola-reforcada": (0.2, 0.42), "mola-aberta": (0.2, 0.36), "mola-barril": (0.2, 0.2), "mola-pequena": (0.2, 0.36),
+       "mola-tracao": (-0.45, 0.14), "mola-torcao": (-0.32, 0.34)}
+MATS = {"bucha": ("zincado",), "bucha-colar": ("zincado",),
+        "mola-reforcada": ("aco",), "mola-aberta": ("aco",), "mola-barril": ("zinco",), "mola-pequena": ("inox",),
+        "mola-tracao": ("aco",), "mola-torcao": ("zinco",)}
 SO = set(sys.argv[1:])
 lista = []
 for tipo, dims in BASE.items():

@@ -3,8 +3,9 @@
 //
 // API
 //   criarVisor(canvas, { dpr, auto, arrastar, aoPronto }) -> visor
-//   visor.mostrar(tipo, dims, { material, instante })   tipo: '906' | '908' | '910' | 'posicionador' | 'mola' | 'bucha' | 'bucha-colar'
-//   visor.material('aco' | 'inox' | 'zincado')
+//   visor.mostrar(tipo, dims, { material, instante })   tipo: '906' | '908' | '910' | 'posicionador' | 'bucha' | 'bucha-colar' | 'mola'
+//                                                       | 'mola-reforcada' | 'mola-aberta' | 'mola-barril' | 'mola-pequena' | 'mola-tracao' | 'mola-torcao'
+//   visor.material('aco' | 'inox' | 'zincado' | 'zinco')
 //   visor.comprimir(k)  (mola: 0 solta, 1 comprimida)
 //   visor.foto(largura, altura) -> dataURL PNG com fundo transparente
 //   visor.pausar() / visor.retomar() / visor.destruir()
@@ -13,7 +14,7 @@
 import {
   WebGLRenderer, Scene, PerspectiveCamera, Group, Mesh, BufferGeometry, Float32BufferAttribute,
   MeshPhysicalMaterial, MeshBasicMaterial, PMREMGenerator, ACESFilmicToneMapping, SRGBColorSpace,
-  Shape, ShapeGeometry, SphereGeometry, PlaneGeometry, BoxGeometry, TubeGeometry, Curve, Vector3,
+  Shape, ShapeGeometry, SphereGeometry, PlaneGeometry, BoxGeometry, TubeGeometry, Curve, CatmullRomCurve3, Vector3,
   BackSide, DoubleSide, Box3, Sphere, Color,
 } from 'three';
 
@@ -399,9 +400,9 @@ function bucha(dm) {
 
 // Mola de compressão com as pontas fechadas (espiras encostadas)
 class Helice extends Curve {
-  constructor(R, voltas, fio, passo) {
+  constructor(R, voltas, fio, passo, Rponta = R) {
     super();
-    this.R = R; this.v = voltas; this.fio = fio; this.passo = passo;
+    this.R = R; this.v = voltas; this.fio = fio; this.passo = passo; this.Rponta = Rponta;
     // altura acumulada por volta (pontas fechadas = passo do fio)
     const n = 2000, h = new Float32Array(n + 1);
     for (let i = 1; i <= n; i++) {
@@ -416,22 +417,111 @@ class Helice extends Curve {
     const f = lim(t, 0, 1) * this.n, i = Math.min(this.n - 1, Math.floor(f));
     const y = this.h[i] + (this.h[i + 1] - this.h[i]) * (f - i);
     const a = t * this.v * TAU;
-    return alvo.set(this.R * Math.cos(a), y, this.R * Math.sin(a));
+    // mola barril: o raio cresce das pontas até o meio
+    const r = this.Rponta + (this.R - this.Rponta) * (1 - Math.pow(Math.abs(2 * lim(t, 0, 1) - 1), 1.7));
+    return alvo.set(r * Math.cos(a), y, r * Math.sin(a));
   }
 }
 
 function mola(dm) {
   const fio = dm.fio || 2, De = dm.De || 18, voltas = dm.voltas || 9, Lo = dm.Lo || 46;
-  const R = (De - fio) / 2;
+  const R = (De - fio) / 2, Rponta = dm.barril ? (dm.barril - fio) / 2 : R;
   const passoLivre = (Lo - fio * 2.4) / (voltas - 1.6);
   const passoComp = Math.max(fio * 1.12, passoLivre * 0.5);
-  const seg = Math.round(voltas * 72);
+  const seg = Math.round(voltas * (voltas > 20 ? 48 : 72));
   const rad = 14;
-  const livre = tampar(new TubeGeometry(new Helice(R, voltas, fio, passoLivre), seg, fio / 2, rad, false), seg, rad);
-  const comp = tampar(new TubeGeometry(new Helice(R, voltas, fio, passoComp), seg, fio / 2, rad, false), seg, rad);
+  const livre = tampar(new TubeGeometry(new Helice(R, voltas, fio, passoLivre, Rponta), seg, fio / 2, rad, false), seg, rad);
+  const comp = tampar(new TubeGeometry(new Helice(R, voltas, fio, passoComp, Rponta), seg, fio / 2, rad, false), seg, rad);
   livre.morphAttributes.position = [comp.attributes.position];
   livre.morphAttributes.normal = [comp.attributes.normal];
   return { corpo: livre, mola: true };
+}
+
+// Arame moldado: a sequência de pontos vira um tubo contínuo, com as duas pontas cortadas fechadas.
+function arame(pontos, fio, porMm = 1.5, rad = 14) {
+  const curva = new CatmullRomCurve3(pontos, false, 'centripetal');
+  curva.arcLengthDivisions = pontos.length * 4;
+  const seg = Math.min(2400, Math.max(120, Math.round(curva.getLength() * porMm)));
+  return tampar(new TubeGeometry(curva, seg, fio / 2, rad, false), seg, rad);
+}
+const reta = (a, b, n = 6) => Array.from({ length: n }, (_, i) => a.clone().lerp(b, (i + 1) / n));
+// curva suave entre dois trechos: sai de a e chega em b com o controle c
+const dobra = (a, c, b, n = 12) => Array.from({ length: n }, (_, i) => {
+  const t = (i + 1) / n, u = 1 - t;
+  return new Vector3().addScaledVector(a, u * u).addScaledVector(c, 2 * u * t).addScaledVector(b, t * t);
+});
+
+// Mola de tração: espiras encostadas e uma haste em cada lado do corpo, com gancho aberto para dentro.
+// voltas termina em ,5 para as hastes saírem em lados opostos.
+function molaTracao(dm) {
+  const { fio, De, voltas, hasteA, hasteB, gancho: g, cauda } = dm;
+  const R = (De - fio) / 2, H = voltas * fio * 1.04, s = fio * 1.8;
+  const pts = [];
+  // de baixo para cima: cauda, gancho e haste à esquerda do corpo
+  const yA = -s - hasteA, xCA = -R + g;
+  pts.push(new Vector3(xCA + g, yA + cauda, s));
+  for (let i = 0; i <= 18; i++) {
+    const f = Math.PI * (i / 18);
+    pts.push(new Vector3(xCA + g * Math.cos(f), yA - g * Math.sin(f), s));
+  }
+  const A = new Vector3(-R, -s, s), P0 = new Vector3(-R, 0, 0);
+  pts.push(...reta(new Vector3(-R, yA, s), A, 8));
+  pts.push(...dobra(A, new Vector3(-R, 0, s), P0, 10));
+  // corpo
+  const n = Math.round(voltas * 32);
+  for (let i = 1; i <= n; i++) {
+    const a = Math.PI + (i / n) * voltas * TAU;
+    pts.push(new Vector3(R * Math.cos(a), (i / n) * H, R * Math.sin(a)));
+  }
+  // haste à direita, gancho e cauda
+  const P1 = new Vector3(R, H, 0), B = new Vector3(R, H + s, s), yB = H + s + hasteB, xCB = R - g;
+  pts.push(...dobra(P1, new Vector3(R, H, s), B, 10));
+  pts.push(...reta(B, new Vector3(R, yB, s), 8));
+  for (let i = 1; i <= 18; i++) {
+    const f = Math.PI * (i / 18);
+    pts.push(new Vector3(xCB + g * Math.cos(f), yB + g * Math.sin(f), s));
+  }
+  pts.push(new Vector3(xCB - g, yB - cauda, s));
+  return { corpo: arame(pts, fio), arame: true };
+}
+
+// Mola de torção: espiras encostadas e duas pernas retas na tangente, com a ponta dobrada em laço.
+function molaTorcao(dm) {
+  const { fio, De, voltas, perna, dobraAng, ponta, volta } = dm;
+  const R = (De - fio) / 2, passo = fio * 1.05, Z = voltas * passo, r = fio * 1.35;
+  const giro = (dobraAng * Math.PI) / 180;
+  // saindo do fim da perna (P) em direção dx: dobra para o lado da mola e faz o laço
+  const pontaDobrada = (P, dx) => {
+    const d = new Vector3(dx * Math.cos(giro), -Math.sin(giro), 0);
+    const nor = new Vector3(d.y, -d.x, 0).multiplyScalar(dx);          // o laço volta para o lado da mola
+    const canto = P.clone(), s = fio * 2.2;
+    const a = canto.clone().add(new Vector3(-dx * s, 0, 0)), b = canto.clone().addScaledVector(d, s);
+    const fimReta = canto.clone().addScaledVector(d, ponta);
+    const out = [a, ...dobra(a, canto, b, 10), ...reta(b, fimReta, 6)];
+    const centro = fimReta.clone().addScaledVector(nor, r);
+    for (let i = 1; i <= 14; i++) {
+      const f = Math.PI * (i / 14);
+      out.push(centro.clone().addScaledVector(nor, -r * Math.cos(f)).addScaledVector(d, r * Math.sin(f)));
+    }
+    const volta0 = out[out.length - 1].clone();
+    out.push(...reta(volta0, volta0.clone().addScaledVector(d, -volta), 5));
+    return out;
+  };
+  const pts = [];
+  const esq = pontaDobrada(new Vector3(-perna, R, 0), -1).reverse();
+  pts.push(...esq);
+  pts.push(...reta(pts[pts.length - 1].clone(), new Vector3(0, R, 0), 10));
+  const n = Math.round(voltas * 72);
+  for (let i = 1; i <= n; i++) {
+    const a = Math.PI / 2 - (i / n) * voltas * TAU;
+    pts.push(new Vector3(R * Math.cos(a), R * Math.sin(a), (i / n) * Z));
+  }
+  const dir = pontaDobrada(new Vector3(perna, R, Z), 1);
+  pts.push(...reta(pts[pts.length - 1].clone(), dir[0], 10));
+  pts.push(...dir.slice(1));
+  const geo = arame(pts, fio, 2);
+  if (dm.inclina) geo.rotateZ((dm.inclina * Math.PI) / 180);
+  return { corpo: geo, arame: true };
 }
 
 // fecha as duas pontas do tubo (o arame cortado) com um leque; mesma topologia nas duas posições da mola
@@ -467,7 +557,11 @@ function tampar(tubo, seg, rad) {
 }
 
 export function montarPeca(tipo, dm) {
-  const f = { 906: bujao906, 908: bujao908, 910: bujao910, posicionador, mola, bucha, 'bucha-colar': (d) => bucha({ ...d, colar: true }) }[tipo];
+  const f = {
+    906: bujao906, 908: bujao908, 910: bujao910, posicionador, mola, bucha, 'bucha-colar': (d) => bucha({ ...d, colar: true }),
+    'mola-reforcada': mola, 'mola-aberta': mola, 'mola-barril': mola, 'mola-pequena': mola,
+    'mola-tracao': molaTracao, 'mola-torcao': molaTorcao,
+  }[tipo];
   return f(dm);
 }
 
@@ -539,6 +633,7 @@ const MATERIAIS = {
   inox: () => new MeshPhysicalMaterial({ color: 0xc9ccd1, metalness: 1, roughness: 0.22 }),
   mola: () => new MeshPhysicalMaterial({ color: 0x3a3c41, metalness: 1, roughness: 0.28, clearcoat: 0.6, clearcoatRoughness: 0.15, side: DoubleSide }),
   zincado: () => materialZincado(),
+  zinco: () => new MeshPhysicalMaterial({ color: 0xaeb2b8, metalness: 1, roughness: 0.2, side: DoubleSide }),
   esfera: () => new MeshPhysicalMaterial({ color: 0xeef0f2, metalness: 1, roughness: 0.05 }),
 };
 
@@ -575,7 +670,7 @@ export function criarVisor(canvas, op = {}) {
 
   function materialDe(m) {
     if (m.userData.papel === 'esfera') return mats.esfera;
-    return m.userData.papel === 'mola' && mat !== 'inox' ? mats.mola : mats.corpo;
+    return m.userData.papel === 'mola' && mat === 'aco' ? mats.mola : mats.corpo;
   }
   function aplicarMaterial() {
     const novo = (MATERIAIS[mat] || MATERIAIS.aco)();
@@ -591,7 +686,7 @@ export function criarVisor(canvas, op = {}) {
     const g = new Group();
     for (const geo of Array.isArray(p.corpo) ? p.corpo : [p.corpo]) {
       const m = new Mesh(geo);
-      m.userData.papel = p.mola ? 'mola' : 'corpo';
+      m.userData.papel = p.mola || p.arame ? 'mola' : 'corpo';
       if (p.mola) m.morphTargetInfluences = [morph];
       g.add(m);
     }

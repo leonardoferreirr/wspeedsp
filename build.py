@@ -96,12 +96,24 @@ def dims_recorte(tipo, mat="aco", h=300):
     return im.size
 
 
+# molas: proporções tiradas das fotos do cliente, para desenhar o 3D; não são medidas de catálogo
+MOLA_3D = {
+    "mola": {"material": "aco", "yaw": 0.2, "pitch": 0.28, "dims": {"fio": 2, "De": 18, "voltas": 9, "Lo": 46}},
+    "mola-reforcada": {"material": "aco", "yaw": 0.2, "pitch": 0.42, "dims": {"fio": 4, "De": 40, "voltas": 4.5, "Lo": 38}},
+    "mola-aberta": {"material": "aco", "yaw": 0.2, "pitch": 0.36, "dims": {"fio": 1.8, "De": 30, "voltas": 5.5, "Lo": 62}},
+    "mola-barril": {"material": "zinco", "yaw": 0.2, "pitch": 0.2, "dims": {"fio": 1.2, "De": 16, "barril": 8.5, "voltas": 32, "Lo": 80}},
+    "mola-pequena": {"material": "inox", "yaw": 0.2, "pitch": 0.36, "dims": {"fio": 0.8, "De": 15, "voltas": 9, "Lo": 24}},
+    "mola-tracao": {"material": "aco", "yaw": -0.45, "pitch": 0.14, "dims": {"fio": 1.2, "De": 10, "voltas": 26.5, "hasteA": 40, "hasteB": 17, "gancho": 4.2, "cauda": 5}},
+    "mola-torcao": {"material": "zinco", "yaw": -0.32, "pitch": 0.34, "dims": {"fio": 2, "De": 40, "voltas": 4, "perna": 56, "dobraAng": 70, "ponta": 14, "volta": 9, "inclina": -24}},
+}
+
+
 def sombras():
     """Altura da sombra no palco: logo abaixo do pé de cada peça no pôster (mesmo enquadramento do 3D)."""
     from PIL import Image
     out = {}
-    for t in ("906", "908", "910", "posicionador", "mola", "bucha", "bucha-colar"):
-        mat = "zincado" if t.startswith("bucha") else "aco"
+    for t in ("906", "908", "910", "posicionador", "bucha", "bucha-colar", *MOLA_3D):
+        mat = "zincado" if t.startswith("bucha") else MOLA_3D[t]["material"] if t in MOLA_3D else "aco"
         im = Image.open(RAIZ / f"assets/img/pecas/{t}-{mat}-800.webp").convert("RGBA")
         baixo = im.getchannel("A").point(lambda a: 255 if a > 20 else 0).getbbox()[3] / im.height
         out[t] = f"{max(2.0, (1 - baixo) * 100 - 4.5):.1f}%"
@@ -341,6 +353,41 @@ def desenho_mola():
     return s + "</svg>"
 
 
+def desenho_tracao():
+    s = svg_ini("0 0 560 300", "Como medir a mola de tração: arame d, diâmetro externo De, comprimento total L e corpo Lc")
+    for x in range(194, 368, 9):
+        s += f'<line x1="{x}" y1="112" x2="{x+4}" y2="188" stroke="{TRACO}" stroke-width="7" stroke-linecap="round"/>'
+    s += caminho("M192 186 H92 A22 22 0 0 1 92 142 H110", 4.5)
+    s += caminho("M368 114 H468 A22 22 0 0 1 468 158 H450", 4.5)
+    s += ext((70, 150, 70, 40), (490, 136, 490, 40))
+    s += cota(70, 46, 490, 46, "L", 280, 38)
+    s += ext((190, 110, 148, 110), (190, 190, 148, 190))
+    s += cota(156, 110, 156, 190, "De", 146, 156, "end")
+    s += ext((190, 192, 190, 254), (370, 192, 370, 254))
+    s += cota(190, 248, 370, 248, "Lc", 280, 272)
+    s += ext((272, 192, 272, 226), (280, 192, 280, 226))
+    s += f'<line x1="250" y1="218" x2="272" y2="218" stroke="{COTA}" stroke-width="1.1" marker-end="url(#pt)"/>'
+    s += f'<line x1="302" y1="218" x2="280" y2="218" stroke="{COTA}" stroke-width="1.1" marker-end="url(#pt)"/>'
+    s += texto(308, 224, "d", 17, COTA, "start").replace('font-family', 'font-weight="500" font-family')
+    return s + "</svg>"
+
+
+def desenho_torcao():
+    s = svg_ini("0 0 560 300", "Como medir a mola de torção: arame d, diâmetro externo De e comprimento da perna L")
+    s += f'<circle cx="280" cy="170" r="76" fill="none" stroke="{TRACO}" stroke-width="9"/>'
+    s += f'<circle cx="280" cy="170" r="67" fill="none" stroke="{TRACO}" stroke-width="1"/>'
+    s += caminho("M280 90 H96 L76 140 A7.5 7.5 0 0 0 90 146 L102 116", 4.5)
+    s += caminho("M280 90 H464 L484 140 A7.5 7.5 0 0 1 470 146 L458 116", 4.5)
+    s += ext((280, 86, 280, 40), (464, 86, 464, 40))
+    s += cota(280, 46, 464, 46, "L", 372, 38)
+    s += ext((204, 180, 204, 276), (356, 180, 356, 276))
+    s += cota(204, 268, 356, 268, "De", 280, 292)
+    s += f'<line x1="170" y1="58" x2="170" y2="87" stroke="{COTA}" stroke-width="1.1" marker-end="url(#pt)"/>'
+    s += f'<line x1="170" y1="122" x2="170" y2="93" stroke="{COTA}" stroke-width="1.1" marker-end="url(#pt)"/>'
+    s += texto(158, 74, "d", 17, COTA, "end").replace('font-family', 'font-weight="500" font-family')
+    return s + "</svg>"
+
+
 def desenho_usinagem():
     """Eixo escalonado que se desenha sozinho quando entra na tela."""
     s = svg_ini("0 0 600 300", "Desenho técnico de uma peça usinada sob medida")
@@ -421,7 +468,7 @@ def org_schema():
         "@context": "https://schema.org", "@type": "Organization", "name": "W Speed",
         "url": DOMINIO + "/", "logo": DOMINIO + "/assets/img/logo-160.png", "image": DOMINIO + "/assets/img/og-image.jpg",
         "telephone": "+55 11 98890-4107", "sameAs": [INSTAGRAM], "areaServed": {"@type": "Country", "name": "Brasil"},
-        "description": "Fabricação de bujões DIN 906, 908 e 910, posicionadores com mola e esfera, molas de compressão e usinagem sob medida.",
+        "description": "Fabricação de bujões DIN 906, 908 e 910, posicionadores com mola e esfera, molas de compressão, tração e torção e usinagem sob medida.",
         "contactPoint": {"@type": "ContactPoint", "telephone": "+55 11 98890-4107", "contactType": "sales", "areaServed": "BR", "availableLanguage": "Portuguese"},
     }
 
@@ -450,6 +497,11 @@ def gtm_body():
     return f'<noscript><iframe src="https://www.googletagmanager.com/ns.html?id={GTM_ID}" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>'
 
 
+MOLAS_TIPOS = [("Molas de compressão", "trabalham sendo apertadas", "/molas-de-compressao", "mola"),
+               ("Molas de tração", "trabalham sendo esticadas", "/molas-de-tracao", "mola-tracao"),
+               ("Molas de torção", "trabalham girando", "/molas-de-torcao", "mola-torcao")]
+
+
 def topo(rota):
     cur = ' aria-current="page"'
     sub = "".join(
@@ -458,13 +510,16 @@ def topo(rota):
         f'<span>{e(p["nome"])}<small>{e(p["sub"])}</small></span></a></li>'
         for p in PRODUTOS if p["tipo"] != "posicionador")
     atual = lambda r: ' aria-current="page"' if rota == r else ""
+    sub_molas = "".join(
+        f'<li><a href="{r}"{atual(r)}><img src="/assets/img/pecas/{t}-{MOLA_3D[t]["material"]}-480.webp" alt="" width="40" height="40" loading="lazy">'
+        f'<span>{n}<small>{d}</small></span></a></li>' for n, d, r, t in MOLAS_TIPOS)
     return f'''<header class="topo"><div class="wrap">
 <a class="marca" href="/" aria-label="W Speed, página inicial"><img src="/assets/img/logo-96.webp" width="139" height="46" alt="W Speed"></a>
 <nav class="nav" id="nav" aria-label="Principal">
 <div class="sub"><button type="button" aria-expanded="false">Bujões {ic("chev", 1.8)}</button><ul>{sub}</ul></div>
 <a href="/posicionador-com-mola-e-esfera"{atual("/posicionador-com-mola-e-esfera")}>Posicionadores</a>
 <a href="/bucha-roscada"{atual("/bucha-roscada")}>Buchas</a>
-<a href="/molas-de-compressao"{atual("/molas-de-compressao")}>Molas</a>
+<div class="sub"><button type="button" aria-expanded="false">Molas {ic("chev", 1.8)}</button><ul>{sub_molas}</ul></div>
 <a href="/usinagem"{atual("/usinagem")}>Usinagem</a>
 </nav>
 <div class="topo__acoes">
@@ -478,8 +533,8 @@ def rodape():
     return f'''<footer class="rodape"><div class="wrap">
 <div class="rodape__grade">
 <div><img class="logo" src="/assets/img/logo-negativo-160.webp" width="163" height="54" alt="W Speed" loading="lazy">
-<p>Bujões DIN 906, 908 e 910, posicionadores com mola e esfera, buchas roscadas, molas de compressão e usinagem sob medida, com envio para todo o Brasil.</p></div>
-<div><p class="rodape__tit">Peças</p><ul>{links}<li><a href="/bucha-roscada">Bucha roscada</a></li><li><a href="/molas-de-compressao">Molas de compressão</a></li><li><a href="/usinagem">Usinagem sob medida</a></li></ul></div>
+<p>Bujões DIN 906, 908 e 910, posicionadores com mola e esfera, buchas roscadas, molas de compressão, tração e torção e usinagem sob medida, com envio para todo o Brasil.</p></div>
+<div><p class="rodape__tit">Peças</p><ul>{links}<li><a href="/bucha-roscada">Bucha roscada</a></li><li><a href="/molas-de-compressao">Molas de compressão</a></li><li><a href="/molas-de-tracao">Molas de tração</a></li><li><a href="/molas-de-torcao">Molas de torção</a></li><li><a href="/usinagem">Usinagem sob medida</a></li></ul></div>
 <div><p class="rodape__tit">Contato</p><ul><li><a href="{zap_link("rodape")}">WhatsApp {TEL_VER}</a></li><li><a href="{INSTAGRAM}" target="_blank" rel="noopener">Instagram @wfix.speed</a></li><li><a href="#" data-abre-orc>Minha lista de orçamento</a></li></ul></div>
 </div>
 <div class="rodape__base"><span>© {date.today().year} W Speed</span><span>Medidas conforme as normas DIN. As imagens das peças são geradas a partir dessas medidas.</span></div>
@@ -660,12 +715,17 @@ def home():
 </div>
 </div></section>'''
 
+    tipos_molas = ""
+    for n, d, r, t in MOLAS_TIPOS:
+        mt = MOLA_3D[t]["material"]
+        wm, hm = dims_recorte(t, mt, 300)
+        tipos_molas += (f'<li><a href="{r}"><img src="/assets/img/pecas/{t}-{mt}-recorte-300.webp" width="{wm}" height="{hm}" alt="" loading="lazy" decoding="async">'
+                        f'<span><b>{n}</b>{d}</span></a></li>')
     molas = f'''<section class="sec escuro"><div class="wrap molas">
 <div>
-<h2 class="tit barra rev">Molas de compressão <strong>sob medida</strong></h2>
-<p class="lead rev" style="margin-top:22px">Também fabricamos molas de compressão. Você passa as medidas ou manda uma amostra, e a gente produz na quantidade que a sua produção precisa.</p>
-<ul class="molas__lista rev"><li><b>Arame</b>a espessura do fio, em milímetros</li><li><b>Diâmetro externo</b>medido por fora das espiras</li><li><b>Comprimento livre</b>a mola solta, sem carga</li><li><b>Material</b>aço mola ou inox</li></ul>
-<div class="ctas rev">{btn("Pedir orçamento de mola", "/molas-de-compressao", "claro")}</div>
+<h2 class="tit barra rev">Molas <strong>sob medida</strong></h2>
+<p class="lead rev" style="margin-top:22px">Também fabricamos molas de compressão, de tração e de torção. Você passa as medidas ou manda uma amostra, e a gente produz na quantidade que a sua produção precisa.</p>
+<ul class="molas__tipos rev">{tipos_molas}</ul>
 </div>
 <div class="palco rev" style="--sombra:{SOMBRA["mola"]}" data-visor="{visor_cfg("mola", {"fio": 2, "De": 18, "voltas": 9, "Lo": 46}, "inox")}" data-poster="/assets/img/pecas/{{tipo}}-{{mat}}-800.webp">
 {img_peca("mola", "inox", alt="Mola de compressão com as pontas fechadas", sizes="(max-width:900px) 92vw, 520px")}
@@ -727,7 +787,7 @@ def home():
 
     corpo = heroi + pecas + comparar + molas + usinagem + fluxo + campo + perguntas + final
     return pagina("W Speed | Bujões DIN 906, 908 e 910 e posicionadores com mola e esfera",
-                  "Fabricamos bujões DIN 906, 908 e 910 e posicionadores com mola e esfera em aço e inox, além de molas de compressão e usinagem sob medida. Monte a lista e peça o orçamento pelo WhatsApp. Enviamos para todo o Brasil.",
+                  "Fabricamos bujões DIN 906, 908 e 910 e posicionadores com mola e esfera em aço e inox, além de molas de compressão, tração e torção e usinagem sob medida. Monte a lista e peça o orçamento pelo WhatsApp. Enviamos para todo o Brasil.",
                   corpo, "/", preload_peca("910"), ld(faq_ld(FAQ_HOME)))
 
 
@@ -833,6 +893,27 @@ def produto(p):
 
 
 # ------------------------------------------------------------------ molas
+def tipos_mola(rota):
+    itens = ""
+    for n, r in (("Compressão", "/molas-de-compressao"), ("Tração", "/molas-de-tracao"), ("Torção", "/molas-de-torcao")):
+        marca = ' aria-current="page"' if r == rota else ""
+        itens += f'<a class="chip" href="{r}"{marca}>{n}</a>'
+    return f'<nav class="tipos-mola" aria-label="Tipos de mola">{itens}</nav>'
+
+
+def palco_mola(t, alt):
+    m = MOLA_3D[t]
+    return f'''<div class="palco" style="--sombra:{SOMBRA[t]}" data-visor="{visor_cfg(t, m["dims"], m["material"], m["yaw"], m["pitch"])}" data-poster="/assets/img/pecas/{{tipo}}-{{mat}}-800.webp">
+{img_peca(t, m["material"], alt=alt, lazy=False)}
+<span class="palco__dica">{ic("giro", 1.5)} Arraste para girar</span>
+</div>'''
+
+
+MOLAS_COMPRESSAO = [("Cilíndrica", "mola", "cilíndrica", "aço mola"), ("Reforçada", "mola-reforcada", "reforçada", "aço mola"),
+                    ("Passo aberto", "mola-aberta", "passo aberto", "aço mola"), ("Barril", "mola-barril", "barril", "aço zincado"),
+                    ("Pequena", "mola-pequena", "pequena", "inox")]
+
+
 def molas():
     faq = [
         ("Como medir uma mola de compressão?",
@@ -842,25 +923,30 @@ def molas():
         ("Qual material escolher?",
          "O aço mola atende a maioria das aplicações. O inox é para quando a mola trabalha molhada, em contato com alimentos ou produtos químicos."),
     ]
+    variante = lambda rot, t, modelo, mat_form, ativo: (
+        f'<button type="button" class="chip" aria-pressed="{"true" if ativo else "false"}" data-variante="'
+        + e(json.dumps({"tipo": t, "dims": MOLA_3D[t]["dims"], "material": MOLA_3D[t]["material"], "yaw": MOLA_3D[t]["yaw"], "pitch": MOLA_3D[t]["pitch"],
+                        "sombra": SOMBRA[t], "modelo": modelo, "matForm": mat_form}, ensure_ascii=False), quote=True) + f'">{rot}</button>')
+    chips = "".join(variante(r, t, m, f, i == 0) for i, (r, t, m, f) in enumerate(MOLAS_COMPRESSAO))
+    modelos = "".join(f'<option value="{m}">{r}</option>' for r, _, m, _ in MOLAS_COMPRESSAO)
     corpo = f'''<section class="cab-prod">{facetas()}
 <div class="wrap prod">
 <div>
-<div class="palco" style="--sombra:{SOMBRA["mola"]}" data-visor="{visor_cfg("mola", {"fio": 2, "De": 18, "voltas": 9, "Lo": 46}, "aco")}" data-poster="/assets/img/pecas/{{tipo}}-{{mat}}-800.webp">
-{img_peca("mola", "aco", alt="Mola de compressão com as pontas fechadas", lazy=False)}
-<span class="palco__dica">{ic("giro", 1.5)} Arraste para girar</span>
-</div>
-<div class="controles">{material_toggle(".prod .palco", "Aço mola")}</div>
+{palco_mola("mola", "Mola de compressão cilíndrica com as pontas fechadas")}
+<div class="controles"><div class="seletor" role="group" aria-label="Modelo da mola" data-alvo=".prod .palco">{chips}</div></div>
 </div>
 <div>
 <nav class="migalhas" aria-label="Você está em"><a href="/">Início</a><span aria-hidden="true">/</span><span>Molas de compressão</span></nav>
+{tipos_mola("/molas-de-compressao")}
 <h1 class="barra">Molas de <strong>compressão</strong> sob medida</h1>
-<p class="lead">Fabricamos molas de compressão pela amostra ou pelas medidas que você passar, em aço mola ou inox, na quantidade que a sua produção precisa.</p>
+<p class="lead">Fabricamos molas de compressão pela amostra ou pelas medidas que você passar, em aço mola, aço zincado ou inox, na quantidade que a sua produção precisa.</p>
 <form class="form escolha" data-sob-medida="mola" data-nome="Mola de compressão" data-img="/assets/img/pecas/mola-aco-recorte-300.webp">
 <label>Arame (mm)<input name="fio" inputmode="decimal" placeholder="Ex.: 2" data-rot="arame" data-un="mm"></label>
 <label>Diâmetro externo (mm)<input name="de" inputmode="decimal" placeholder="Ex.: 18" data-rot="Ø externo" data-un="mm"></label>
 <label>Comprimento livre (mm)<input name="lo" inputmode="decimal" placeholder="Ex.: 46" data-rot="comprimento livre" data-un="mm"></label>
 <label>Número de espiras<input name="espiras" inputmode="numeric" placeholder="Se souber" data-rot="com" data-un="espiras"></label>
-<label>Material<select name="material" data-rot="material"><option value="aço mola">Aço mola</option><option value="inox">Inox</option></select></label>
+<label>Modelo<select name="modelo" data-rot="modelo">{modelos}</select></label>
+<label>Material<select name="material" data-rot="material"><option value="aço mola">Aço mola</option><option value="aço zincado">Aço zincado</option><option value="inox">Inox</option></select></label>
 <label>Quantidade<input name="qtd" inputmode="numeric" value="100" data-rot="qtd"></label>
 <label class="inteiro">Observação<input name="obs" placeholder="Aplicação, carga, se tem amostra..." data-rot="obs."></label>
 <button class="btn btn--escuro" type="submit">{ic("carrinho", 1.6)}<span>Adicionar ao orçamento</span></button>
@@ -872,15 +958,111 @@ def molas():
 <div class="prancha rev">{desenho_mola()}</div>
 <div>
 <h2 class="tit barra rev">Como medir a sua mola</h2>
-<dl class="legenda rev" style="margin-top:26px"><div><dt>d</dt><dd>espessura do arame</dd></div><div><dt>De</dt><dd>diâmetro externo, por fora das espiras</dd></div><div><dt>Lo</dt><dd>comprimento livre, com a mola solta</dd></div></dl><p class="mat rev">Conte também as voltas. Se a mola tiver as pontas fechadas ou retificadas, avise na observação.</p>
+<dl class="legenda rev" style="margin-top:26px"><div><dt>d</dt><dd>espessura do arame</dd></div><div><dt>De</dt><dd>diâmetro externo, por fora das espiras</dd></div><div><dt>Lo</dt><dd>comprimento livre, com a mola solta</dd></div></dl><p class="mat rev">Conte também as voltas. Se a mola tiver as pontas fechadas ou retificadas, avise na observação. Na mola em barril, informe o maior e o menor diâmetro.</p>
 </div>
 </div>
 {perguntas_html(faq)}
 </div></section>'''
     extra = ld(faq_ld(faq)) + ld(migalhas_ld([("Início", "/"), ("Molas de compressão", "/molas-de-compressao")]))
-    return pagina("Molas de compressão sob medida em aço mola e inox | W Speed",
-                  "Fabricamos molas de compressão sob medida em aço mola e inox, pela amostra ou pelas medidas. Informe arame, diâmetro externo e comprimento livre e peça o orçamento pelo WhatsApp.",
+    return pagina("Molas de compressão sob medida em aço mola, zincado e inox | W Speed",
+                  "Fabricamos molas de compressão sob medida em aço mola, zincado e inox, pela amostra ou pelas medidas. Informe arame, diâmetro externo e comprimento livre e peça o orçamento pelo WhatsApp.",
                   corpo, "/molas-de-compressao", preload_peca("mola"), extra)
+
+
+def mola_tracao():
+    rota = "/molas-de-tracao"
+    faq = [
+        ("Como medir uma mola de tração?",
+         "Com um paquímetro, meça a espessura do arame, o diâmetro por fora das espiras e o comprimento total da mola solta, de um gancho ao outro. Se puder, meça também só o corpo, sem as hastes."),
+        ("Vocês fazem a mola pela amostra?",
+         "Fazemos. Se você tem a mola velha, mande uma foto com o paquímetro ou combine o envio da amostra pelo WhatsApp."),
+        ("Posso pedir outro gancho ou outra haste?",
+         "Pode. Descreva o que precisa na observação ou mande uma foto do gancho e do comprimento da haste que a sua peça usa, e a gente confirma no orçamento."),
+    ]
+    corpo = f'''<section class="cab-prod">{facetas()}
+<div class="wrap prod">
+<div>{palco_mola("mola-tracao", "Mola de tração com espiras encostadas e um gancho em cada ponta")}</div>
+<div>
+<nav class="migalhas" aria-label="Você está em"><a href="/">Início</a><span aria-hidden="true">/</span><span>Molas de tração</span></nav>
+{tipos_mola(rota)}
+<h1 class="barra">Molas de <strong>tração</strong> sob medida</h1>
+<p class="lead">A mola de tração trabalha sendo esticada: ela puxa as duas peças de volta para o lugar. Fabricamos pela amostra ou pelas medidas que você passar, na quantidade que a sua produção precisa.</p>
+<p class="reconhecer"><b>Como reconhecer:</b> com a mola solta, as espiras ficam encostadas umas nas outras, e cada ponta termina em um gancho.</p>
+<form class="form escolha" data-sob-medida="mola-tracao" data-nome="Mola de tração" data-img="/assets/img/pecas/mola-tracao-aco-recorte-300.webp">
+<label>Arame (mm)<input name="fio" inputmode="decimal" placeholder="Ex.: 1,2" data-rot="arame" data-un="mm"></label>
+<label>Diâmetro externo (mm)<input name="de" inputmode="decimal" placeholder="Ex.: 10" data-rot="Ø externo" data-un="mm"></label>
+<label>Comprimento total (mm)<input name="l" inputmode="decimal" placeholder="De gancho a gancho" data-rot="comprimento total" data-un="mm"></label>
+<label>Comprimento do corpo (mm)<input name="lc" inputmode="decimal" placeholder="Se souber" data-rot="corpo" data-un="mm"></label>
+<label>Material<select name="material" data-rot="material"><option value="aço mola">Aço mola</option><option value="aço zincado">Aço zincado</option><option value="outro material (ver obs.)">Outro</option></select></label>
+<label>Quantidade<input name="qtd" inputmode="numeric" value="100" data-rot="qtd"></label>
+<label class="inteiro">Observação<input name="obs" placeholder="Aplicação, tipo de gancho, se tem amostra..." data-rot="obs."></label>
+<button class="btn btn--escuro" type="submit">{ic("carrinho", 1.6)}<span>Adicionar ao orçamento</span></button>
+</form>
+</div>
+</div></section>
+<section class="sec" style="padding-top:clamp(40px,6vw,80px)"><div class="wrap">
+<div class="tecnico">
+<div class="prancha rev">{desenho_tracao()}</div>
+<div>
+<h2 class="tit barra rev">Como medir a sua mola</h2>
+<dl class="legenda rev" style="margin-top:26px"><div><dt>d</dt><dd>espessura do arame</dd></div><div><dt>De</dt><dd>diâmetro externo, por fora das espiras</dd></div><div><dt>L</dt><dd>comprimento total, de gancho a gancho, com a mola solta</dd></div><div><dt>Lc</dt><dd>comprimento do corpo, só a parte enrolada</dd></div></dl>
+</div>
+</div>
+{perguntas_html(faq)}
+</div></section>'''
+    extra = ld(faq_ld(faq)) + ld(migalhas_ld([("Início", "/"), ("Molas de tração", rota)]))
+    return pagina("Molas de tração sob medida com gancho | W Speed",
+                  "Fabricamos molas de tração sob medida, pela amostra ou pelas medidas. Informe arame, diâmetro externo e comprimento de gancho a gancho e peça o orçamento pelo WhatsApp. Envio para todo o Brasil.",
+                  corpo, rota, preload_peca("mola-tracao"), extra)
+
+
+def mola_torcao():
+    rota = "/molas-de-torcao"
+    faq = [
+        ("Como medir uma mola de torção?",
+         "Com um paquímetro, meça a espessura do arame, o diâmetro por fora do corpo e o comprimento de cada perna. Conte as voltas do corpo e veja o ângulo entre as pernas com a mola solta."),
+        ("O que é o sentido de enrolamento?",
+         "É para que lado as espiras giram, e ele muda o lado em que a mola trabalha. Se não souber, escolha Não sei e mande uma foto da mola pelo WhatsApp que a gente identifica."),
+        ("Vocês fazem a mola pela amostra?",
+         "Fazemos. Se você tem a mola velha, mande uma foto com o paquímetro ou combine o envio da amostra pelo WhatsApp."),
+    ]
+    corpo = f'''<section class="cab-prod">{facetas()}
+<div class="wrap prod">
+<div>{palco_mola("mola-torcao", "Mola de torção zincada com corpo em anel e duas pernas com a ponta dobrada")}</div>
+<div>
+<nav class="migalhas" aria-label="Você está em"><a href="/">Início</a><span aria-hidden="true">/</span><span>Molas de torção</span></nav>
+{tipos_mola(rota)}
+<h1 class="barra">Molas de <strong>torção</strong> sob medida</h1>
+<p class="lead">A mola de torção trabalha girando: as pernas abrem e fecham em volta do corpo e fazem a peça voltar à posição. Fabricamos pela amostra ou pelas medidas que você passar, na quantidade que a sua produção precisa.</p>
+<p class="reconhecer"><b>Como reconhecer:</b> o corpo é um anel de espiras encostadas, e duas pernas saem dele, retas ou com a ponta dobrada.</p>
+<form class="form escolha" data-sob-medida="mola-torcao" data-nome="Mola de torção" data-img="/assets/img/pecas/mola-torcao-zinco-recorte-300.webp">
+<label>Arame (mm)<input name="fio" inputmode="decimal" placeholder="Ex.: 2" data-rot="arame" data-un="mm"></label>
+<label>Diâmetro externo (mm)<input name="de" inputmode="decimal" placeholder="Ex.: 40" data-rot="Ø externo" data-un="mm"></label>
+<label>Número de voltas<input name="voltas" inputmode="decimal" placeholder="Ex.: 4" data-rot="com" data-un="voltas"></label>
+<label>Comprimento das pernas (mm)<input name="l" inputmode="decimal" placeholder="Ex.: 56" data-rot="pernas" data-un="mm"></label>
+<label>Ângulo entre as pernas<input name="ang" placeholder="Com a mola solta" data-rot="ângulo"></label>
+<label>Sentido de enrolamento<select name="sentido" data-rot="enrolamento"><option value="não sei">Não sei</option><option value="à direita">À direita</option><option value="à esquerda">À esquerda</option></select></label>
+<label>Material<select name="material" data-rot="material"><option value="aço zincado">Aço zincado</option><option value="aço mola">Aço mola</option><option value="outro material (ver obs.)">Outro</option></select></label>
+<label>Quantidade<input name="qtd" inputmode="numeric" value="100" data-rot="qtd"></label>
+<label class="inteiro">Observação<input name="obs" placeholder="Aplicação, forma da ponta, se tem amostra..." data-rot="obs."></label>
+<button class="btn btn--escuro" type="submit">{ic("carrinho", 1.6)}<span>Adicionar ao orçamento</span></button>
+</form>
+</div>
+</div></section>
+<section class="sec" style="padding-top:clamp(40px,6vw,80px)"><div class="wrap">
+<div class="tecnico">
+<div class="prancha rev">{desenho_torcao()}</div>
+<div>
+<h2 class="tit barra rev">Como medir a sua mola</h2>
+<dl class="legenda rev" style="margin-top:26px"><div><dt>d</dt><dd>espessura do arame</dd></div><div><dt>De</dt><dd>diâmetro externo do corpo</dd></div><div><dt>L</dt><dd>comprimento de cada perna, do corpo até a ponta</dd></div></dl><p class="mat rev">Informe também o número de voltas, o ângulo entre as pernas com a mola solta e a forma da ponta.</p>
+</div>
+</div>
+{perguntas_html(faq)}
+</div></section>'''
+    extra = ld(faq_ld(faq)) + ld(migalhas_ld([("Início", "/"), ("Molas de torção", rota)]))
+    return pagina("Molas de torção sob medida | W Speed",
+                  "Fabricamos molas de torção sob medida, pela amostra ou pelas medidas. Informe arame, diâmetro externo, voltas e pernas e peça o orçamento pelo WhatsApp. Envio para todo o Brasil.",
+                  corpo, rota, preload_peca("mola-torcao", "zinco"), extra)
 
 
 # ------------------------------------------------------------------ bucha roscada
@@ -1017,22 +1199,22 @@ def nao_achou():
 def main():
     import subprocess
     subprocess.run([str(ESBUILD), str(JS_FONTE), "--minify", "--target=es2017", "--legal-comments=none", f"--outfile={JS}"], check=True, capture_output=True)
-    paginas = {"index.html": home(), "bucha-roscada.html": bucha(), "molas-de-compressao.html": molas(), "usinagem.html": usinagem(),
+    paginas = {"index.html": home(), "bucha-roscada.html": bucha(), "molas-de-compressao.html": molas(), "molas-de-tracao.html": mola_tracao(), "molas-de-torcao.html": mola_torcao(), "usinagem.html": usinagem(),
                "obrigado.html": obrigado(), "404.html": nao_achou()}
     for p in PRODUTOS:
         paginas[p["slug"] + ".html"] = produto(p)
     for nome, html in paginas.items():
         (RAIZ / nome).write_text(html)
-    rotas = ["/"] + ["/" + p["slug"] for p in PRODUTOS] + ["/bucha-roscada", "/molas-de-compressao", "/usinagem"]
+    rotas = ["/"] + ["/" + p["slug"] for p in PRODUTOS] + ["/bucha-roscada", "/molas-de-compressao", "/molas-de-tracao", "/molas-de-torcao", "/usinagem"]
     hoje = date.today().isoformat()
     (RAIZ / "sitemap.xml").write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
                                       + "".join(f"<url><loc>{DOMINIO}{r}</loc><lastmod>{hoje}</lastmod></url>" for r in rotas) + "</urlset>\n")
     (RAIZ / "robots.txt").write_text("User-agent: *\n" + ("Allow: /\nDisallow: /obrigado\n" if INDEXAR else "Disallow:\n") + f"\nSitemap: {DOMINIO}/sitemap.xml\n")
-    linhas_llms = [f"# W Speed\n\n> Fabricação de bujões DIN 906, 908 e 910, posicionadores com mola e esfera (aço oxidado e inox), molas de compressão e usinagem sob medida. Orçamento pelo WhatsApp, envio para todo o Brasil.\n\n## Peças"]
+    linhas_llms = [f"# W Speed\n\n> Fabricação de bujões DIN 906, 908 e 910, posicionadores com mola e esfera (aço oxidado e inox), molas de compressão, tração e torção e usinagem sob medida. Orçamento pelo WhatsApp, envio para todo o Brasil.\n\n## Peças"]
     for p in PRODUTOS:
         linhas_llms.append(f"- [{p['nome']} {p['sub']}]({DOMINIO}/{p['slug']}): {p['texto']}")
     linhas_llms.append(f"- [Bucha roscada reta e com colar]({DOMINIO}/bucha-roscada)")
-    linhas_llms.append(f"- [Molas de compressão sob medida]({DOMINIO}/molas-de-compressao)\n- [Usinagem sob medida]({DOMINIO}/usinagem)")
+    linhas_llms.append(f"- [Molas de compressão sob medida]({DOMINIO}/molas-de-compressao)\n- [Molas de tração sob medida]({DOMINIO}/molas-de-tracao)\n- [Molas de torção sob medida]({DOMINIO}/molas-de-torcao)\n- [Usinagem sob medida]({DOMINIO}/usinagem)")
     linhas_llms.append(f"\n## Contato\nWhatsApp: {TEL_VER}\nInstagram: {INSTAGRAM}\nSite: {DOMINIO}/\n")
     (RAIZ / "llms.txt").write_text("\n".join(linhas_llms))
     print(f"  {len(paginas)} páginas  site.js v={hash_de(JS)}  pecas3d v={hash_de(JS3D)}  indexar={INDEXAR}")
