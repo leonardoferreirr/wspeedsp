@@ -169,7 +169,7 @@
       mod3d = m;
       var celular = innerWidth < 760;
       var io = 'IntersectionObserver' in window ? new IntersectionObserver(function (es) {
-        es.forEach(function (e) { var v = e.target._visor; if (v) e.isIntersecting && !e.target.classList.contains('grupo') ? v.retomar() : v.pausar(); });
+        es.forEach(function (e) { var v = e.target._visor; if (v) e.isIntersecting ? v.retomar() : v.pausar(); });
       }) : null;
       palcos.forEach(function (el) {
         if (!el._estado) estado(el);
@@ -189,8 +189,8 @@
     }).catch(function () {});
     return pedido3d;
   }
-  // a inicial abre na foto de todas as peças: lá o 3D só carrega quando a pessoa escolhe uma
-  if (palcos.length && !$('.palco.grupo')) {
+  // na inicial roda o slideshow: lá o 3D só carrega quando a pessoa escolhe uma peça
+  if (palcos.length && !$('.palco.rodando')) {
     var evs = ['pointerdown', 'touchstart', 'keydown', 'wheel', 'scroll', 'mousemove'];
     var gatilho = function () { evs.forEach(function (e) { removeEventListener(e, gatilho, true); }); iniciar3D(); };
     evs.forEach(function (e) { addEventListener(e, gatilho, { capture: true, passive: true }); });
@@ -213,31 +213,89 @@
   });
   function materialAtual() { return corpo.dataset.material || 'aco'; }
 
-  /* ---------------- herói: troca de peça */
+  /* ---------------- herói: slideshow das peças; escolher uma para o slideshow e abre o 3D */
   var heroi = $('.heroi .palco');
   var chips = $$('.heroi [data-peca]');
   if (heroi && chips.length) {
     var dados = JSON.parse(heroi.dataset.pecas);
     var legenda = $('.heroi__legenda');
     var grupoMat = $('.heroi .material');
-    var fotoGrupo = $('img', heroi), srcGrupo = fotoGrupo.getAttribute('src'), setGrupo = fotoGrupo.getAttribute('srcset');
-    var mostrarPeca = function (i) {
+    var areaHeroi = $('.heroi__v');
+    var atual = 0;
+    var marcar = function (i) {
+      atual = i;
       chips.forEach(function (c, k) { c.setAttribute('aria-pressed', k === i); });
       var p = dados[i];
-      heroi.classList.toggle('grupo', !!p.grupo);
-      if (heroi._visor) heroi._visor[p.grupo ? 'pausar' : 'retomar']();
-      if (p.grupo) {
-        fotoGrupo.src = srcGrupo; fotoGrupo.setAttribute('srcset', setGrupo);
-        if (legenda) legenda.textContent = p.legenda;
-        return;
-      }
       if (p.sombra) heroi.style.setProperty('--sombra', p.sombra);
-      estado(heroi, { tipo: p.tipo, dims: p.dims, material: p.material || materialAtual() });
-      if (heroi._visor && p.pitch != null) heroi._visor.angulo(p.yaw, p.pitch);
       if (grupoMat) grupoMat.classList.toggle('oculto', !!p.material);
       if (legenda) legenda.innerHTML = p.legenda + ' <a href="' + p.url + '">' + (p.verbo || 'Ver medidas') + '</a>';
     };
-    chips.forEach(function (c, k) { c.addEventListener('click', function () { mostrarPeca(k); if (!dados[k].grupo) iniciar3D(); }); });
+    var mostrarPeca = function (i) {
+      marcar(i);
+      var p = dados[i];
+      estado(heroi, { tipo: p.tipo, dims: p.dims, material: p.material || materialAtual(), yaw: p.yaw, pitch: p.pitch });
+      if (heroi._visor && p.pitch != null) heroi._visor.angulo(p.yaw, p.pitch);
+    };
+    chips.forEach(function (c, k) { c.addEventListener('click', function () { mostrarPeca(k); iniciar3D(); }); });
+
+    var PASSO = 1400, roda = !reduz, tRoda = 0, naTela = true, sobre = false, noAr = 0, largSlide = 800;
+    var fotos = [$('img', heroi)];
+    var urlSlide = function (p) { return '/assets/img/pecas/' + p.tipo + '-' + (p.material || 'aco') + '-' + largSlide + '.webp'; };
+    var proximo = function () {
+      if (!roda) return;
+      if (d.hidden || !naTela || sobre) { tRoda = setTimeout(proximo, 300); return; }
+      var i = (atual + 1) % dados.length;
+      var pre = new Image();
+      pre.src = urlSlide(dados[i]);
+      // só troca depois de decodificada, para o slide não piscar em conexão lenta
+      (pre.decode ? pre.decode() : Promise.resolve()).catch(function () {}).then(function () {
+        if (!roda) return;
+        var entra = fotos[1 - noAr];
+        entra.removeAttribute('srcset');
+        entra.src = pre.src;
+        entra.classList.add('no-ar');
+        fotos[noAr].classList.remove('no-ar');
+        noAr = 1 - noAr;
+        marcar(i);
+        tRoda = setTimeout(proximo, PASSO);
+      });
+    };
+    var pararSlides = function () {
+      roda = false;
+      clearTimeout(tRoda);
+      if (fotos[1]) {
+        if (noAr === 1) { fotos[0].removeAttribute('srcset'); fotos[0].src = fotos[1].src; }
+        fotos[1].remove();
+      }
+      fotos[0].classList.remove('no-ar');
+      heroi.classList.remove('rodando');
+      if (legenda) legenda.setAttribute('aria-live', 'polite');
+    };
+    var comecarSlides = function () {
+      if (!roda) return;
+      largSlide = heroi.offsetWidth * Math.min(window.devicePixelRatio || 1, 2) > 600 ? 800 : 480;
+      var extra = d.createElement('img');
+      extra.alt = ''; extra.decoding = 'async';
+      heroi.insertBefore(extra, fotos[0].nextSibling);
+      fotos.push(extra);
+      tRoda = setTimeout(proximo, PASSO);
+    };
+    if (roda) {
+      // captura: para o slideshow antes de o clique chegar no botão da peça
+      areaHeroi.addEventListener('click', function (ev) {
+        if (!roda) return;
+        pararSlides();
+        if (ev.target.closest('a')) return;
+        mostrarPeca(atual);
+        iniciar3D();
+      }, true);
+      areaHeroi.addEventListener('pointerenter', function (ev) { if (ev.pointerType === 'mouse') sobre = true; });
+      areaHeroi.addEventListener('pointerleave', function () { sobre = false; });
+      if ('IntersectionObserver' in window) new IntersectionObserver(function (es) { naTela = es[0].isIntersecting; }).observe(heroi);
+      if (d.readyState === 'complete') comecarSlides(); else addEventListener('load', comecarSlides, { once: true });
+    } else {
+      pararSlides();
+    }
   }
 
   /* ---------------- modelos da peça (bucha, mola) */

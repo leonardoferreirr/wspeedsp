@@ -384,16 +384,14 @@ body.tem-itens .flutua .orcf{transform:none;opacity:1}
 .miniatura img{height:42px;width:auto;max-width:100%;object-fit:contain}
 .miniatura:hover{background:#fff;color:var(--tinta)}
 .miniatura[aria-pressed="true"]{background:#fff;color:var(--tinta);box-shadow:inset 0 0 0 2px var(--c2)}
-.miniatura--desenho{background:var(--tinta);color:#fff}
+.miniatura--desenho{grid-column:span 2;flex-direction:row;justify-content:center;gap:10px;align-items:center;background:var(--tinta);color:#fff;padding-inline:12px;font-size:13px;text-align:left}
 .miniatura--desenho:hover{background:var(--grafite3);color:#fff}
-.miniatura--desenho svg{width:42px;height:42px;flex:none;color:var(--c1)}
+.miniatura--desenho svg{width:38px;height:38px;flex:none;color:var(--c1)}
 .material.oculto{visibility:hidden}
-/* inicial: abre na foto com todas as peças */
-.palco.grupo::before{display:none}
-.palco.grupo>img{opacity:1}
-.palco.grupo>canvas{opacity:0;pointer-events:none}
-.palco.grupo .palco__dica{opacity:0}
-.palco.grupo+.controles .material{display:none}
+/* inicial: slideshow das peças até a pessoa escolher uma */
+.palco.rodando>img{opacity:0;transform:scale(.93);transition:opacity .22s,transform .34s cubic-bezier(.2,.8,.2,1)}
+.palco.rodando>img.no-ar{opacity:1;transform:none}
+.palco.rodando+.controles .material{display:none}
 .material button[data-mat="latao"]::before{background:linear-gradient(135deg,#f0d48a,#a97c25);box-shadow:inset 0 0 0 1px rgba(0,0,0,.12)}
 .ok{list-style:none;margin:0;padding:0;display:grid;gap:12px;text-align:left}
 .ok li{display:flex;gap:12px;align-items:flex-start;font-size:16px;line-height:1.45;color:var(--tinta)}
@@ -507,8 +505,8 @@ body.tem-itens .flutua .orcf{transform:none;opacity:1}
   .miniaturas{grid-template-columns:repeat(4,1fr);gap:6px}
   .miniatura{min-height:84px;font-size:11.5px;padding:8px 3px 7px}
   .miniatura img{height:36px}
-  .miniatura--desenho{grid-column:span 3;flex-direction:row;justify-content:center;align-items:center;gap:10px;min-height:0;padding-inline:12px;font-size:13px}
-  .miniatura--desenho svg{width:36px;height:36px}
+  .miniatura--desenho{grid-column:1/-1;min-height:54px}
+  .heroi__legenda{min-height:3.3em}  /* a legenda muda a cada slide: sem isso o conteúdo abaixo pula */
   .destaque{padding:24px 20px}
   .destaque .ctas .btn{width:100%;height:auto;min-height:52px;padding:12px 18px;white-space:normal;line-height:1.25;justify-content:center;text-align:center}
   .destaque .ok li{font-size:15.5px}

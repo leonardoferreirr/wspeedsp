@@ -469,7 +469,7 @@ ORG_ID = DOMINIO + "/#empresa"
 BRASIL = {"@type": "Country", "name": "Brasil"}
 DIAS_UTEIS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
 # imagens de cada página, para o sitemap e para os dados estruturados
-IMG_ROTA = {"/": ["grupo-todas"], "/bujao-din-906": ["906-aco", "906-inox"], "/bujao-din-908": ["908-aco", "908-inox"], "/bujao-din-910": ["910-aco", "910-inox"],
+IMG_ROTA = {"/": ["910-aco"], "/bujao-din-906": ["906-aco", "906-inox"], "/bujao-din-908": ["908-aco", "908-inox"], "/bujao-din-910": ["910-aco", "910-inox"],
             "/posicionador-com-mola-e-esfera": ["posicionador-aco", "posicionador-inox"], "/bucha-roscada": ["bucha-colar-aco", "bucha-colar-latao"],
             "/molas-de-compressao": ["mola-aco"], "/molas-de-tracao": ["mola-tracao-aco"], "/molas-de-torcao": ["mola-torcao-zinco"]}
 
@@ -735,14 +735,12 @@ CAMPO = ["Tratores", "Colheitadeiras", "Implementos agrícolas", "Bombas hidráu
          "Cárteres e câmbios", "Tanques de óleo", "Moldes de injeção", "Estampos", "Gabaritos e dispositivos", "Máquinas industriais"]
 
 
-LEGENDA_GRUPO = "Escolha uma peça para girar e ver as medidas."
-TAM_GRUPO = "(max-width:620px) 270px, (max-width:900px) 340px, 440px"   # largura real do .palco no topo
+TAM_HEROI = "(max-width:620px) 270px, (max-width:900px) 340px, 440px"   # largura real do .palco no topo
 
 
 def home():
     p910, p908, p906, ppos = POR_SLUG["bujao-din-910"], POR_SLUG["bujao-din-908"], POR_SLUG["bujao-din-906"], POR_SLUG["posicionador-com-mola-e-esfera"]
     pecas_heroi = [
-        {"grupo": True, "rot": "Todas as peças", "mini": ("grupo", "todas"), "legenda": LEGENDA_GRUPO},
         {"tipo": "910", "sombra": SOMBRA["910"], "dims": dims_padrao(p910), "yaw": -0.5, "pitch": 0.42, "rot": "DIN 910", "mini": ("910", "aco"), "legenda": "Bujão DIN 910 com cabeça sextavada e colar.", "url": "/bujao-din-910"},
         {"tipo": "908", "sombra": SOMBRA["908"], "dims": dims_padrao(p908), "yaw": -0.5, "pitch": 0.42, "rot": "DIN 908", "mini": ("908", "aco"), "legenda": "Bujão DIN 908 com colar e sextavado interno.", "url": "/bujao-din-908"},
         {"tipo": "906", "sombra": SOMBRA["906"], "dims": dims_padrao(p906), "yaw": -0.5, "pitch": 0.42, "rot": "DIN 906", "mini": ("906", "aco"), "legenda": "Bujão DIN 906 cônico com sextavado interno.", "url": "/bujao-din-906"},
@@ -765,14 +763,14 @@ def home():
 <div class="ctas rev" style="--d:.16s">{btn("Ver as peças", "#pecas", "escuro", "baixo")}{btn("Falar com o atendente", zap_link("heroi"), "linha", "zap")}</div>
 </div>
 <div class="heroi__v">
-<div class="palco grupo" style="--sombra:{SOMBRA["910"]}" data-visor="{visor_cfg("910", dims_padrao(p910))}" data-poster="/assets/img/pecas/{{tipo}}-{{mat}}-800.webp" data-pecas="{e(json.dumps(pecas_heroi, ensure_ascii=False), quote=True)}">
-{img_peca("grupo", "todas", alt="Peças fabricadas pela W Speed: bujões DIN 906, 908 e 910, posicionador com mola e esfera, bucha roscada e molas de compressão, tração e torção", lazy=False, sizes=TAM_GRUPO)}
+<div class="palco rodando" style="--sombra:{SOMBRA["910"]}" data-visor="{visor_cfg("910", dims_padrao(p910))}" data-poster="/assets/img/pecas/{{tipo}}-{{mat}}-800.webp" data-pecas="{e(json.dumps(pecas_heroi, ensure_ascii=False), quote=True)}">
+{img_peca("910", "aco", alt="Bujão DIN 910 com cabeça sextavada e colar em aço oxidado", lazy=False, sizes=TAM_HEROI, cls="no-ar")}
 <span class="palco__dica">{ic("giro", 1.5)} Arraste para girar</span>
 </div>
 <div class="controles">
 <div class="miniaturas" role="group" aria-label="Peças que fabricamos">{miniaturas}<a class="miniatura miniatura--desenho" href="/usinagem">{ICONE_DESENHO}<span>Peça conforme o desenho</span></a></div>
 {material_toggle(".heroi .palco")}
-<p class="heroi__legenda" aria-live="polite">{LEGENDA_GRUPO}</p></div>
+<p class="heroi__legenda" aria-live="off">Bujão DIN 910 com cabeça sextavada e colar. <a href="/bujao-din-910">Ver medidas</a></p></div>
 </div>
 </div></section>'''
 
@@ -896,7 +894,7 @@ def home():
     corpo = heroi + pecas + comparar + molas + brasil + usinagem + fluxo + campo + perguntas + final
     return pagina("Bujões DIN, molas e usinagem sob medida | W Speed",
                   "Fabricante de bujões DIN 906, 908 e 910, posicionadores com esfera, molas e usinagem sob medida, em aço e inox. Orçamento pelo WhatsApp, envio a todo o Brasil.",
-                  corpo, "/", preload_peca("grupo", "todas", TAM_GRUPO), ld(site_ld()) + ld(faq_ld(FAQ_HOME)))
+                  corpo, "/", preload_peca("910", "aco", TAM_HEROI), ld(site_ld()) + ld(faq_ld(FAQ_HOME)))
 
 
 # ------------------------------------------------------------------ página de cada peça
