@@ -169,7 +169,7 @@
       mod3d = m;
       var celular = innerWidth < 760;
       var io = 'IntersectionObserver' in window ? new IntersectionObserver(function (es) {
-        es.forEach(function (e) { var v = e.target._visor; if (v) e.isIntersecting ? v.retomar() : v.pausar(); });
+        es.forEach(function (e) { var v = e.target._visor; if (v) e.isIntersecting && !e.target.classList.contains('grupo') ? v.retomar() : v.pausar(); });
       }) : null;
       palcos.forEach(function (el) {
         if (!el._estado) estado(el);
@@ -189,7 +189,8 @@
     }).catch(function () {});
     return pedido3d;
   }
-  if (palcos.length) {
+  // a inicial abre na foto de todas as peças: lá o 3D só carrega quando a pessoa escolhe uma
+  if (palcos.length && !$('.palco.grupo')) {
     var evs = ['pointerdown', 'touchstart', 'keydown', 'wheel', 'scroll', 'mousemove'];
     var gatilho = function () { evs.forEach(function (e) { removeEventListener(e, gatilho, true); }); iniciar3D(); };
     evs.forEach(function (e) { addEventListener(e, gatilho, { capture: true, passive: true }); });
@@ -219,21 +220,24 @@
     var dados = JSON.parse(heroi.dataset.pecas);
     var legenda = $('.heroi__legenda');
     var grupoMat = $('.heroi .material');
-    var atual = 0, auto = !reduz, tAuto = 0;
+    var fotoGrupo = $('img', heroi), srcGrupo = fotoGrupo.getAttribute('src'), setGrupo = fotoGrupo.getAttribute('srcset');
     var mostrarPeca = function (i) {
-      atual = i;
       chips.forEach(function (c, k) { c.setAttribute('aria-pressed', k === i); });
       var p = dados[i];
+      heroi.classList.toggle('grupo', !!p.grupo);
+      if (heroi._visor) heroi._visor[p.grupo ? 'pausar' : 'retomar']();
+      if (p.grupo) {
+        fotoGrupo.src = srcGrupo; fotoGrupo.setAttribute('srcset', setGrupo);
+        if (legenda) legenda.textContent = p.legenda;
+        return;
+      }
       if (p.sombra) heroi.style.setProperty('--sombra', p.sombra);
       estado(heroi, { tipo: p.tipo, dims: p.dims, material: p.material || materialAtual() });
       if (heroi._visor && p.pitch != null) heroi._visor.angulo(p.yaw, p.pitch);
       if (grupoMat) grupoMat.classList.toggle('oculto', !!p.material);
       if (legenda) legenda.innerHTML = p.legenda + ' <a href="' + p.url + '">' + (p.verbo || 'Ver medidas') + '</a>';
     };
-    chips.forEach(function (c, k) { c.addEventListener('click', function () { auto = false; mostrarPeca(k); }); });
-    heroi.addEventListener('girou', function () { auto = false; });
-    var ciclo = function () { if (auto && !d.hidden && heroi.classList.contains('vivo')) mostrarPeca((atual + 1) % dados.length); tAuto = setTimeout(ciclo, 5200); };
-    tAuto = setTimeout(ciclo, 6500);
+    chips.forEach(function (c, k) { c.addEventListener('click', function () { mostrarPeca(k); if (!dados[k].grupo) iniciar3D(); }); });
   }
 
   /* ---------------- modelos da peça (bucha, mola) */

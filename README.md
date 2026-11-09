@@ -16,6 +16,7 @@ Outras ferramentas:
 | `cd tools/pecas3d && npm run pacote` | empacota o motor 3D (three.js) em `assets/js/pecas3d.js` |
 | `python3 tools/renders.py` | gera as imagens das peças (aço e inox) pelo mesmo motor 3D |
 | `python3 tools/logo.py` | recorta o logo do post do Instagram (`_src/post-fabricamos.webp`) |
+| `python3 tools/grupo.py` | foto com todas as peças, que abre o topo da inicial (usa os renders de `tools/renders.py`) |
 | `python3 tools/og.py` | imagem de compartilhamento 1200x630 |
 | `tools/lh.sh /rota 3` | Lighthouse no celular (Chromium do Playwright), mediana de 3 |
 | `node tools/teste-orcamento.mjs` | testa o fluxo tabela, lista, WhatsApp |
