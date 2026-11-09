@@ -3,25 +3,25 @@
   "trailingSlash": false,
   "redirects": [
     {
-      "source": "/:path*",
+      "source": "/(.*)",
       "has": [
         {
           "type": "host",
           "value": "wfixspeed.com.br"
         }
       ],
-      "destination": "https://www.wfixspeed.com.br/:path*",
+      "destination": "https://www.wfixspeed.com.br/$1",
       "permanent": true
     },
     {
-      "source": "/:path*",
+      "source": "/(.*)",
       "has": [
         {
           "type": "host",
           "value": "wspeedsp.vercel.app"
         }
       ],
-      "destination": "https://www.wfixspeed.com.br/:path*",
+      "destination": "https://www.wfixspeed.com.br/$1",
       "permanent": true
     }
   ],
