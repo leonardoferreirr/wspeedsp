@@ -636,10 +636,10 @@ def pagina(titulo, desc, corpo, rota="/", preload="", extra_ld="", robots=None, 
 '''
 
 
-def preload_peca(tipo, mat="aco"):
+def preload_peca(tipo, mat="aco", sizes="(max-width:900px) 92vw, 560px"):
     base = f"/assets/img/pecas/{tipo}-{mat}"
     return (f'<link rel="preload" as="image" type="image/webp" href="{base}-800.webp" imagesrcset="{base}-480.webp 480w, {base}-800.webp 800w" '
-            f'imagesizes="(max-width:900px) 92vw, 560px" fetchpriority="high">')
+            f'imagesizes="{sizes}" fetchpriority="high">')
 
 
 def material_toggle(alvo, rot_aco="Aço oxidado", outro=("inox", "Inox")):
@@ -736,6 +736,7 @@ CAMPO = ["Tratores", "Colheitadeiras", "Implementos agrícolas", "Bombas hidráu
 
 
 LEGENDA_GRUPO = "Escolha uma peça para girar e ver as medidas."
+TAM_GRUPO = "(max-width:620px) 270px, (max-width:900px) 340px, 440px"   # largura real do .palco no topo
 
 
 def home():
@@ -765,7 +766,7 @@ def home():
 </div>
 <div class="heroi__v">
 <div class="palco grupo" style="--sombra:{SOMBRA["910"]}" data-visor="{visor_cfg("910", dims_padrao(p910))}" data-poster="/assets/img/pecas/{{tipo}}-{{mat}}-800.webp" data-pecas="{e(json.dumps(pecas_heroi, ensure_ascii=False), quote=True)}">
-{img_peca("grupo", "todas", alt="Peças fabricadas pela W Speed: bujões DIN 906, 908 e 910, posicionador com mola e esfera, bucha roscada e molas de compressão, tração e torção", lazy=False)}
+{img_peca("grupo", "todas", alt="Peças fabricadas pela W Speed: bujões DIN 906, 908 e 910, posicionador com mola e esfera, bucha roscada e molas de compressão, tração e torção", lazy=False, sizes=TAM_GRUPO)}
 <span class="palco__dica">{ic("giro", 1.5)} Arraste para girar</span>
 </div>
 <div class="controles">
@@ -895,7 +896,7 @@ def home():
     corpo = heroi + pecas + comparar + molas + brasil + usinagem + fluxo + campo + perguntas + final
     return pagina("Bujões DIN, molas e usinagem sob medida | W Speed",
                   "Fabricante de bujões DIN 906, 908 e 910, posicionadores com esfera, molas e usinagem sob medida, em aço e inox. Orçamento pelo WhatsApp, envio a todo o Brasil.",
-                  corpo, "/", preload_peca("grupo", "todas"), ld(site_ld()) + ld(faq_ld(FAQ_HOME)))
+                  corpo, "/", preload_peca("grupo", "todas", TAM_GRUPO), ld(site_ld()) + ld(faq_ld(FAQ_HOME)))
 
 
 # ------------------------------------------------------------------ página de cada peça
