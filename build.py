@@ -113,7 +113,7 @@ def sombras():
     from PIL import Image
     out = {}
     for t in ("906", "908", "910", "posicionador", "bucha", "bucha-colar", *MOLA_3D):
-        mat = "zincado" if t.startswith("bucha") else MOLA_3D[t]["material"] if t in MOLA_3D else "aco"
+        mat = "aco" if t.startswith("bucha") else MOLA_3D[t]["material"] if t in MOLA_3D else "aco"
         im = Image.open(RAIZ / f"assets/img/pecas/{t}-{mat}-800.webp").convert("RGBA")
         baixo = im.getchannel("A").point(lambda a: 255 if a > 20 else 0).getbbox()[3] / im.height
         out[t] = f"{max(2.0, (1 - baixo) * 100 - 4.5):.1f}%"
@@ -527,6 +527,7 @@ def topo(rota):
 <a href="/bucha-roscada"{atual("/bucha-roscada")}>Buchas</a>
 <div class="sub"><button type="button" aria-expanded="false">Molas {ic("chev", 1.8)}</button><ul>{sub_molas}</ul></div>
 <a href="/usinagem"{atual("/usinagem")}>Usinagem</a>
+<a href="/contato"{atual("/contato")}>Contato</a>
 </nav>
 <div class="topo__acoes">
 <button class="bt-orc" type="button" data-abre-orc>{ic("carrinho", 1.6)}<span class="txt">Orçamento</span><span class="n">0</span></button>
@@ -541,7 +542,7 @@ def rodape():
 <div><img class="logo" src="/assets/img/logo-negativo-160.webp" width="163" height="54" alt="W Speed" loading="lazy">
 <p>Bujões DIN 906, 908 e 910, posicionadores com mola e esfera, buchas roscadas, molas de compressão, tração e torção e usinagem sob medida, com envio para todo o Brasil.</p></div>
 <div><p class="rodape__tit">Peças</p><ul>{links}<li><a href="/bucha-roscada">Bucha roscada</a></li><li><a href="/molas-de-compressao">Molas de compressão</a></li><li><a href="/molas-de-tracao">Molas de tração</a></li><li><a href="/molas-de-torcao">Molas de torção</a></li><li><a href="/usinagem">Usinagem sob medida</a></li></ul></div>
-<div><p class="rodape__tit">Contato</p><ul><li><a href="{zap_link("rodape")}">WhatsApp {TEL_VER}</a></li><li><a href="{INSTAGRAM}" target="_blank" rel="noopener">Instagram @wfix.speed</a></li><li><a href="#" data-abre-orc>Minha lista de orçamento</a></li></ul></div>
+<div><p class="rodape__tit">Contato</p><ul><li><a href="{zap_link("rodape")}">WhatsApp {TEL_VER}</a></li><li><a href="{INSTAGRAM}" target="_blank" rel="noopener">Instagram @wfix.speed</a></li><li><a href="#" data-abre-orc>Minha lista de orçamento</a></li><li><a href="/contato">Contato</a></li><li>Seg. a sex., 8h às 12h e 13h30 às 17h30</li></ul></div>
 </div>
 <div class="rodape__base"><span>© {date.today().year} W Speed</span><span>Medidas conforme as normas DIN. As imagens das peças são geradas a partir dessas medidas.</span></div>
 </div></footer>'''
@@ -613,10 +614,10 @@ def preload_peca(tipo, mat="aco"):
             f'imagesizes="(max-width:900px) 92vw, 560px" fetchpriority="high">')
 
 
-def material_toggle(alvo, rot_aco="Aço oxidado"):
+def material_toggle(alvo, rot_aco="Aço oxidado", outro=("inox", "Inox")):
     return (f'<div class="material" role="group" aria-label="Material" data-alvo="{alvo}">'
             f'<button type="button" data-mat="aco" aria-pressed="true">{rot_aco}</button>'
-            f'<button type="button" data-mat="inox" aria-pressed="false">Inox</button></div>')
+            f'<button type="button" data-mat="{outro[0]}" aria-pressed="false">{outro[1]}</button></div>')
 
 
 def visor_cfg(tipo, dims, material="aco", yaw=None, pitch=None):
@@ -631,18 +632,70 @@ def perguntas_html(faq):
         f'<details class="rev"><summary>{e(q)}<i>{mais}</i></summary><p>{e(r)}</p></details>' for q, r in faq) + "</div>"
 
 
+CHECK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>'
+HORARIO = "de segunda a sexta-feira, das 8h às 12h e das 13h30 às 17h30"
+# textos da IA do cliente (06/11), página por página
+TXT_BUJOES = ("Bujões padrão DIN: qualidade para <strong>Indústria</strong> e hidráulica",
+              "Fabricamos bujões de aço carbono e aço inoxidável, seguindo as normas DIN. Ideais para fechamento de furos em sistemas hidráulicos, caixas de engrenagens e máquinas industriais.",
+              ["Vedação segura contra vazamentos", "Resistentes à pressão e ao desgaste", "Medidas padrão e também sob desenho técnico"],
+              "Peça seu orçamento rápido pelo WhatsApp")
+TXT_POSICIONADOR = ("Posicionadores com mola-esfera: para <strong>fixação e ajuste seguro</strong>",
+                    "Nossos posicionadores com mola-esfera são fabricados com materiais resistentes, para uso em máquinas industriais, equipamentos de montagem e ferramentas.",
+                    ["Fixação precisa e fácil de ajustar", "Suporta movimentos repetidos sem desgaste rápido", "Versões padrão ou sob desenho do cliente"],
+                    "Solicite seu orçamento pelo WhatsApp")
+TXT_MOLAS = ("Molas de compressão, tração e torção: para <strong>todas as aplicações industriais</strong>",
+             "Fabricamos molas em aço carbono e aço inoxidável, para máquinas, equipamentos agrícolas, sistemas hidráulicos e montagens em geral.",
+             ["Resistência à fadiga e à pressão contínua", "Medidas padrão ou feitas sob desenho técnico", "Controle de qualidade em todas as peças"],
+             "Peça já seu orçamento pelo WhatsApp")
+TXT_USINAGEM = "Realizamos usinagem de peças conforme desenho ou amostra do cliente, em aço carbono e aço inoxidável. Atendemos indústrias, oficinas mecânicas e equipamentos agrícolas e hidráulicos."
+ITENS_USINAGEM = ["Precisão nas medidas", "Controle de qualidade em todas as etapas", "Produção de peças únicas ou em lotes"]
+
+
+ICONE_DESENHO = '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 14h20l4 4v8l-4 4H8z"/><path d="M32 22h8M12 22h16" stroke-dasharray="3 3"/><path d="M8 37v5M28 37v5M8 39.5h20"/></svg>'
+
+
+def miniatura(tipo, mat):
+    """Foto pequena da peça para a fileira do topo (sai do recorte de 300 px)."""
+    from PIL import Image
+    destino = RAIZ / f"assets/img/pecas/{tipo}-{mat}-mini.webp"
+    origem = RAIZ / f"assets/img/pecas/{tipo}-{mat}-recorte-300.webp"
+    if not destino.exists() or destino.stat().st_mtime < origem.stat().st_mtime:
+        im = Image.open(origem).convert("RGBA")
+        im.resize((round(im.width * 96 / im.height), 96), Image.LANCZOS).save(destino, quality=82, method=6)
+    larg, alt = Image.open(destino).size
+    return f'src="/assets/img/pecas/{tipo}-{mat}-mini.webp" width="{round(larg * 48 / alt)}" height="48"'
+
+
+def lista_ok(itens):
+    return '<ul class="ok">' + "".join(f"<li>{CHECK}<span>{e(i)}</span></li>" for i in itens) + "</ul>"
+
+
+def destaque(txt, contexto):
+    titulo, texto, itens, cta = txt
+    return f'''<section class="sec" style="padding-block:clamp(48px,7vw,88px) 0"><div class="wrap"><div class="destaque rev">
+<div><h2 class="tit barra">{titulo}</h2><p class="lead" style="margin-top:22px">{e(texto)}</p></div>
+<div>{lista_ok(itens)}<div class="ctas" style="margin-top:26px">{btn(cta, zap_link(contexto), "escuro", "zap")}</div></div>
+</div></div></section>'''
+
+
 # ------------------------------------------------------------------ início
 FAQ_HOME = [
+    ("Vocês fazem peças só em lote grande?",
+     "Não! Atendemos desde peças individuais até lotes grandes, conforme a necessidade do cliente."),
+    ("Trabalham com aço inoxidável?",
+     "Sim, fabricamos peças em aço carbono e também em aço inoxidável."),
+    ("Preciso enviar desenho técnico para fazer o orçamento?",
+     "Se tiver o desenho é melhor, mas também aceitamos amostra da peça ou medidas exatas."),
+    ("Enviam para todo o Brasil?",
+     "Sim, fazemos entrega para todas as regiões do país. Informe a sua cidade quando mandar a lista, assim a gente calcula o frete junto com o orçamento."),
+    ("Quanto tempo demora para chegar o orçamento?",
+     f"Respondemos pelo WhatsApp em horário comercial, {HORARIO}."),
     ("Qual a diferença entre o bujão DIN 906, 908 e 910?",
      "O DIN 906 é cônico e sem colar, fica rente à peça e veda pela própria rosca. O DIN 908 tem colar e sextavado interno, para chave Allen, e o DIN 910 tem cabeça sextavada por fora e colar, para chave de boca. Esses dois têm rosca reta e vedam com um anel embaixo do colar."),
     ("Como descobrir a rosca do bujão que eu preciso?",
      "Meça o diâmetro externo da rosca com um paquímetro e conte quantos fios cabem em uma polegada (25,4 mm). Com essas duas medidas você acha a linha certa na tabela. Se ficar em dúvida, mande uma foto da peça ao lado do paquímetro pelo WhatsApp que a gente ajuda."),
     ("Vocês fazem medidas fora da tabela?",
      "Fazemos. Medidas, roscas e materiais especiais saem sob encomenda: mande a medida ou o desenho junto com a lista de orçamento."),
-    ("As peças são de aço ou de inox?",
-     "Dos dois. O aço sai com oxidação preta e o inox é o indicado para umidade, água, alimentos e produtos químicos. Você escolhe o material na própria ficha da peça."),
-    ("Vocês enviam para fora de São Paulo?",
-     "Enviamos para todo o Brasil. Informe a sua cidade quando mandar a lista, assim a gente calcula o frete junto com o orçamento."),
     ("Como funciona o pedido pelo site?",
      "Você monta a lista com as peças, as medidas e as quantidades e envia pelo WhatsApp. O pedido é fechado na conversa, com preço, prazo e forma de pagamento."),
 ]
@@ -653,28 +706,35 @@ CAMPO = ["Tratores", "Colheitadeiras", "Implementos agrícolas", "Bombas hidráu
 def home():
     p910, p908, p906, ppos = POR_SLUG["bujao-din-910"], POR_SLUG["bujao-din-908"], POR_SLUG["bujao-din-906"], POR_SLUG["posicionador-com-mola-e-esfera"]
     pecas_heroi = [
-        {"tipo": "910", "sombra": SOMBRA["910"], "dims": dims_padrao(p910), "legenda": "Bujão DIN 910 com cabeça sextavada e colar.", "url": "/bujao-din-910"},
-        {"tipo": "908", "sombra": SOMBRA["908"], "dims": dims_padrao(p908), "legenda": "Bujão DIN 908 com colar e sextavado interno.", "url": "/bujao-din-908"},
-        {"tipo": "906", "sombra": SOMBRA["906"], "dims": dims_padrao(p906), "legenda": "Bujão DIN 906 cônico com sextavado interno.", "url": "/bujao-din-906"},
-        {"tipo": "posicionador", "sombra": SOMBRA["posicionador"], "dims": dims_padrao(ppos), "legenda": "Posicionador com mola e esfera.", "url": "/posicionador-com-mola-e-esfera"},
+        {"tipo": "910", "sombra": SOMBRA["910"], "dims": dims_padrao(p910), "yaw": -0.5, "pitch": 0.42, "rot": "DIN 910", "mini": ("910", "aco"), "legenda": "Bujão DIN 910 com cabeça sextavada e colar.", "url": "/bujao-din-910"},
+        {"tipo": "908", "sombra": SOMBRA["908"], "dims": dims_padrao(p908), "yaw": -0.5, "pitch": 0.42, "rot": "DIN 908", "mini": ("908", "aco"), "legenda": "Bujão DIN 908 com colar e sextavado interno.", "url": "/bujao-din-908"},
+        {"tipo": "906", "sombra": SOMBRA["906"], "dims": dims_padrao(p906), "yaw": -0.5, "pitch": 0.42, "rot": "DIN 906", "mini": ("906", "aco"), "legenda": "Bujão DIN 906 cônico com sextavado interno.", "url": "/bujao-din-906"},
+        {"tipo": "posicionador", "sombra": SOMBRA["posicionador"], "dims": dims_padrao(ppos), "yaw": 1.4, "pitch": 0.36, "rot": "Posicionador", "mini": ("posicionador", "aco"), "legenda": "Posicionador com mola e esfera.", "url": "/posicionador-com-mola-e-esfera"},
+        {"tipo": "bucha-colar", "sombra": SOMBRA["bucha-colar"], "dims": BUCHA_DIMS["bucha-colar"], "yaw": -0.5, "pitch": 0.72, "material": "latao", "rot": "Bucha roscada", "mini": ("bucha-colar", "latao"), "legenda": "Bucha roscada em aço ou latão.", "url": "/bucha-roscada", "verbo": "Ver a peça"},
+        {"tipo": "mola", "sombra": SOMBRA["mola"], "dims": MOLA_3D["mola"]["dims"], "yaw": 0.2, "pitch": 0.28, "material": "aco", "rot": "Mola de compressão", "mini": ("mola", "aco"), "legenda": "Mola de compressão sob medida.", "url": "/molas-de-compressao"},
+        {"tipo": "mola-tracao", "sombra": SOMBRA["mola-tracao"], "dims": MOLA_3D["mola-tracao"]["dims"], "yaw": -0.45, "pitch": 0.14, "material": "aco", "rot": "Mola de tração", "mini": ("mola-tracao", "aco"), "legenda": "Mola de tração com gancho.", "url": "/molas-de-tracao"},
+        {"tipo": "mola-torcao", "sombra": SOMBRA["mola-torcao"], "dims": MOLA_3D["mola-torcao"]["dims"], "yaw": -0.32, "pitch": 0.34, "material": "zinco", "rot": "Mola de torção", "mini": ("mola-torcao", "zinco"), "legenda": "Mola de torção sob medida.", "url": "/molas-de-torcao"},
     ]
-    chips = "".join(f'<button type="button" class="chip" aria-pressed="{"true" if i == 0 else "false"}">{n}</button>'
-                    for i, n in enumerate(['<span class="din">DIN </span>910', '<span class="din">DIN </span>908', '<span class="din">DIN </span>906', "Posicionador"]))
+    miniaturas = "".join(
+        f'<button type="button" class="miniatura" data-peca aria-pressed="{"true" if i == 0 else "false"}"><img {miniatura(*h["mini"])} alt="" loading="lazy" decoding="async"><span>{h["rot"]}</span></button>'
+        for i, h in enumerate(pecas_heroi))
     heroi = f'''<section class="heroi">{facetas()}
 <div class="wrap heroi__grade">
 <div class="heroi__a">
-<h1 class="barra rev"><strong>Fabricamos</strong> bujões roscados e posicionadores com mola e esfera</h1>
+<h1 class="barra rev"><strong>Peças industriais</strong> e usinagem sob medida</h1>
 </div>
 <div class="heroi__b">
-<p class="lead rev" style="--d:.08s">Bujões DIN 906, 908 e 910 e posicionadores em aço oxidado ou inox, com o desenho técnico e a tabela de medidas de cada peça. Você escolhe a rosca, monta a lista e recebe o orçamento pelo WhatsApp, com envio para todo o Brasil.</p>
-<div class="ctas rev" style="--d:.16s">{btn("Ver as peças", "#pecas", "escuro", "baixo")}{btn(TEL_VER, zap_link("heroi"), "linha", "zap")}</div>
+<p class="lead rev" style="--d:.08s">Fabricamos bujões padrão DIN, posicionadores com mola-esfera, molas de compressão, tração e torção e peças usinadas conforme seu desenho ou amostra. Trabalhamos com aço carbono e aço inoxidável para indústria, máquinas agrícolas e sistemas hidráulicos. Garantimos precisão, resistência e entrega rápida para todo o Brasil.</p>
+<div class="ctas rev" style="--d:.16s">{btn("Ver as peças", "#pecas", "escuro", "baixo")}{btn("Falar com o atendente", zap_link("heroi"), "linha", "zap")}</div>
 </div>
 <div class="heroi__v">
 <div class="palco" style="--sombra:{SOMBRA["910"]}" data-visor="{visor_cfg("910", dims_padrao(p910))}" data-poster="/assets/img/pecas/{{tipo}}-{{mat}}-800.webp" data-pecas="{e(json.dumps(pecas_heroi, ensure_ascii=False), quote=True)}">
 {img_peca("910", "aco", alt="Bujão DIN 910 com cabeça sextavada e colar em aço oxidado", lazy=False)}
 <span class="palco__dica">{ic("giro", 1.5)} Arraste para girar</span>
 </div>
-<div class="controles"><div class="seletor" role="group" aria-label="Escolha a peça">{chips}</div>{material_toggle(".heroi .palco")}
+<div class="controles">
+<div class="miniaturas" role="group" aria-label="Peças que fabricamos">{miniaturas}<a class="miniatura miniatura--desenho" href="/usinagem">{ICONE_DESENHO}<span>Peça conforme o desenho</span></a></div>
+{material_toggle(".heroi .palco")}
 <p class="heroi__legenda" aria-live="polite">Bujão DIN 910 com cabeça sextavada e colar. <a href="/bujao-din-910">Ver medidas</a></p></div>
 </div>
 </div></section>'''
@@ -689,9 +749,9 @@ def home():
 <span class="seta seta--chama">Ver medidas {SETA}</span>
 <a class="cobre" href="/{p["slug"]}" aria-label="Ver medidas do {e(p["nome"])}"></a>
 </article>'''
-    wb, hb = dims_recorte("bucha-colar", "zincado", 300)
+    wb, hb = dims_recorte("bucha-colar", "latao", 300)
     cards += f'''<article class="peca rev" style="--d:.32s">
-<div class="peca__img"><img src="/assets/img/pecas/bucha-colar-zincado-recorte-300.webp" width="{wb}" height="{hb}" alt="Bucha roscada com colar, zincada" loading="lazy" decoding="async"><span class="linha-chama"></span></div>
+<div class="peca__img"><img src="/assets/img/pecas/bucha-colar-latao-recorte-300.webp" width="{wb}" height="{hb}" alt="Bucha roscada com colar, em latão" loading="lazy" decoding="async"><span class="linha-chama"></span></div>
 <h3>Bucha roscada</h3><p class="sub">reta ou com colar</p>
 <p class="rec">{e(BUCHA_RECONHECER)}</p>
 <span class="seta seta--chama">Ver a peça {SETA}</span>
@@ -740,8 +800,9 @@ def home():
     usinagem = f'''<section class="sec"><div class="wrap usinagem">
 <div class="prancha rev">{desenho_usinagem()}</div>
 <div>
-<h2 class="tit barra rev"><strong>Usinagem</strong> sob medida</h2>
-<p class="lead rev" style="margin-top:22px">Precisa de uma peça que não está em catálogo? Fabricamos conforme a medida, a partir do seu desenho técnico ou de uma amostra.</p>
+<h2 class="tit barra rev">Fabricamos a sua peça <strong>conforme o desenho</strong></h2>
+<p class="lead rev" style="margin-top:22px">{e(TXT_USINAGEM)}</p>
+<div class="rev" style="margin-top:22px">{lista_ok(ITENS_USINAGEM)}</div>
 <div class="ctas rev" style="margin-top:32px">{btn("Mandar o desenho", zap_link("usinagem"), "escuro", "zap")}{btn("Como funciona", "/usinagem", "linha")}</div>
 </div>
 </div></section>'''
@@ -772,7 +833,7 @@ def home():
     f1 = "".join(f"<span>{PONTA}{e(c)}</span>" for c in CAMPO[:meio] + CAMPO[meio:])
     f2 = "".join(f"<span>{PONTA}{e(c)}</span>" for c in CAMPO[meio:] + CAMPO[:meio])
     campo = f'''<section class="sec" style="padding-top:0"><div class="wrap centro">
-<h2 class="tit barra centro rev">Peças que trabalham no campo e na indústria</h2>
+<h2 class="tit barra centro rev">Peças que trabalham no campo e na Indústria</h2>
 <p class="lead rev" style="margin-top:22px">Bujões e posicionadores seguem a norma, então servem em máquina nacional ou importada. Atendemos empresas de todo o Brasil.</p>
 </div>
 <div class="faixas rev" aria-label="Onde as peças são usadas"><div class="faixa">{f1}{f1}</div><div class="faixa faixa--volta">{f2}{f2}</div></div>
@@ -789,9 +850,15 @@ def home():
 <div class="ctas">{btn("Falar no WhatsApp", zap_link("final"), "claro", "zap")}</div>
 </div></div></section>'''
 
-    corpo = heroi + pecas + comparar + molas + usinagem + fluxo + campo + perguntas + final
-    return pagina("W Speed | Bujões DIN 906, 908 e 910 e posicionadores com mola e esfera",
-                  "Fabricamos bujões DIN 906, 908 e 910 e posicionadores com mola e esfera em aço e inox, além de molas de compressão, tração e torção e usinagem sob medida. Monte a lista e peça o orçamento pelo WhatsApp. Enviamos para todo o Brasil.",
+    brasil = f'''<section class="brasil"><div class="wrap brasil__g">
+<div><h2 class="brasil__tit rev">Atendemos <strong>todo o Brasil</strong></h2>
+<p class="rev">Além de ter qualidade, nossas peças têm preço excelente. Esteja onde estiver, mande a sua lista ou o desenho da peça que a gente envia para a sua cidade.</p></div>
+<div class="brasil__lado rev">{lista_ok(["Entrega para todas as regiões do país", "Peças com qualidade", "Preço excelente"])}<div class="ctas">{btn("Pedir orçamento", zap_link("brasil"), "claro", "zap")}</div></div>
+</div></section>'''
+
+    corpo = heroi + pecas + comparar + molas + brasil + usinagem + fluxo + campo + perguntas + final
+    return pagina("W Speed | Peças industriais e usinagem sob medida",
+                  "Fabricamos bujões padrão DIN, posicionadores com mola-esfera, molas de compressão, tração e torção e peças usinadas conforme seu desenho ou amostra. Atendemos todo o Brasil. Peça o orçamento pelo WhatsApp.",
                   corpo, "/", preload_peca("910"), ld(faq_ld(FAQ_HOME)))
 
 
@@ -875,6 +942,7 @@ def produto(p):
 </div>
 </div>
 </div></section>
+{destaque(TXT_POSICIONADOR if p["tipo"] == "posicionador" else TXT_BUJOES, "desc-" + p["tipo"])}
 <section class="sec" id="medidas" style="padding-top:clamp(40px,6vw,80px)"><div class="wrap">
 <h2 class="tit barra rev">Desenho técnico e <strong>tabela de medidas</strong></h2>
 <div class="tecnico">
@@ -957,6 +1025,7 @@ def molas():
 </form>
 </div>
 </div></section>
+{destaque(TXT_MOLAS, "desc-mola")}
 <section class="sec" style="padding-top:clamp(40px,6vw,80px)"><div class="wrap">
 <div class="tecnico">
 <div class="prancha rev">{desenho_mola()}</div>
@@ -997,13 +1066,14 @@ def mola_tracao():
 <label>Diâmetro externo (mm)<input name="de" inputmode="decimal" placeholder="Ex.: 10" data-rot="Ø externo" data-un="mm"></label>
 <label>Comprimento total (mm)<input name="l" inputmode="decimal" placeholder="De gancho a gancho" data-rot="comprimento total" data-un="mm"></label>
 <label>Comprimento do corpo (mm)<input name="lc" inputmode="decimal" placeholder="Se souber" data-rot="corpo" data-un="mm"></label>
-<label>Material<select name="material" data-rot="material"><option value="aço mola">Aço mola</option><option value="aço zincado">Aço zincado</option><option value="outro material (ver obs.)">Outro</option></select></label>
+<label>Material<select name="material" data-rot="material"><option value="aço mola">Aço mola</option><option value="aço zincado">Aço zincado</option><option value="inox">Inox</option><option value="outro material (ver obs.)">Outro</option></select></label>
 <label>Quantidade<input name="qtd" inputmode="numeric" value="100" data-rot="qtd"></label>
 <label class="inteiro">Observação<input name="obs" placeholder="Aplicação, tipo de gancho, se tem amostra..." data-rot="obs."></label>
 <button class="btn btn--escuro" type="submit">{ic("carrinho", 1.6)}<span>Adicionar ao orçamento</span></button>
 </form>
 </div>
 </div></section>
+{destaque(TXT_MOLAS, "desc-mola-tracao")}
 <section class="sec" style="padding-top:clamp(40px,6vw,80px)"><div class="wrap">
 <div class="tecnico">
 <div class="prancha rev">{desenho_tracao()}</div>
@@ -1046,13 +1116,14 @@ def mola_torcao():
 <label>Comprimento das pernas (mm)<input name="l" inputmode="decimal" placeholder="Ex.: 56" data-rot="pernas" data-un="mm"></label>
 <label>Ângulo entre as pernas<input name="ang" placeholder="Com a mola solta" data-rot="ângulo"></label>
 <label>Sentido de enrolamento<select name="sentido" data-rot="enrolamento"><option value="não sei">Não sei</option><option value="à direita">À direita</option><option value="à esquerda">À esquerda</option></select></label>
-<label>Material<select name="material" data-rot="material"><option value="aço zincado">Aço zincado</option><option value="aço mola">Aço mola</option><option value="outro material (ver obs.)">Outro</option></select></label>
+<label>Material<select name="material" data-rot="material"><option value="aço zincado">Aço zincado</option><option value="aço mola">Aço mola</option><option value="inox">Inox</option><option value="outro material (ver obs.)">Outro</option></select></label>
 <label>Quantidade<input name="qtd" inputmode="numeric" value="100" data-rot="qtd"></label>
 <label class="inteiro">Observação<input name="obs" placeholder="Aplicação, forma da ponta, se tem amostra..." data-rot="obs."></label>
 <button class="btn btn--escuro" type="submit">{ic("carrinho", 1.6)}<span>Adicionar ao orçamento</span></button>
 </form>
 </div>
 </div></section>
+{destaque(TXT_MOLAS, "desc-mola-torcao")}
 <section class="sec" style="padding-top:clamp(40px,6vw,80px)"><div class="wrap">
 <div class="tecnico">
 <div class="prancha rev">{desenho_torcao()}</div>
@@ -1091,23 +1162,23 @@ def bucha():
     corpo = f'''<section class="cab-prod">{facetas()}
 <div class="wrap prod">
 <div>
-<div class="palco" style="--sombra:{SOMBRA["bucha-colar"]}" data-visor="{visor_cfg("bucha-colar", BUCHA_DIMS["bucha-colar"], "zincado", -0.5, 0.72)}" data-poster="/assets/img/pecas/{{tipo}}-{{mat}}-800.webp">
-{img_peca("bucha-colar", "zincado", alt="Bucha roscada com colar, zincada", lazy=False)}
+<div class="palco" style="--sombra:{SOMBRA["bucha-colar"]}" data-visor="{visor_cfg("bucha-colar", BUCHA_DIMS["bucha-colar"], "aco", -0.5, 0.72)}" data-poster="/assets/img/pecas/{{tipo}}-{{mat}}-800.webp">
+{img_peca("bucha-colar", "aco", alt="Bucha roscada com colar, em aço", lazy=False)}
 <span class="palco__dica">{ic("giro", 1.5)} Arraste para girar</span>
 </div>
-<div class="controles"><div class="seletor" role="group" aria-label="Modelo da bucha" data-alvo=".prod .palco">{variante("Com colar", "bucha-colar", "com colar", True)}{variante("Reta", "bucha", "reta", False)}</div></div>
+<div class="controles"><div class="seletor" role="group" aria-label="Modelo da bucha" data-alvo=".prod .palco">{variante("Com colar", "bucha-colar", "com colar", True)}{variante("Reta", "bucha", "reta", False)}</div>{material_toggle(".prod .palco", "Aço", ("latao", "Latão"))}</div>
 </div>
 <div>
 <nav class="migalhas" aria-label="Você está em"><a href="/">Início</a><span aria-hidden="true">/</span><a href="/#pecas">Peças</a><span aria-hidden="true">/</span><span>Bucha roscada</span></nav>
 <h1 class="barra">Bucha <strong>roscada</strong><span class="sub" style="display:block">rosca interna e externa, reta ou com colar</span></h1>
-<p class="lead">A bucha roscada tem rosca por fora e por dentro: ela entra no furo da peça e entrega uma rosca nova no lugar. É o caminho para recuperar rosca espanada, reforçar rosca em alumínio e adaptar uma medida de parafuso a outra.</p>
+<p class="lead">A bucha roscada tem rosca por fora e por dentro: ela entra no furo da peça e entrega uma rosca nova no lugar. É o caminho para recuperar rosca espanada, reforçar rosca em alumínio e adaptar uma medida de parafuso a outra. Fabricamos em aço e em latão.</p>
 <p class="reconhecer"><b>Como reconhecer:</b> {e(BUCHA_RECONHECER)}</p>
-<form class="form escolha" data-sob-medida="bucha" data-nome="Bucha roscada" data-img="/assets/img/pecas/bucha-colar-zincado-recorte-300.webp">
+<form class="form escolha" data-sob-medida="bucha" data-nome="Bucha roscada" data-img="/assets/img/pecas/bucha-colar-aco-recorte-300.webp">
 <label>Rosca interna<input name="ri" placeholder="Ex.: M8 × 1,25" data-rot="rosca interna"></label>
 <label>Rosca externa<input name="re" placeholder="Ex.: M14 × 1,5" data-rot="rosca externa"></label>
 <label>Comprimento (mm)<input name="l" inputmode="decimal" placeholder="Ex.: 20" data-rot="comprimento" data-un="mm"></label>
 <label>Modelo<select name="modelo" data-rot="modelo"><option value="com colar">Com colar</option><option value="reta">Reta</option></select></label>
-<label>Material<select name="material" data-rot="material"><option value="aço zincado">Aço zincado</option><option value="outro material (ver obs.)">Outro</option></select></label>
+<label>Material<select name="material" data-rot="material"><option value="aço">Aço</option><option value="latão">Latão</option></select></label>
 <label>Quantidade<input name="qtd" inputmode="numeric" value="100" data-rot="qtd"></label>
 <label class="inteiro">Observação<input name="obs" placeholder="Aplicação, se tem amostra..." data-rot="obs."></label>
 <button class="btn btn--escuro" type="submit">{ic("carrinho", 1.6)}<span>Adicionar ao orçamento</span></button>
@@ -1124,8 +1195,8 @@ def bucha():
 </div></section>'''
     extra = ld(faq_ld(faq)) + ld(migalhas_ld([("Início", "/"), ("Bucha roscada", "/bucha-roscada")]))
     return pagina("Bucha roscada reta e com colar: rosca interna e externa | W Speed",
-                  "Bucha roscada reta e com colar, com rosca interna e externa, para recuperar rosca espanada e reforçar rosca em alumínio. Informe as medidas e peça o orçamento pelo WhatsApp. Envio para todo o Brasil.",
-                  corpo, "/bucha-roscada", preload_peca("bucha-colar", "zincado"), extra)
+                  "Bucha roscada reta e com colar, em aço e latão, com rosca interna e externa, para recuperar rosca espanada e reforçar rosca em alumínio. Informe as medidas e peça o orçamento pelo WhatsApp. Envio para todo o Brasil.",
+                  corpo, "/bucha-roscada", preload_peca("bucha-colar", "aco"), extra)
 
 
 # ------------------------------------------------------------------ usinagem
@@ -1135,9 +1206,10 @@ def usinagem():
 <div class="prancha rev">{desenho_usinagem()}</div>
 <div>
 <nav class="migalhas" aria-label="Você está em"><a href="/">Início</a><span aria-hidden="true">/</span><span>Usinagem sob medida</span></nav>
-<h1 class="barra"><strong>Usinagem</strong> sob medida</h1>
-<p class="lead">Fabricamos peças conforme a medida que você precisa, a partir do desenho técnico ou de uma amostra. É o caminho para a peça que não existe em catálogo ou que precisa ser refeita igual à original.</p>
-<div class="ctas" style="margin-top:30px">{btn("Mandar o desenho", zap_link("usinagem"), "escuro", "zap")}{btn("Descrever a peça", "#descrever", "linha", "baixo")}</div>
+<h1 class="barra"><strong>Usinagem</strong> sob medida<span class="sub" style="display:block">peças especiais para sua Indústria</span></h1>
+<p class="lead">{e(TXT_USINAGEM)}</p>
+<div style="margin-top:22px">{lista_ok(ITENS_USINAGEM)}</div>
+<div class="ctas" style="margin-top:30px">{btn("Envie seu desenho ou amostra", zap_link("usinagem"), "escuro", "zap")}{btn("Descrever a peça", "#descrever", "linha", "baixo")}</div>
 </div>
 </div></section>
 <section class="sec" id="descrever" style="padding-top:clamp(40px,6vw,80px)"><div class="wrap fluxo">
@@ -1161,6 +1233,29 @@ def usinagem():
     return pagina("Usinagem sob medida pelo desenho ou pela amostra | W Speed",
                   "Fabricamos peças usinadas sob medida a partir do seu desenho técnico ou de uma amostra, em aço carbono ou inox. Descreva a peça e peça o orçamento pelo WhatsApp.",
                   corpo, "/usinagem", "", extra)
+
+
+# ------------------------------------------------------------------ contato
+def contato():
+    corpo = f'''<section class="cab-prod">{facetas()}
+<div class="wrap prod contato">
+<div>
+<nav class="migalhas" aria-label="Você está em"><a href="/">Início</a><span aria-hidden="true">/</span><span>Contato</span></nav>
+<h1 class="barra">Entre em <strong>contato</strong><span class="sub" style="display:block">para pedidos, orçamentos ou dúvidas</span></h1>
+<p class="lead">Envie seu desenho, amostra ou medidas da peça que precisa que nós respondemos rapidinho!</p>
+<div class="ctas" style="margin-top:30px">{btn("Solicitar orçamento agora", zap_link("contato"), "escuro", "zap")}</div>
+</div>
+<dl class="dados rev">
+<div><dt>WhatsApp</dt><dd><a href="{zap_link("contato-numero")}">{TEL_VER}</a></dd></div>
+<div><dt>Horário de atendimento</dt><dd>Segunda a sexta-feira, das 8h às 12h e das 13h30 às 17h30</dd></div>
+<div><dt>Onde atendemos</dt><dd>Todo o Brasil</dd></div>
+<div><dt>Instagram</dt><dd><a href="{INSTAGRAM}" target="_blank" rel="noopener">@wfix.speed</a></dd></div>
+</dl>
+</div></section>'''
+    extra = ld(migalhas_ld([("Início", "/"), ("Contato", "/contato")]))
+    return pagina("Contato: orçamento de peças industriais pelo WhatsApp | W Speed",
+                  f"Peça orçamento de peças industriais e usinagem sob medida pelo WhatsApp {TEL_VER}. Atendimento {HORARIO}. Atendemos todo o Brasil.",
+                  corpo, "/contato", "", extra)
 
 
 # ------------------------------------------------------------------ ponte para o WhatsApp
@@ -1203,13 +1298,13 @@ def nao_achou():
 def main():
     import subprocess
     subprocess.run([str(ESBUILD), str(JS_FONTE), "--minify", "--target=es2017", "--legal-comments=none", f"--outfile={JS}"], check=True, capture_output=True)
-    paginas = {"index.html": home(), "bucha-roscada.html": bucha(), "molas-de-compressao.html": molas(), "molas-de-tracao.html": mola_tracao(), "molas-de-torcao.html": mola_torcao(), "usinagem.html": usinagem(),
+    paginas = {"index.html": home(), "bucha-roscada.html": bucha(), "molas-de-compressao.html": molas(), "molas-de-tracao.html": mola_tracao(), "molas-de-torcao.html": mola_torcao(), "usinagem.html": usinagem(), "contato.html": contato(),
                "obrigado.html": obrigado(), "404.html": nao_achou()}
     for p in PRODUTOS:
         paginas[p["slug"] + ".html"] = produto(p)
     for nome, html in paginas.items():
         (RAIZ / nome).write_text(html)
-    rotas = ["/"] + ["/" + p["slug"] for p in PRODUTOS] + ["/bucha-roscada", "/molas-de-compressao", "/molas-de-tracao", "/molas-de-torcao", "/usinagem"]
+    rotas = ["/"] + ["/" + p["slug"] for p in PRODUTOS] + ["/bucha-roscada", "/molas-de-compressao", "/molas-de-tracao", "/molas-de-torcao", "/usinagem", "/contato"]
     hoje = date.today().isoformat()
     (RAIZ / "sitemap.xml").write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
                                       + "".join(f"<url><loc>{DOMINIO}{r}</loc><lastmod>{hoje}</lastmod></url>" for r in rotas) + "</urlset>\n")

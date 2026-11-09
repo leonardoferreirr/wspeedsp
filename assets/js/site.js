@@ -205,6 +205,8 @@
       if (alvo) estado(alvo, { material: b.dataset.mat });
       var selMola = $('form[data-sob-medida="mola"] select[name="material"]');
       if (selMola) selMola.value = b.dataset.mat === 'inox' ? 'inox' : 'aço mola';
+      var selBucha = $('form[data-sob-medida="bucha"] select[name="material"]');
+      if (selBucha) selBucha.value = b.dataset.mat === 'latao' ? 'latão' : 'aço';
       var e = $('.escolha'); if (e) atualizarEscolha();
     });
   });
@@ -212,18 +214,21 @@
 
   /* ---------------- herói: troca de peça */
   var heroi = $('.heroi .palco');
-  var chips = $$('.seletor .chip');
+  var chips = $$('.heroi [data-peca]');
   if (heroi && chips.length) {
     var dados = JSON.parse(heroi.dataset.pecas);
     var legenda = $('.heroi__legenda');
+    var grupoMat = $('.heroi .material');
     var atual = 0, auto = !reduz, tAuto = 0;
     var mostrarPeca = function (i) {
       atual = i;
       chips.forEach(function (c, k) { c.setAttribute('aria-pressed', k === i); });
       var p = dados[i];
       if (p.sombra) heroi.style.setProperty('--sombra', p.sombra);
-      estado(heroi, { tipo: p.tipo, dims: p.dims });
-      if (legenda) legenda.innerHTML = p.legenda + ' <a href="' + p.url + '">Ver medidas</a>';
+      estado(heroi, { tipo: p.tipo, dims: p.dims, material: p.material || materialAtual() });
+      if (heroi._visor && p.pitch != null) heroi._visor.angulo(p.yaw, p.pitch);
+      if (grupoMat) grupoMat.classList.toggle('oculto', !!p.material);
+      if (legenda) legenda.innerHTML = p.legenda + ' <a href="' + p.url + '">' + (p.verbo || 'Ver medidas') + '</a>';
     };
     chips.forEach(function (c, k) { c.addEventListener('click', function () { auto = false; mostrarPeca(k); }); });
     heroi.addEventListener('girou', function () { auto = false; });
@@ -250,6 +255,13 @@
   botoesVar.forEach(function (b) { b.addEventListener('click', function () { trocarVariante(b); }); });
   if (selModelo) selModelo.addEventListener('change', function () {
     botoesVar.forEach(function (b) { if (JSON.parse(b.dataset.variante).modelo === selModelo.value) trocarVariante(b); });
+  });
+
+  /* na bucha, trocar o material no formulário também troca a peça */
+  var selBuchaMat = $('form[data-sob-medida="bucha"] select[name="material"]');
+  if (selBuchaMat) selBuchaMat.addEventListener('change', function () {
+    var b = $('.material button[data-mat="' + (selBuchaMat.value === 'latão' ? 'latao' : 'aco') + '"]');
+    if (b) b.click();
   });
 
   /* ---------------- aço x inox lado a lado */

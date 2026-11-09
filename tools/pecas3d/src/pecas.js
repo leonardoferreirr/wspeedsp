@@ -5,7 +5,7 @@
 //   criarVisor(canvas, { dpr, auto, arrastar, aoPronto }) -> visor
 //   visor.mostrar(tipo, dims, { material, instante })   tipo: '906' | '908' | '910' | 'posicionador' | 'bucha' | 'bucha-colar' | 'mola'
 //                                                       | 'mola-reforcada' | 'mola-aberta' | 'mola-barril' | 'mola-pequena' | 'mola-tracao' | 'mola-torcao'
-//   visor.material('aco' | 'inox' | 'zincado' | 'zinco')
+//   visor.material('aco' | 'inox' | 'zincado' | 'zinco' | 'latao')
 //   visor.comprimir(k)  (mola: 0 solta, 1 comprimida)
 //   visor.foto(largura, altura) -> dataURL PNG com fundo transparente
 //   visor.pausar() / visor.retomar() / visor.destruir()
@@ -634,6 +634,7 @@ const MATERIAIS = {
   mola: () => new MeshPhysicalMaterial({ color: 0x3a3c41, metalness: 1, roughness: 0.28, clearcoat: 0.6, clearcoatRoughness: 0.15, side: DoubleSide }),
   zincado: () => materialZincado(),
   zinco: () => new MeshPhysicalMaterial({ color: 0xaeb2b8, metalness: 1, roughness: 0.2, side: DoubleSide }),
+  latao: () => new MeshPhysicalMaterial({ color: 0xc9a44f, metalness: 1, roughness: 0.27, clearcoat: 0.25, clearcoatRoughness: 0.3 }),
   esfera: () => new MeshPhysicalMaterial({ color: 0xeef0f2, metalness: 1, roughness: 0.05 }),
 };
 

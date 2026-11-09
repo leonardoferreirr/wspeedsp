@@ -34,7 +34,7 @@ BASE = {
 ANG = {"posicionador": (1.4, 0.36), "mola": (0.2, 0.28), "bucha": (-0.5, 0.72), "bucha-colar": (-0.5, 0.72),
        "mola-reforcada": (0.2, 0.42), "mola-aberta": (0.2, 0.36), "mola-barril": (0.2, 0.2), "mola-pequena": (0.2, 0.36),
        "mola-tracao": (-0.45, 0.14), "mola-torcao": (-0.32, 0.34)}
-MATS = {"bucha": ("zincado",), "bucha-colar": ("zincado",),
+MATS = {"bucha": ("aco", "latao"), "bucha-colar": ("aco", "latao"),
         "mola-reforcada": ("aco",), "mola-aberta": ("aco",), "mola-barril": ("zinco",), "mola-pequena": ("inox",),
         "mola-tracao": ("aco", "zinco"), "mola-torcao": ("zinco",)}
 SO = set(sys.argv[1:])

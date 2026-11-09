@@ -39,6 +39,10 @@ Outras ferramentas:
 Desempenho no celular entre 99 e 100 em todas as páginas, acessibilidade 100 e boas práticas 100.
 O SEO aparece em 69 só porque o `noindex` está ligado de propósito.
 
+## Ajustes de 06/11 (áudios e textos da IA dele, a Dola)
+
+Topo com todas as peças à vista (miniaturas trocam o 3D), faixa "Atendemos todo o Brasil" no meio da inicial, textos por página (`TXT_*` no build.py), perguntas frequentes novas, página `/contato` e bucha em aço e latão.
+
 ## Pendências
 
 - [ ] Domínio **wspeedsp.com.br**: do próprio cliente, registrado pela Hostinger e com DNS
@@ -47,11 +51,12 @@ O SEO aparece em 69 só porque o `noindex` está ligado de propósito.
 - [ ] Depois do domínio: `DOMINIO = "https://www.wspeedsp.com.br"`, `INDEXAR = True`, Google Search
       Console com o sitemap e Perfil da Empresa no Google. O cliente dele procura no Google.
 - [ ] Fotos das peças usinadas (ele disse que ia mandar).
-- [ ] Molas: confirmar com ele o aço zincado e se faz inox em tração e torção. O 3D das molas segue as fotos que ele mandou, mas as proporções não são medidas de catálogo.
-- [ ] Bucha roscada: ele mandou só fotos (de outro fabricante, a FWL, então ficam fora do site). Falta a tabela de medidas dele; até lá a página pede as medidas no formulário. Confirmar também o material (no site, aço zincado) e se faz em inox.
+- [ ] Molas: o texto que ele mandou diz aço carbono e inox nas três, então o inox entrou em tração e torção (09/11). Falta confirmar se o aço zincado continua. O 3D segue as fotos que ele mandou; as proporções não são medidas de catálogo.
+- [ ] Bucha roscada: materiais são aço e latão (áudio de 06/11). Falta a tabela de medidas dele; até lá a página pede as medidas no formulário.
 - [ ] Confirmar o material do aço (a FBP usa 9SMn28, classe 5.8; a Ômega, SAE 1020). O site diz só
       "aço com oxidação preta".
 - [ ] Confirmar se ele fabrica todas as medidas da tabela, inclusive a série NPTF.
-- [ ] CNPJ, endereço e horário para o rodapé (e o schema de empresa local).
+- [ ] CNPJ e endereço para o rodapé (e o schema de empresa local). O horário já entrou em /contato e no rodapé.
+- [ ] A pergunta "Quanto tempo demora para chegar o orçamento?" veio cortada no print dele: a resposta usa o horário de atendimento até ele mandar o texto inteiro.
 - [ ] Áudio de 0:11 das 13:50 do dia 03/11 não estava na pasta de briefing.
 - [ ] Linha automotiva separada (peças de moto), para mais tarde, como ele sugeriu.
