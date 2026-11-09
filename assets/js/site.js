@@ -273,7 +273,7 @@
     };
     var comecarSlides = function () {
       if (!roda) return;
-      largSlide = heroi.offsetWidth * (window.devicePixelRatio || 1) > 480 ? 800 : 480;
+      largSlide = (window.devicePixelRatio || 1) > 1 ? 800 : 480;
       var extra = d.createElement('img');
       extra.alt = ''; extra.decoding = 'async';
       heroi.insertBefore(extra, fotos[0].nextSibling);
