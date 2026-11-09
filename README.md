@@ -32,7 +32,8 @@ Outras ferramentas:
   com o mesmo enquadramento, por isso a troca não dá pulo.
 - A lista de orçamento fica no navegador (`localStorage`). Ao enviar, a mensagem passa pelo
   `sessionStorage` até o `/obrigado`, que dispara o evento `conversao_whatsapp` e abre o WhatsApp.
-- `INDEXAR = False` até a aprovação do cliente e o domínio. Depois disso, trocar `DOMINIO` e `INDEXAR`.
+- No ar em **www.wfixspeed.com.br**. O domínio sem www e o wspeedsp.vercel.app redirecionam para ele (`redirects` no `vercel.json`).
+- `build.py` gera também `sitemap.xml`, `robots.txt`, `llms.txt` e `llms-full.txt`. Depois de publicar mudança de texto: `python3 tools/indexnow.py` avisa o Bing.
 
 ## Notas (04/11/2026)
 
@@ -45,11 +46,7 @@ Topo com todas as peças à vista (miniaturas trocam o 3D), faixa "Atendemos tod
 
 ## Pendências
 
-- [ ] Domínio **wspeedsp.com.br**: do próprio cliente, registrado pela Hostinger e com DNS
-      estacionado (`dns-parking.com`). Vence em 02/07/2027. Precisa do acesso à Hostinger para apontar
-      para a Vercel.
-- [ ] Depois do domínio: `DOMINIO = "https://www.wspeedsp.com.br"`, `INDEXAR = True`, Google Search
-      Console com o sitemap e Perfil da Empresa no Google. O cliente dele procura no Google.
+- [ ] Perfil da Empresa no Google: depende do endereço e da verificação feita pelo Wanderley.
 - [ ] Fotos das peças usinadas (ele disse que ia mandar).
 - [ ] Molas: o texto que ele mandou diz aço carbono e inox nas três, então o inox entrou em tração e torção (09/11). Falta confirmar se o aço zincado continua. O 3D segue as fotos que ele mandou; as proporções não são medidas de catálogo.
 - [ ] Bucha roscada: materiais são aço e latão (áudio de 06/11). Falta a tabela de medidas dele; até lá a página pede as medidas no formulário.

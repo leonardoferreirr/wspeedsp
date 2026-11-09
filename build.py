@@ -11,12 +11,14 @@ O CSS vai minificado para dentro do <head>; site.js e pecas3d.js levam o hash no
 """
 import hashlib, json, re
 from datetime import date
-from html import escape as e
+from html import escape as e, unescape
 from pathlib import Path
 
 RAIZ = Path(__file__).parent
-DOMINIO = "https://wspeedsp.vercel.app"
-INDEXAR = False                  # True depois da aprovação e do domínio wspeedsp.com.br ligado
+DOMINIO = "https://www.wfixspeed.com.br"
+INDEXAR = True
+INDEXNOW_KEY = "d017e735a97a7fcd2143f5992b725323"   # pública por definição: o Bing confirma o site em /<chave>.txt
+NOMES_ALT = ["WFix Speed", "W Fix Speed", "wfix.speed"]   # como a marca aparece no domínio e no Instagram
 WHATSAPP = "5511988904107"       # do post e do perfil @wfix.speed
 TEL_VER = "(11) 98890-4107"
 INSTAGRAM = "https://www.instagram.com/wfix.speed"
@@ -463,14 +465,40 @@ def ld(obj):
     return f'<script type="application/ld+json">{json.dumps(obj, ensure_ascii=False, separators=(",", ":"))}</script>'
 
 
+ORG_ID = DOMINIO + "/#empresa"
+BRASIL = {"@type": "Country", "name": "Brasil"}
+DIAS_UTEIS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
+# imagens de cada página, para o sitemap e para os dados estruturados
+IMG_ROTA = {"/": ["910-aco"], "/bujao-din-906": ["906-aco", "906-inox"], "/bujao-din-908": ["908-aco", "908-inox"], "/bujao-din-910": ["910-aco", "910-inox"],
+            "/posicionador-com-mola-e-esfera": ["posicionador-aco", "posicionador-inox"], "/bucha-roscada": ["bucha-colar-aco", "bucha-colar-latao"],
+            "/molas-de-compressao": ["mola-aco"], "/molas-de-tracao": ["mola-tracao-aco"], "/molas-de-torcao": ["mola-torcao-zinco"]}
+
+
 def org_schema():
     return {
-        "@context": "https://schema.org", "@type": "Organization", "name": "W Speed",
+        "@context": "https://schema.org", "@type": "Organization", "@id": ORG_ID, "name": "W Speed", "alternateName": NOMES_ALT,
         "url": DOMINIO + "/", "logo": DOMINIO + "/assets/img/logo-160.png", "image": DOMINIO + "/assets/img/og-image.jpg",
-        "telephone": "+55 11 98890-4107", "sameAs": [INSTAGRAM], "areaServed": {"@type": "Country", "name": "Brasil"},
-        "description": "Fabricação de bujões DIN 906, 908 e 910, posicionadores com mola e esfera, molas de compressão, tração e torção e usinagem sob medida.",
-        "contactPoint": {"@type": "ContactPoint", "telephone": "+55 11 98890-4107", "contactType": "sales", "areaServed": "BR", "availableLanguage": "Portuguese"},
+        "telephone": "+55 11 98890-4107", "sameAs": [INSTAGRAM], "address": {"@type": "PostalAddress", "addressRegion": "SP", "addressCountry": "BR"}, "areaServed": BRASIL,
+        "description": "Fabricante de bujões DIN 906, 908 e 910, posicionadores com mola e esfera, buchas roscadas, molas de compressão, tração e torção e usinagem sob medida.",
+        "knowsAbout": ["Bujões DIN 906, 908 e 910", "Posicionadores com mola e esfera", "Buchas roscadas", "Molas de compressão, tração e torção", "Usinagem sob medida", "Peças para máquinas agrícolas e sistemas hidráulicos"],
+        "contactPoint": {"@type": "ContactPoint", "telephone": "+55 11 98890-4107", "contactType": "sales", "areaServed": "BR", "availableLanguage": "Portuguese",
+                         "hoursAvailable": [{"@type": "OpeningHoursSpecification", "dayOfWeek": DIAS_UTEIS, "opens": a, "closes": f} for a, f in (("08:00", "12:00"), ("13:30", "17:30"))]},
     }
+
+
+def site_ld():
+    """Só na inicial: é o que faz o Google mostrar "W Speed" como nome do site, e não o endereço."""
+    return {"@context": "https://schema.org", "@type": "WebSite", "@id": DOMINIO + "/#site", "url": DOMINIO + "/", "name": "W Speed",
+            "alternateName": NOMES_ALT, "inLanguage": "pt-BR", "publisher": {"@id": ORG_ID}}
+
+
+def servico_ld(nome, rota, desc):
+    """Service, e não Product: sem preço público, Product só geraria erro de "offers" no Search Console."""
+    d = {"@context": "https://schema.org", "@type": "Service", "@id": DOMINIO + rota + "#servico", "name": nome, "serviceType": nome,
+         "url": DOMINIO + rota, "description": desc, "provider": {"@id": ORG_ID}, "areaServed": BRASIL}
+    if rota in IMG_ROTA:
+        d["image"] = f"{DOMINIO}/assets/img/pecas/{IMG_ROTA[rota][0]}-800.webp"
+    return d
 
 
 def faq_ld(faq):
@@ -680,6 +708,10 @@ def destaque(txt, contexto):
 
 # ------------------------------------------------------------------ início
 FAQ_HOME = [
+    ("O que a W Speed fabrica?",
+     "A W Speed fabrica bujões DIN 906, 908 e 910, posicionadores com mola e esfera, buchas roscadas, molas de compressão, tração e torção e peças usinadas conforme desenho ou amostra. Trabalha com aço carbono, aço inoxidável e, nas buchas, latão."),
+    ("Para quais setores a W Speed fornece?",
+     "Para indústrias, oficinas mecânicas, máquinas agrícolas, tratores, sistemas hidráulicos, redutores, moldes e estampos, em todo o Brasil."),
     ("Vocês fazem peças só em lote grande?",
      "Não! Atendemos desde peças individuais até lotes grandes, conforme a necessidade do cliente."),
     ("Trabalham com aço inoxidável?",
@@ -857,9 +889,9 @@ def home():
 </div></section>'''
 
     corpo = heroi + pecas + comparar + molas + brasil + usinagem + fluxo + campo + perguntas + final
-    return pagina("W Speed | Peças industriais e usinagem sob medida",
-                  "Fabricamos bujões padrão DIN, posicionadores com mola-esfera, molas de compressão, tração e torção e peças usinadas conforme seu desenho ou amostra. Atendemos todo o Brasil. Peça o orçamento pelo WhatsApp.",
-                  corpo, "/", preload_peca("910"), ld(faq_ld(FAQ_HOME)))
+    return pagina("Bujões DIN, molas e usinagem sob medida | W Speed",
+                  "Fabricante de bujões DIN 906, 908 e 910, posicionadores com esfera, molas e usinagem sob medida, em aço e inox. Orçamento pelo WhatsApp, envio a todo o Brasil.",
+                  corpo, "/", preload_peca("910"), ld(site_ld()) + ld(faq_ld(FAQ_HOME)))
 
 
 # ------------------------------------------------------------------ página de cada peça
@@ -930,7 +962,7 @@ def produto(p):
 </div>
 <div>
 <nav class="migalhas" aria-label="Você está em"><a href="/">Início</a><span aria-hidden="true">/</span><a href="/#pecas">Peças</a><span aria-hidden="true">/</span><span>{e(p["nome"])}</span></nav>
-<h1 class="barra">{nome_h1}<span class="sub" style="display:block">{e(p["sub"])}</span></h1>
+<h1 class="barra">{nome_h1} <span class="sub" style="display:block">{e(p["sub"])}</span></h1>
 <p class="lead">{e(p["texto"])}</p>
 <p class="reconhecer"><b>Como reconhecer:</b> {e(p["reconhecer"])}</p>
 <div class="escolha" aria-live="polite">
@@ -960,7 +992,8 @@ def produto(p):
 <div class="outras">{outras}</div>
 </div></section>'''
     rota = "/" + p["slug"]
-    extra = ld(faq_ld(p["faq"])) + ld(migalhas_ld([("Início", "/"), (p["nome"], rota)]))
+    nome_serv = f'Fabricação de {p["nome"][0].lower()}{p["nome"][1:]} {p["sub"]}'
+    extra = ld(servico_ld(nome_serv, rota, p["texto"])) + ld(faq_ld(p["faq"])) + ld(migalhas_ld([("Início", "/"), (p["nome"], rota)]))
     return pagina(f'{p["titulo_seo"]} | W Speed', p["desc_seo"], corpo, rota, preload_peca(p["tipo"]), extra)
 
 
@@ -988,6 +1021,8 @@ MOLAS_COMPRESSAO = [("Cilíndrica", "mola", "cilíndrica", "aço mola"), ("Refor
 
 def molas():
     faq = [
+        ("O que é uma mola de compressão?",
+         "É a mola que trabalha sendo apertada. Com a mola solta, as espiras ficam afastadas umas das outras. Ao ser apertada, ela encurta e empurra de volta."),
         ("Como medir uma mola de compressão?",
          "Com um paquímetro, meça a espessura do arame, o diâmetro por fora das espiras e o comprimento da mola solta. Conte também quantas voltas ela tem. Com isso a gente já consegue orçar."),
         ("Vocês fazem a mola pela amostra?",
@@ -1036,15 +1071,17 @@ def molas():
 </div>
 {perguntas_html(faq)}
 </div></section>'''
-    extra = ld(faq_ld(faq)) + ld(migalhas_ld([("Início", "/"), ("Molas de compressão", "/molas-de-compressao")]))
-    return pagina("Molas de compressão sob medida em aço mola, zincado e inox | W Speed",
-                  "Fabricamos molas de compressão sob medida em aço mola, zincado e inox, pela amostra ou pelas medidas. Informe arame, diâmetro externo e comprimento livre e peça o orçamento pelo WhatsApp.",
+    extra = ld(servico_ld("Fabricação de molas de compressão sob medida", "/molas-de-compressao", "Molas de compressão fabricadas pela amostra ou pelas medidas do cliente, em aço mola, aço zincado ou inox.")) + ld(faq_ld(faq)) + ld(migalhas_ld([("Início", "/"), ("Molas de compressão", "/molas-de-compressao")]))
+    return pagina("Molas de compressão sob medida em aço e inox | W Speed",
+                  "Fabricamos molas de compressão sob medida em aço e inox, pela amostra ou pelas medidas. Informe arame, diâmetro e comprimento e peça orçamento pelo WhatsApp.",
                   corpo, "/molas-de-compressao", preload_peca("mola"), extra)
 
 
 def mola_tracao():
     rota = "/molas-de-tracao"
     faq = [
+        ("O que é uma mola de tração?",
+         "É a mola que trabalha sendo esticada e puxa as duas peças de volta para o lugar. Com a mola solta, as espiras ficam encostadas umas nas outras, e cada ponta termina em um gancho."),
         ("Como medir uma mola de tração?",
          "Com um paquímetro, meça a espessura do arame, o diâmetro por fora das espiras e o comprimento total da mola solta, de um gancho ao outro. Se puder, meça também só o corpo, sem as hastes."),
         ("Vocês fazem a mola pela amostra?",
@@ -1084,15 +1121,17 @@ def mola_tracao():
 </div>
 {perguntas_html(faq)}
 </div></section>'''
-    extra = ld(faq_ld(faq)) + ld(migalhas_ld([("Início", "/"), ("Molas de tração", rota)]))
+    extra = ld(servico_ld("Fabricação de molas de tração sob medida", rota, "Molas de tração com gancho, fabricadas pela amostra ou pelas medidas do cliente.")) + ld(faq_ld(faq)) + ld(migalhas_ld([("Início", "/"), ("Molas de tração", rota)]))
     return pagina("Molas de tração sob medida com gancho | W Speed",
-                  "Fabricamos molas de tração sob medida, pela amostra ou pelas medidas. Informe arame, diâmetro externo e comprimento de gancho a gancho e peça o orçamento pelo WhatsApp. Envio para todo o Brasil.",
+                  "Fabricamos molas de tração sob medida, pela amostra ou pelas medidas de arame, diâmetro e comprimento. Orçamento pelo WhatsApp e envio a todo o Brasil.",
                   corpo, rota, preload_peca("mola-tracao"), extra)
 
 
 def mola_torcao():
     rota = "/molas-de-torcao"
     faq = [
+        ("O que é uma mola de torção?",
+         "É a mola que trabalha girando: as pernas abrem e fecham em volta do corpo e fazem a peça voltar à posição. O corpo é um anel de espiras encostadas, e as pernas saem dele retas ou com a ponta dobrada."),
         ("Como medir uma mola de torção?",
          "Com um paquímetro, meça a espessura do arame, o diâmetro por fora do corpo e o comprimento de cada perna. Conte as voltas do corpo e veja o ângulo entre as pernas com a mola solta."),
         ("O que é o sentido de enrolamento?",
@@ -1134,9 +1173,9 @@ def mola_torcao():
 </div>
 {perguntas_html(faq)}
 </div></section>'''
-    extra = ld(faq_ld(faq)) + ld(migalhas_ld([("Início", "/"), ("Molas de torção", rota)]))
-    return pagina("Molas de torção sob medida | W Speed",
-                  "Fabricamos molas de torção sob medida, pela amostra ou pelas medidas. Informe arame, diâmetro externo, voltas e pernas e peça o orçamento pelo WhatsApp. Envio para todo o Brasil.",
+    extra = ld(servico_ld("Fabricação de molas de torção sob medida", rota, "Molas de torção fabricadas pela amostra ou pelas medidas do cliente.")) + ld(faq_ld(faq)) + ld(migalhas_ld([("Início", "/"), ("Molas de torção", rota)]))
+    return pagina("Molas de torção sob medida em aço e inox | W Speed",
+                  "Fabricamos molas de torção sob medida, pela amostra ou pelas medidas de arame, diâmetro, voltas e pernas. Orçamento pelo WhatsApp e envio a todo o Brasil.",
                   corpo, rota, preload_peca("mola-torcao", "zinco"), extra)
 
 
@@ -1151,6 +1190,8 @@ def bucha():
     faq = [
         ("Para que serve a bucha roscada?",
          "Ela dá uma rosca nova ao furo. Serve para recuperar rosca espanada, para reforçar rosca em alumínio e outros materiais moles e para adaptar uma medida de parafuso a outra."),
+        ("Em quais materiais a W Speed fabrica a bucha roscada?",
+         "Em aço e em latão, reta ou com colar, na medida que você informar. O envio é para todo o Brasil."),
         ("Qual a diferença entre a bucha reta e a com colar?",
          "A reta entra por inteiro no furo. A com colar encosta na face da peça, o que limita a profundidade e dá um apoio a mais."),
         ("Como pedir a medida certa?",
@@ -1170,7 +1211,7 @@ def bucha():
 </div>
 <div>
 <nav class="migalhas" aria-label="Você está em"><a href="/">Início</a><span aria-hidden="true">/</span><a href="/#pecas">Peças</a><span aria-hidden="true">/</span><span>Bucha roscada</span></nav>
-<h1 class="barra">Bucha <strong>roscada</strong><span class="sub" style="display:block">rosca interna e externa, reta ou com colar</span></h1>
+<h1 class="barra">Bucha <strong>roscada</strong> <span class="sub" style="display:block">rosca interna e externa, reta ou com colar</span></h1>
 <p class="lead">A bucha roscada tem rosca por fora e por dentro: ela entra no furo da peça e entrega uma rosca nova no lugar. É o caminho para recuperar rosca espanada, reforçar rosca em alumínio e adaptar uma medida de parafuso a outra. Fabricamos em aço e em latão.</p>
 <p class="reconhecer"><b>Como reconhecer:</b> {e(BUCHA_RECONHECER)}</p>
 <form class="form escolha" data-sob-medida="bucha" data-nome="Bucha roscada" data-img="/assets/img/pecas/bucha-colar-aco-recorte-300.webp">
@@ -1193,20 +1234,32 @@ def bucha():
 </div>
 {perguntas_html(faq)}
 </div></section>'''
-    extra = ld(faq_ld(faq)) + ld(migalhas_ld([("Início", "/"), ("Bucha roscada", "/bucha-roscada")]))
-    return pagina("Bucha roscada reta e com colar: rosca interna e externa | W Speed",
-                  "Bucha roscada reta e com colar, em aço e latão, com rosca interna e externa, para recuperar rosca espanada e reforçar rosca em alumínio. Informe as medidas e peça o orçamento pelo WhatsApp. Envio para todo o Brasil.",
+    extra = ld(servico_ld("Fabricação de bucha roscada reta e com colar", "/bucha-roscada", "Bucha com rosca interna e externa, em aço e latão, para recuperar rosca espanada, reforçar rosca em alumínio e adaptar medidas de parafuso.")) + ld(faq_ld(faq)) + ld(migalhas_ld([("Início", "/"), ("Bucha roscada", "/bucha-roscada")]))
+    return pagina("Bucha roscada em aço e latão, reta ou com colar | W Speed",
+                  "Bucha roscada reta ou com colar, em aço e latão, para recuperar rosca espanada e reforçar rosca em alumínio. Orçamento pelo WhatsApp e envio a todo o Brasil.",
                   corpo, "/bucha-roscada", preload_peca("bucha-colar", "aco"), extra)
 
 
 # ------------------------------------------------------------------ usinagem
 def usinagem():
+    faq = [
+        ("O que a W Speed usina?",
+         "Peças conforme desenho ou amostra do cliente, em aço carbono e aço inoxidável, para indústrias, oficinas mecânicas e equipamentos agrícolas e hidráulicos."),
+        ("Preciso ter o desenho técnico para pedir o orçamento?",
+         "Se tiver o desenho é melhor, mas também aceitamos amostra da peça ou medidas exatas."),
+        ("Em que formato mando o desenho?",
+         "PDF, DWG ou uma foto com as medidas, direto na conversa do WhatsApp. Se for pela amostra, a gente combina o envio."),
+        ("Vocês fazem peça única?",
+         "Sim. Atendemos desde peças individuais até lotes grandes, conforme a necessidade do cliente."),
+        ("A W Speed entrega em outras cidades?",
+         "Sim, para todas as regiões do Brasil. Informe a sua cidade quando mandar a lista, assim a gente calcula o frete junto com o orçamento."),
+    ]
     corpo = f'''<section class="cab-prod">{facetas()}
 <div class="wrap prod">
 <div class="prancha rev">{desenho_usinagem()}</div>
 <div>
 <nav class="migalhas" aria-label="Você está em"><a href="/">Início</a><span aria-hidden="true">/</span><span>Usinagem sob medida</span></nav>
-<h1 class="barra"><strong>Usinagem</strong> sob medida<span class="sub" style="display:block">peças especiais para sua Indústria</span></h1>
+<h1 class="barra"><strong>Usinagem</strong> sob medida <span class="sub" style="display:block">peças especiais para sua Indústria</span></h1>
 <p class="lead">{e(TXT_USINAGEM)}</p>
 <div style="margin-top:22px">{lista_ok(ITENS_USINAGEM)}</div>
 <div class="ctas" style="margin-top:30px">{btn("Envie seu desenho ou amostra", zap_link("usinagem"), "escuro", "zap")}{btn("Descrever a peça", "#descrever", "linha", "baixo")}</div>
@@ -1228,10 +1281,14 @@ def usinagem():
 <label class="inteiro">Observação<input name="obs" placeholder="Prazo, tratamento, tolerâncias..." data-rot="obs."></label>
 <button class="btn btn--escuro" type="submit">{ic("carrinho", 1.6)}<span>Adicionar ao orçamento</span></button>
 </form>
+</div></section>
+<section class="sec" style="padding-top:0"><div class="wrap">
+<h2 class="tit barra centro rev" style="text-align:center">Dúvidas sobre usinagem</h2>
+{perguntas_html(faq)}
 </div></section>'''
-    extra = ld(migalhas_ld([("Início", "/"), ("Usinagem sob medida", "/usinagem")]))
-    return pagina("Usinagem sob medida pelo desenho ou pela amostra | W Speed",
-                  "Fabricamos peças usinadas sob medida a partir do seu desenho técnico ou de uma amostra, em aço carbono ou inox. Descreva a peça e peça o orçamento pelo WhatsApp.",
+    extra = ld(servico_ld("Usinagem de peças sob medida", "/usinagem", TXT_USINAGEM)) + ld(faq_ld(faq)) + ld(migalhas_ld([("Início", "/"), ("Usinagem sob medida", "/usinagem")]))
+    return pagina("Usinagem sob medida pelo desenho ou amostra | W Speed",
+                  "Peças usinadas sob medida a partir do seu desenho técnico ou de uma amostra, em aço carbono ou inox. Peça única ou lote. Orçamento pelo WhatsApp.",
                   corpo, "/usinagem", "", extra)
 
 
@@ -1241,7 +1298,7 @@ def contato():
 <div class="wrap prod contato">
 <div>
 <nav class="migalhas" aria-label="Você está em"><a href="/">Início</a><span aria-hidden="true">/</span><span>Contato</span></nav>
-<h1 class="barra">Entre em <strong>contato</strong><span class="sub" style="display:block">para pedidos, orçamentos ou dúvidas</span></h1>
+<h1 class="barra">Entre em <strong>contato</strong> <span class="sub" style="display:block">para pedidos, orçamentos ou dúvidas</span></h1>
 <p class="lead">Envie seu desenho, amostra ou medidas da peça que precisa que nós respondemos rapidinho!</p>
 <div class="ctas" style="margin-top:30px">{btn("Solicitar orçamento agora", zap_link("contato"), "escuro", "zap")}</div>
 </div>
@@ -1253,8 +1310,8 @@ def contato():
 </dl>
 </div></section>'''
     extra = ld(migalhas_ld([("Início", "/"), ("Contato", "/contato")]))
-    return pagina("Contato: orçamento de peças industriais pelo WhatsApp | W Speed",
-                  f"Peça orçamento de peças industriais e usinagem sob medida pelo WhatsApp {TEL_VER}. Atendimento {HORARIO}. Atendemos todo o Brasil.",
+    return pagina("Contato: orçamento de peças industriais | W Speed",
+                  f"Peça orçamento de peças industriais e usinagem sob medida pelo WhatsApp {TEL_VER}, de segunda a sexta em horário comercial. Atendemos todo o Brasil.",
                   corpo, "/contato", "", extra)
 
 
@@ -1294,6 +1351,47 @@ def nao_achou():
     return pagina("Página não encontrada | W Speed", "Página não encontrada.", corpo, "/404", robots="noindex,nofollow", casca=False)
 
 
+# ------------------------------------------------------------------ arquivos para as IAs
+def guia_ia(paginas, rotas):
+    """llms.txt (índice) e llms-full.txt (tabelas e perguntas), montados do que já está nas páginas."""
+    def dados(r):
+        h = paginas["index.html" if r == "/" else r[1:] + ".html"]
+        titulo = unescape(re.search(r"<title>(.*?)</title>", h)[1]).removesuffix(" | W Speed")
+        desc = unescape(re.search(r'<meta name="description" content="(.*?)"', h)[1])
+        blocos = [json.loads(b) for b in re.findall(r'<script type="application/ld\+json">(.*?)</script>', h)]
+        return titulo, desc, [(q["name"], q["acceptedAnswer"]["text"]) for b in blocos if b["@type"] == "FAQPage" for q in b["mainEntity"]]
+
+    resumo = ("# W Speed\n\n> A W Speed (Instagram @wfix.speed) é uma fabricante brasileira de peças industriais: bujões DIN 906, 908 e 910, "
+              "posicionadores com mola e esfera, buchas roscadas, molas de compressão, tração e torção e usinagem sob medida. "
+              "Atende todo o Brasil, com orçamento pelo WhatsApp.\n")
+    fatos = ["Materiais: aço carbono e aço inoxidável. Bujões e posicionadores em aço com oxidação preta ou inox; buchas em aço ou latão.",
+             "Medidas dos bujões conforme as normas DIN, iguais em qualquer fabricante; medidas, roscas e materiais especiais sob encomenda.",
+             "Clientes: indústrias, oficinas mecânicas, máquinas agrícolas, tratores, sistemas hidráulicos e redutores.",
+             "Quantidades: de peças individuais a lotes grandes.",
+             "Como pedir: montar a lista no site e enviar pelo WhatsApp, ou mandar desenho (PDF, DWG), foto com medidas ou amostra. Preço e prazo são informados no orçamento; o site não publica preços.",
+             f"Atendimento: {HORARIO}."]
+    contato = f"\n## Contato\n\n- WhatsApp: {TEL_VER}\n- Instagram: {INSTAGRAM}\n- Site: {DOMINIO}/\n"
+    indice = [resumo, *[f"- {f}" for f in fatos], "\n## Páginas\n"]
+    indice += [f"- [{dados(r)[0]}]({DOMINIO}{r}): {dados(r)[1]}" for r in rotas[1:]]
+    indice += [f"\n## Detalhes\n\n- [Tabelas de medidas e perguntas frequentes]({DOMINIO}/llms-full.txt)", contato]
+    (RAIZ / "llms.txt").write_text("\n".join(indice))
+
+    completo = [resumo, *[f"- {f}" for f in fatos], "\nMedidas em milímetros, salvo quando a coluna indica outra unidade."]
+    for r in rotas:
+        titulo, desc, faq = dados(r)
+        completo.append(f"\n## {titulo}\n\n{DOMINIO}{r}\n\n{desc}")
+        p = POR_SLUG.get(r[1:])
+        if p:
+            completo.append("\n" + p["texto"] + "\n\nColunas: " + "; ".join(f"{k} = {v}" for k, v in p["letras"]) + ".")
+            for t in p["tabelas"]:
+                linhas = "\n".join("| " + " | ".join(num(v) for v in lin) + " |" for lin in t["linhas"])
+                completo.append(f"\n### {t['titulo']}\n\n| " + " | ".join(t["cab"]) + " |\n|" + "---|" * len(t["cab"]) + "\n" + linhas)
+        if faq:
+            completo.append("\n### Perguntas frequentes\n\n" + "\n\n".join(f"**{q}**\n{a}" for q, a in faq))
+    completo.append(contato)
+    (RAIZ / "llms-full.txt").write_text("\n".join(completo))
+
+
 # ------------------------------------------------------------------ montar
 def main():
     import subprocess
@@ -1306,16 +1404,15 @@ def main():
         (RAIZ / nome).write_text(html)
     rotas = ["/"] + ["/" + p["slug"] for p in PRODUTOS] + ["/bucha-roscada", "/molas-de-compressao", "/molas-de-tracao", "/molas-de-torcao", "/usinagem", "/contato"]
     hoje = date.today().isoformat()
-    (RAIZ / "sitemap.xml").write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
-                                      + "".join(f"<url><loc>{DOMINIO}{r}</loc><lastmod>{hoje}</lastmod></url>" for r in rotas) + "</urlset>\n")
-    (RAIZ / "robots.txt").write_text("User-agent: *\n" + ("Allow: /\nDisallow: /obrigado\n" if INDEXAR else "Disallow:\n") + f"\nSitemap: {DOMINIO}/sitemap.xml\n")
-    linhas_llms = [f"# W Speed\n\n> Fabricação de bujões DIN 906, 908 e 910, posicionadores com mola e esfera (aço oxidado e inox), molas de compressão, tração e torção e usinagem sob medida. Orçamento pelo WhatsApp, envio para todo o Brasil.\n\n## Peças"]
-    for p in PRODUTOS:
-        linhas_llms.append(f"- [{p['nome']} {p['sub']}]({DOMINIO}/{p['slug']}): {p['texto']}")
-    linhas_llms.append(f"- [Bucha roscada reta e com colar]({DOMINIO}/bucha-roscada)")
-    linhas_llms.append(f"- [Molas de compressão sob medida]({DOMINIO}/molas-de-compressao)\n- [Molas de tração sob medida]({DOMINIO}/molas-de-tracao)\n- [Molas de torção sob medida]({DOMINIO}/molas-de-torcao)\n- [Usinagem sob medida]({DOMINIO}/usinagem)")
-    linhas_llms.append(f"\n## Contato\nWhatsApp: {TEL_VER}\nInstagram: {INSTAGRAM}\nSite: {DOMINIO}/\n")
-    (RAIZ / "llms.txt").write_text("\n".join(linhas_llms))
+    def item_sitemap(r):
+        imgs = "".join(f"<image:image><image:loc>{DOMINIO}/assets/img/pecas/{i}-800.webp</image:loc></image:image>" for i in IMG_ROTA.get(r, ()))
+        return f"<url><loc>{DOMINIO}{r}</loc><lastmod>{hoje}</lastmod>{imgs}</url>"
+    (RAIZ / "sitemap.xml").write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">'
+                                      + "".join(map(item_sitemap, rotas)) + "</urlset>\n")
+    # o /obrigado não entra no Disallow: precisa ser lido para o Google ver o noindex
+    (RAIZ / "robots.txt").write_text("User-agent: *\n" + ("Allow: /\n" if INDEXAR else "Disallow:\n") + f"\nSitemap: {DOMINIO}/sitemap.xml\n")
+    guia_ia(paginas, rotas)
+    (RAIZ / f"{INDEXNOW_KEY}.txt").write_text(INDEXNOW_KEY)
     print(f"  {len(paginas)} páginas  site.js v={hash_de(JS)}  pecas3d v={hash_de(JS3D)}  indexar={INDEXAR}")
 
 

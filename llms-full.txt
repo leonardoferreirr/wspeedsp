@@ -1,0 +1,399 @@
+# W Speed
+
+> A W Speed (Instagram @wfix.speed) é uma fabricante brasileira de peças industriais: bujões DIN 906, 908 e 910, posicionadores com mola e esfera, buchas roscadas, molas de compressão, tração e torção e usinagem sob medida. Atende todo o Brasil, com orçamento pelo WhatsApp.
+
+- Materiais: aço carbono e aço inoxidável. Bujões e posicionadores em aço com oxidação preta ou inox; buchas em aço ou latão.
+- Medidas dos bujões conforme as normas DIN, iguais em qualquer fabricante; medidas, roscas e materiais especiais sob encomenda.
+- Clientes: indústrias, oficinas mecânicas, máquinas agrícolas, tratores, sistemas hidráulicos e redutores.
+- Quantidades: de peças individuais a lotes grandes.
+- Como pedir: montar a lista no site e enviar pelo WhatsApp, ou mandar desenho (PDF, DWG), foto com medidas ou amostra. Preço e prazo são informados no orçamento; o site não publica preços.
+- Atendimento: de segunda a sexta-feira, das 8h às 12h e das 13h30 às 17h30.
+
+Medidas em milímetros, salvo quando a coluna indica outra unidade.
+
+## Bujões DIN, molas e usinagem sob medida
+
+https://www.wfixspeed.com.br/
+
+Fabricante de bujões DIN 906, 908 e 910, posicionadores com esfera, molas e usinagem sob medida, em aço e inox. Orçamento pelo WhatsApp, envio a todo o Brasil.
+
+### Perguntas frequentes
+
+**O que a W Speed fabrica?**
+A W Speed fabrica bujões DIN 906, 908 e 910, posicionadores com mola e esfera, buchas roscadas, molas de compressão, tração e torção e peças usinadas conforme desenho ou amostra. Trabalha com aço carbono, aço inoxidável e, nas buchas, latão.
+
+**Para quais setores a W Speed fornece?**
+Para indústrias, oficinas mecânicas, máquinas agrícolas, tratores, sistemas hidráulicos, redutores, moldes e estampos, em todo o Brasil.
+
+**Vocês fazem peças só em lote grande?**
+Não! Atendemos desde peças individuais até lotes grandes, conforme a necessidade do cliente.
+
+**Trabalham com aço inoxidável?**
+Sim, fabricamos peças em aço carbono e também em aço inoxidável.
+
+**Preciso enviar desenho técnico para fazer o orçamento?**
+Se tiver o desenho é melhor, mas também aceitamos amostra da peça ou medidas exatas.
+
+**Enviam para todo o Brasil?**
+Sim, fazemos entrega para todas as regiões do país. Informe a sua cidade quando mandar a lista, assim a gente calcula o frete junto com o orçamento.
+
+**Quanto tempo demora para chegar o orçamento?**
+Respondemos pelo WhatsApp em horário comercial, de segunda a sexta-feira, das 8h às 12h e das 13h30 às 17h30.
+
+**Qual a diferença entre o bujão DIN 906, 908 e 910?**
+O DIN 906 é cônico e sem colar, fica rente à peça e veda pela própria rosca. O DIN 908 tem colar e sextavado interno, para chave Allen, e o DIN 910 tem cabeça sextavada por fora e colar, para chave de boca. Esses dois têm rosca reta e vedam com um anel embaixo do colar.
+
+**Como descobrir a rosca do bujão que eu preciso?**
+Meça o diâmetro externo da rosca com um paquímetro e conte quantos fios cabem em uma polegada (25,4 mm). Com essas duas medidas você acha a linha certa na tabela. Se ficar em dúvida, mande uma foto da peça ao lado do paquímetro pelo WhatsApp que a gente ajuda.
+
+**Vocês fazem medidas fora da tabela?**
+Fazemos. Medidas, roscas e materiais especiais saem sob encomenda: mande a medida ou o desenho junto com a lista de orçamento.
+
+**Como funciona o pedido pelo site?**
+Você monta a lista com as peças, as medidas e as quantidades e envia pelo WhatsApp. O pedido é fechado na conversa, com preço, prazo e forma de pagamento.
+
+## Bujão DIN 906 cônico: tabela BSPT, NPTF e métrica
+
+https://www.wfixspeed.com.br/bujao-din-906
+
+Bujão DIN 906 cônico com sextavado interno, em aço e inox. Tabela de medidas BSPT, NPTF e métrica 1:16. Orçamento pelo WhatsApp e envio a todo o Brasil.
+
+O bujão DIN 906 veda furos roscados sem ficar para fora da peça. Como a rosca é cônica, a vedação acontece no próprio aperto, e por isso ele aparece em blocos hidráulicos, bombas, redutores, cárteres e linhas de óleo e graxa de máquinas agrícolas.
+
+Colunas: L = comprimento total; S = medida da chave Allen; T = profundidade do sextavado; W = espessura mínima abaixo do sextavado.
+
+### DIN 906 rosca BSPT (cônica 1:16)
+
+| Rosca - fios | L | S | T | W |
+|---|---|---|---|---|
+| 1/8"-28 | 8 | 5 | 4 | 2 |
+| 1/4"-19 | 10 | 7 | 5 | 2 |
+| 3/8"-19 | 10 | 8 | 5 | 2 |
+| 1/2"-14 | 10 | 10 | 5 | 2 |
+| 3/4"-14 | 12 | 12 | 6 | 2 |
+| 1"-11 | 12 | 17 | 6 | 2 |
+| 1.1/4"-11 | 18 | 22 | 11,5 | 3 |
+| 1.1/2"-11 | 20 | 24 | 11,5 | 4 |
+
+### DIN 906 rosca métrica cônica 1:16
+
+| Rosca × passo | L | S | T | W |
+|---|---|---|---|---|
+| M8 × 1,0 | 8 | 4 | 4 | 2 |
+| M10 × 1,0 | 8 | 5 | 4 | 2 |
+| M12 × 1,5 | 10 | 6 | 5 | 2 |
+| M14 × 1,5 | 10 | 7 | 5 | 2 |
+| M16 × 1,5 | 10 | 8 | 5 | 2 |
+| M18 × 1,5 | 10 | 8 | 5 | 2 |
+| M20 × 1,5 | 10 | 10 | 5 | 2 |
+| M22 × 1,5 | 10 | 10 | 5 | 2 |
+| M24 × 1,5 | 12 | 12 | 6 | 2 |
+| M26 × 1,5 | 12 | 12 | 6 | 2 |
+| M30 × 1,5 | 12 | 17 | 6 | 2 |
+| M36 × 1,5 | 15 | 19 | 7,5 | 3 |
+
+### DIN 906 rosca NPTF
+
+| Rosca - fios | L | S (pol.) | T | W |
+|---|---|---|---|---|
+| 1/16"-27 | 8 | 5/32" | 5 | 2 |
+| 1/8"-27 | 8 | 3/16" | 5 | 2 |
+| 1/4"-18 | 11 | 1/4" | 5,5 | 2,5 |
+| 3/8"-18 | 12,7 | 5/16" | 6,5 | 3 |
+| 1/2"-14 | 14,2 | 3/8" | 8 | 3 |
+| 3/4"-14 | 15,8 | 9/16" | 8 | 3,5 |
+| 1"-11,5 | 19 | 5/8" | 9,5 | 5 |
+| 1.1/4"-11,5 | 20,6 | 3/4" | 11 | 5 |
+| 1.1/2"-11,5 | 20,6 | 1" | 11 | 5 |
+| 2"-11,5 | 22,2 | 1" | 11 | 5,5 |
+
+### Perguntas frequentes
+
+**O que é o bujão DIN 906?**
+É um bujão cônico, sem cabeça e sem colar, com sextavado interno para chave Allen. Ele fecha furos roscados e fica rente à peça, por isso aparece em blocos hidráulicos, bombas, redutores, cárteres e linhas de óleo e graxa.
+
+**Bujão, tampão e plug roscado são a mesma peça?**
+São nomes diferentes para a mesma função: fechar um furo roscado. Na norma, o DIN 906 é o bujão cônico com sextavado interno, que muita gente chama de bujão Allen cônico.
+
+**O DIN 906 precisa de anel de vedação?**
+Normalmente não. A rosca cônica veda no aperto, e em linhas de alta pressão muita gente completa com veda-rosca líquido.
+
+**Qual a diferença entre BSPT e NPTF?**
+As duas são cônicas, mas a BSPT tem filete de 55° (padrão inglês, mais comum em máquinas europeias e nacionais) e a NPTF tem filete de 60° (padrão americano). O número de fios por polegada também muda em algumas medidas.
+
+**A W Speed fabrica bujão DIN 906 em inox?**
+Sim. A W Speed fabrica o DIN 906 em aço com oxidação preta e em inox, nas roscas BSPT, NPTF e métrica cônica 1:16, com envio para todo o Brasil. Medidas especiais saem sob encomenda.
+
+## Bujão DIN 908 com colar: tabela BSP e métrica
+
+https://www.wfixspeed.com.br/bujao-din-908
+
+Bujão DIN 908 com colar e sextavado interno, em aço e inox. Tabela de medidas BSP e métrica. Orçamento pelo WhatsApp e envio a todo o Brasil.
+
+O bujão DIN 908 tem rosca reta e um colar que encosta na face da peça, onde vai o anel de vedação. Ocupa pouca altura, já que o aperto é com chave Allen, e é muito usado em carcaças de redutores, blocos de válvulas e tanques de óleo.
+
+Colunas: D = diâmetro do colar; C = altura do colar; L = comprimento da rosca; S = medida da chave Allen; T = profundidade do sextavado.
+
+### DIN 908 rosca BSP
+
+| Rosca - fios | D | C | L | S | T |
+|---|---|---|---|---|---|
+| 1/8"-28 | 14 | 3 | 8 | 5 | 5 |
+| 1/4"-19 | 18 | 3 | 12 | 6 | 7 |
+| 3/8"-19 | 22 | 3 | 12 | 8 | 7,5 |
+| 1/2"-14 | 26 | 4 | 14 | 10 | 7,5 |
+| 3/4"-14 | 32 | 4 | 16 | 12 | 9 |
+| 1"-11 | 39 | 5 | 16 | 17 | 9 |
+| 1.1/4"-11 | 49 | 5 | 16 | 22 | 10,5 |
+| 1.1/2"-11 | 55 | 5 | 16 | 24 | 10,5 |
+| 2"-11 | 68 | 5 | 20 | 32 | 14 |
+
+### DIN 908 rosca métrica
+
+| Rosca × passo | D | C | L | S | T |
+|---|---|---|---|---|---|
+| M10 × 1,0 | 14 | 3 | 8 | 5 | 5 |
+| M12 × 1,5 | 17 | 3 | 12 | 6 | 7 |
+| M14 × 1,5 | 19 | 3 | 12 | 6 | 7 |
+| M16 × 1,5 | 21 | 3 | 12 | 8 | 7,5 |
+| M18 × 1,5 | 23 | 4 | 12 | 8 | 7,5 |
+| M20 × 1,5 | 25 | 4 | 14 | 10 | 7,5 |
+| M22 × 1,5 | 27 | 4 | 14 | 10 | 7,5 |
+| M24 × 1,5 | 29 | 4 | 14 | 12 | 7,5 |
+| M26 × 1,5 | 31 | 4 | 16 | 12 | 9 |
+| M30 × 1,5 | 36 | 4 | 16 | 17 | 9 |
+| M36 × 1,5 | 42 | 5 | 16 | 19 | 10,5 |
+
+### Perguntas frequentes
+
+**O que é o bujão DIN 908?**
+É um bujão de rosca reta com colar e sextavado interno. O colar encosta na face da peça, onde vai o anel de vedação, e o aperto é com chave Allen. É muito usado em carcaças de redutores, blocos de válvulas e tanques de óleo.
+
+**O DIN 908 usa anel de vedação?**
+Sim. Como a rosca é reta, quem veda é o anel embaixo do colar, que pode ser de cobre, alumínio ou borracha com aço, conforme a pressão e o fluido.
+
+**Posso trocar um DIN 908 por um DIN 910?**
+Na maioria dos casos sim, porque a rosca e o colar seguem as mesmas medidas. A diferença é a chave: o 908 aperta com Allen e o 910 com chave de boca ou estrela.
+
+**A W Speed fabrica bujão DIN 908 em inox?**
+Sim. A W Speed fabrica o DIN 908 em aço com oxidação preta e em inox, nas roscas BSP e métrica, com envio para todo o Brasil. Medidas especiais saem sob encomenda.
+
+## Bujão DIN 910 sextavado com colar: BSP e métrica
+
+https://www.wfixspeed.com.br/bujao-din-910
+
+Bujão DIN 910 com cabeça sextavada e colar, em aço e inox. Tabela de medidas BSP e métrica. Orçamento pelo WhatsApp e envio a todo o Brasil.
+
+O bujão DIN 910 é o bujão de dreno mais conhecido: cabeça sextavada para chave de boca, colar para o anel de vedação e rosca reta. É o que vai no cárter, na caixa de câmbio, no diferencial e nos reservatórios hidráulicos de tratores e máquinas.
+
+Colunas: D = diâmetro do colar; M = altura da cabeça; L = comprimento da rosca; C = altura do colar; S = medida da chave de boca.
+
+### DIN 910 rosca BSP
+
+| Rosca - fios | D | M | L | C | S |
+|---|---|---|---|---|---|
+| 1/8"-28 | 14 | 6 | 8 | 3 | 10 |
+| 1/4"-19 | 18 | 6 | 12 | 3 | 13 |
+| 3/8"-19 | 22 | 6 | 12 | 3 | 17 |
+| 1/2"-14 | 26 | 8 | 14 | 4 | 19 |
+| 3/4"-14 | 32 | 10 | 16 | 4 | 24 |
+| 1"-11 | 39 | 11 | 16 | 5 | 27 |
+| 1.1/4"-11 | 49 | 12 | 16 | 5 | 30 |
+| 1.1/2"-11 | 55 | 12 | 16 | 5 | 30 |
+
+### DIN 910 rosca métrica
+
+| Rosca × passo | D | M | L | C | S |
+|---|---|---|---|---|---|
+| M10 × 1,0 | 14 | 6 | 8 | 3 | 10 |
+| M12 × 1,5 | 17 | 6 | 12 | 3 | 13 |
+| M14 × 1,5 | 19 | 6 | 12 | 3 | 13 |
+| M16 × 1,5 | 21 | 6 | 12 | 3 | 17 |
+| M18 × 1,5 | 23 | 8 | 12 | 4 | 17 |
+| M20 × 1,5 | 25 | 8 | 14 | 4 | 19 |
+| M22 × 1,5 | 27 | 8 | 14 | 4 | 19 |
+| M24 × 1,5 | 29 | 9 | 14 | 4 | 22 |
+| M26 × 1,5 | 31 | 10 | 16 | 4 | 24 |
+| M30 × 1,5 | 36 | 10 | 16 | 4 | 24 |
+| M36 × 1,5 | 42 | 11 | 16 | 5 | 27 |
+
+### Perguntas frequentes
+
+**O que é o bujão DIN 910?**
+É um bujão de rosca reta com cabeça sextavada por fora e colar, apertado com chave de boca ou estrela. É o modelo mais usado como dreno em cárteres, caixas de câmbio, diferenciais e reservatórios hidráulicos.
+
+**Qual anel de vedação usar com o DIN 910?**
+O mais comum é o anel de cobre ou de alumínio, do mesmo diâmetro interno da rosca. Em sistemas de pressão mais alta entra o anel de aço com borracha vulcanizada.
+
+**O DIN 910 serve como bujão de dreno de cárter?**
+Serve. É o modelo padrão de dreno em motores, câmbios e diferenciais, desde que a rosca e o comprimento batam com o furo.
+
+**A W Speed fabrica bujão DIN 910 em inox?**
+Sim. A W Speed fabrica o DIN 910 em aço com oxidação preta e em inox, nas roscas BSP e métrica, com envio para todo o Brasil. Medidas especiais saem sob encomenda.
+
+## Posicionador com mola e esfera em aço e inox
+
+https://www.wfixspeed.com.br/posicionador-com-mola-e-esfera
+
+Posicionador com mola e esfera (parafuso posicionador) em aço oxidado e inox, de M3 a M16. Tabela com esfera, curso e força. Orçamento pelo WhatsApp.
+
+O posicionador com mola e esfera trava, localiza e indexa peças: a esfera afunda com a pressão e volta pela mola, dando aquele clique de posição. É usado em gabaritos, dispositivos de fixação, moldes, estampos e em mecanismos de máquinas que precisam parar sempre no mesmo ponto.
+
+Colunas: d1 = rosca; L = comprimento; D2 = diâmetro da esfera; l1 = quanto a esfera fica para fora; F = força da mola no fim do curso, em newtons.
+
+### Posicionador com mola e esfera, rosca métrica
+
+| Rosca | L | D2 | l1 | F (N) |
+|---|---|---|---|---|
+| M3 | 7 | 1,5 | 0,4 | 4,5 |
+| M4 | 9 | 2,5 | 0,8 | 12 |
+| M4 | 15 | 2,5 | 0,8 | 12 |
+| M5 | 12 | 3 | 0,9 | 13 |
+| M5 | 20 | 3 | 0,9 | 13 |
+| M6 | 14 | 3,5 | 1 | 15 |
+| M6 | 20 | 3,5 | 1 | 15 |
+| M6 | 25 | 3,5 | 1 | 15 |
+| M6 | 30 | 3,5 | 1 | 15 |
+| M8 | 16 | 5 | 1,5 | 35 |
+| M8 | 20 | 5 | 1,5 | 35 |
+| M8 | 25 | 5 | 1,5 | 35 |
+| M8 | 30 | 5 | 1,5 | 35 |
+| M10 | 19 | 6 | 2 | 45 |
+| M10 | 25 | 6 | 2 | 45 |
+| M10 | 35 | 6 | 2 | 45 |
+| M12 | 22 | 8 | 2,5 | 60 |
+| M12 | 30 | 8 | 2,5 | 60 |
+| M12 | 35 | 8 | 2,5 | 60 |
+| M16 | 24 | 10 | 3,5 | 110 |
+
+### Perguntas frequentes
+
+**O que é um posicionador com mola e esfera?**
+É um parafuso sem cabeça, com fenda atrás e uma esfera na ponta, empurrada por uma mola. A esfera afunda com a pressão e volta sozinha, o que trava, localiza e indexa peças em gabaritos, dispositivos de fixação, moldes e estampos.
+
+**Posicionador de esfera e parafuso posicionador são a mesma peça?**
+Sim. No mercado ele aparece como posicionador com mola e esfera, posicionador de esfera, parafuso posicionador e, em inglês, ball plunger.
+
+**Qual a diferença entre o posicionador de aço e o de inox?**
+O de aço tem oxidação preta e serve para a maioria das máquinas. O inox não enferruja, então é o indicado para ambiente úmido, contato com água, alimentos ou produtos químicos.
+
+**Como escolher a força do posicionador?**
+Quanto maior a rosca, maior a esfera e mais forte a mola. Se a peça precisa travar com firmeza, suba uma medida; se é só um ponto de referência, a menor que couber resolve.
+
+**Em quais medidas a W Speed fabrica o posicionador?**
+De M3 a M16, em aço oxidado e em inox. A tabela mostra comprimento, diâmetro da esfera, curso e força da mola de cada medida, e outras medidas saem sob encomenda.
+
+## Bucha roscada em aço e latão, reta ou com colar
+
+https://www.wfixspeed.com.br/bucha-roscada
+
+Bucha roscada reta ou com colar, em aço e latão, para recuperar rosca espanada e reforçar rosca em alumínio. Orçamento pelo WhatsApp e envio a todo o Brasil.
+
+### Perguntas frequentes
+
+**Para que serve a bucha roscada?**
+Ela dá uma rosca nova ao furo. Serve para recuperar rosca espanada, para reforçar rosca em alumínio e outros materiais moles e para adaptar uma medida de parafuso a outra.
+
+**Em quais materiais a W Speed fabrica a bucha roscada?**
+Em aço e em latão, reta ou com colar, na medida que você informar. O envio é para todo o Brasil.
+
+**Qual a diferença entre a bucha reta e a com colar?**
+A reta entra por inteiro no furo. A com colar encosta na face da peça, o que limita a profundidade e dá um apoio a mais.
+
+**Como pedir a medida certa?**
+Informe a rosca interna, a rosca externa e o comprimento. Se não souber, mande uma foto da peça ao lado de um paquímetro pelo WhatsApp que a gente ajuda.
+
+## Molas de compressão sob medida em aço e inox
+
+https://www.wfixspeed.com.br/molas-de-compressao
+
+Fabricamos molas de compressão sob medida em aço e inox, pela amostra ou pelas medidas. Informe arame, diâmetro e comprimento e peça orçamento pelo WhatsApp.
+
+### Perguntas frequentes
+
+**O que é uma mola de compressão?**
+É a mola que trabalha sendo apertada. Com a mola solta, as espiras ficam afastadas umas das outras. Ao ser apertada, ela encurta e empurra de volta.
+
+**Como medir uma mola de compressão?**
+Com um paquímetro, meça a espessura do arame, o diâmetro por fora das espiras e o comprimento da mola solta. Conte também quantas voltas ela tem. Com isso a gente já consegue orçar.
+
+**Vocês fazem a mola pela amostra?**
+Fazemos. Se você tem a mola velha, mande uma foto com o paquímetro ou combine o envio da amostra pelo WhatsApp.
+
+**Qual material escolher?**
+O aço mola atende a maioria das aplicações. O inox é para quando a mola trabalha molhada, em contato com alimentos ou produtos químicos.
+
+## Molas de tração sob medida com gancho
+
+https://www.wfixspeed.com.br/molas-de-tracao
+
+Fabricamos molas de tração sob medida, pela amostra ou pelas medidas de arame, diâmetro e comprimento. Orçamento pelo WhatsApp e envio a todo o Brasil.
+
+### Perguntas frequentes
+
+**O que é uma mola de tração?**
+É a mola que trabalha sendo esticada e puxa as duas peças de volta para o lugar. Com a mola solta, as espiras ficam encostadas umas nas outras, e cada ponta termina em um gancho.
+
+**Como medir uma mola de tração?**
+Com um paquímetro, meça a espessura do arame, o diâmetro por fora das espiras e o comprimento total da mola solta, de um gancho ao outro. Se puder, meça também só o corpo, sem as hastes.
+
+**Vocês fazem a mola pela amostra?**
+Fazemos. Se você tem a mola velha, mande uma foto com o paquímetro ou combine o envio da amostra pelo WhatsApp.
+
+**Posso pedir outro gancho ou outra haste?**
+Pode. Descreva o que precisa na observação ou mande uma foto do gancho e do comprimento da haste que a sua peça usa, e a gente confirma no orçamento.
+
+## Molas de torção sob medida em aço e inox
+
+https://www.wfixspeed.com.br/molas-de-torcao
+
+Fabricamos molas de torção sob medida, pela amostra ou pelas medidas de arame, diâmetro, voltas e pernas. Orçamento pelo WhatsApp e envio a todo o Brasil.
+
+### Perguntas frequentes
+
+**O que é uma mola de torção?**
+É a mola que trabalha girando: as pernas abrem e fecham em volta do corpo e fazem a peça voltar à posição. O corpo é um anel de espiras encostadas, e as pernas saem dele retas ou com a ponta dobrada.
+
+**Como medir uma mola de torção?**
+Com um paquímetro, meça a espessura do arame, o diâmetro por fora do corpo e o comprimento de cada perna. Conte as voltas do corpo e veja o ângulo entre as pernas com a mola solta.
+
+**O que é o sentido de enrolamento?**
+É para que lado as espiras giram, e ele muda o lado em que a mola trabalha. Se não souber, escolha Não sei e mande uma foto da mola pelo WhatsApp que a gente identifica.
+
+**Vocês fazem a mola pela amostra?**
+Fazemos. Se você tem a mola velha, mande uma foto com o paquímetro ou combine o envio da amostra pelo WhatsApp.
+
+## Usinagem sob medida pelo desenho ou amostra
+
+https://www.wfixspeed.com.br/usinagem
+
+Peças usinadas sob medida a partir do seu desenho técnico ou de uma amostra, em aço carbono ou inox. Peça única ou lote. Orçamento pelo WhatsApp.
+
+### Perguntas frequentes
+
+**O que a W Speed usina?**
+Peças conforme desenho ou amostra do cliente, em aço carbono e aço inoxidável, para indústrias, oficinas mecânicas e equipamentos agrícolas e hidráulicos.
+
+**Preciso ter o desenho técnico para pedir o orçamento?**
+Se tiver o desenho é melhor, mas também aceitamos amostra da peça ou medidas exatas.
+
+**Em que formato mando o desenho?**
+PDF, DWG ou uma foto com as medidas, direto na conversa do WhatsApp. Se for pela amostra, a gente combina o envio.
+
+**Vocês fazem peça única?**
+Sim. Atendemos desde peças individuais até lotes grandes, conforme a necessidade do cliente.
+
+**A W Speed entrega em outras cidades?**
+Sim, para todas as regiões do Brasil. Informe a sua cidade quando mandar a lista, assim a gente calcula o frete junto com o orçamento.
+
+## Contato: orçamento de peças industriais
+
+https://www.wfixspeed.com.br/contato
+
+Peça orçamento de peças industriais e usinagem sob medida pelo WhatsApp (11) 98890-4107, de segunda a sexta em horário comercial. Atendemos todo o Brasil.
+
+## Contato
+
+- WhatsApp: (11) 98890-4107
+- Instagram: https://www.instagram.com/wfix.speed
+- Site: https://www.wfixspeed.com.br/

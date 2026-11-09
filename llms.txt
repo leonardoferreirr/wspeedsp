@@ -1,19 +1,33 @@
 # W Speed
 
-> Fabricação de bujões DIN 906, 908 e 910, posicionadores com mola e esfera (aço oxidado e inox), molas de compressão, tração e torção e usinagem sob medida. Orçamento pelo WhatsApp, envio para todo o Brasil.
+> A W Speed (Instagram @wfix.speed) é uma fabricante brasileira de peças industriais: bujões DIN 906, 908 e 910, posicionadores com mola e esfera, buchas roscadas, molas de compressão, tração e torção e usinagem sob medida. Atende todo o Brasil, com orçamento pelo WhatsApp.
 
-## Peças
-- [Bujão DIN 906 cônico com sextavado interno](https://wspeedsp.vercel.app/bujao-din-906): O bujão DIN 906 veda furos roscados sem ficar para fora da peça. Como a rosca é cônica, a vedação acontece no próprio aperto, e por isso ele aparece em blocos hidráulicos, bombas, redutores, cárteres e linhas de óleo e graxa de máquinas agrícolas.
-- [Bujão DIN 908 com colar e sextavado interno](https://wspeedsp.vercel.app/bujao-din-908): O bujão DIN 908 tem rosca reta e um colar que encosta na face da peça, onde vai o anel de vedação. Ocupa pouca altura, já que o aperto é com chave Allen, e é muito usado em carcaças de redutores, blocos de válvulas e tanques de óleo.
-- [Bujão DIN 910 com cabeça sextavada e colar](https://wspeedsp.vercel.app/bujao-din-910): O bujão DIN 910 é o bujão de dreno mais conhecido: cabeça sextavada para chave de boca, colar para o anel de vedação e rosca reta. É o que vai no cárter, na caixa de câmbio, no diferencial e nos reservatórios hidráulicos de tratores e máquinas.
-- [Posicionador com mola e esfera com fenda, rosca métrica](https://wspeedsp.vercel.app/posicionador-com-mola-e-esfera): O posicionador com mola e esfera trava, localiza e indexa peças: a esfera afunda com a pressão e volta pela mola, dando aquele clique de posição. É usado em gabaritos, dispositivos de fixação, moldes, estampos e em mecanismos de máquinas que precisam parar sempre no mesmo ponto.
-- [Bucha roscada reta e com colar](https://wspeedsp.vercel.app/bucha-roscada)
-- [Molas de compressão sob medida](https://wspeedsp.vercel.app/molas-de-compressao)
-- [Molas de tração sob medida](https://wspeedsp.vercel.app/molas-de-tracao)
-- [Molas de torção sob medida](https://wspeedsp.vercel.app/molas-de-torcao)
-- [Usinagem sob medida](https://wspeedsp.vercel.app/usinagem)
+- Materiais: aço carbono e aço inoxidável. Bujões e posicionadores em aço com oxidação preta ou inox; buchas em aço ou latão.
+- Medidas dos bujões conforme as normas DIN, iguais em qualquer fabricante; medidas, roscas e materiais especiais sob encomenda.
+- Clientes: indústrias, oficinas mecânicas, máquinas agrícolas, tratores, sistemas hidráulicos e redutores.
+- Quantidades: de peças individuais a lotes grandes.
+- Como pedir: montar a lista no site e enviar pelo WhatsApp, ou mandar desenho (PDF, DWG), foto com medidas ou amostra. Preço e prazo são informados no orçamento; o site não publica preços.
+- Atendimento: de segunda a sexta-feira, das 8h às 12h e das 13h30 às 17h30.
+
+## Páginas
+
+- [Bujão DIN 906 cônico: tabela BSPT, NPTF e métrica](https://www.wfixspeed.com.br/bujao-din-906): Bujão DIN 906 cônico com sextavado interno, em aço e inox. Tabela de medidas BSPT, NPTF e métrica 1:16. Orçamento pelo WhatsApp e envio a todo o Brasil.
+- [Bujão DIN 908 com colar: tabela BSP e métrica](https://www.wfixspeed.com.br/bujao-din-908): Bujão DIN 908 com colar e sextavado interno, em aço e inox. Tabela de medidas BSP e métrica. Orçamento pelo WhatsApp e envio a todo o Brasil.
+- [Bujão DIN 910 sextavado com colar: BSP e métrica](https://www.wfixspeed.com.br/bujao-din-910): Bujão DIN 910 com cabeça sextavada e colar, em aço e inox. Tabela de medidas BSP e métrica. Orçamento pelo WhatsApp e envio a todo o Brasil.
+- [Posicionador com mola e esfera em aço e inox](https://www.wfixspeed.com.br/posicionador-com-mola-e-esfera): Posicionador com mola e esfera (parafuso posicionador) em aço oxidado e inox, de M3 a M16. Tabela com esfera, curso e força. Orçamento pelo WhatsApp.
+- [Bucha roscada em aço e latão, reta ou com colar](https://www.wfixspeed.com.br/bucha-roscada): Bucha roscada reta ou com colar, em aço e latão, para recuperar rosca espanada e reforçar rosca em alumínio. Orçamento pelo WhatsApp e envio a todo o Brasil.
+- [Molas de compressão sob medida em aço e inox](https://www.wfixspeed.com.br/molas-de-compressao): Fabricamos molas de compressão sob medida em aço e inox, pela amostra ou pelas medidas. Informe arame, diâmetro e comprimento e peça orçamento pelo WhatsApp.
+- [Molas de tração sob medida com gancho](https://www.wfixspeed.com.br/molas-de-tracao): Fabricamos molas de tração sob medida, pela amostra ou pelas medidas de arame, diâmetro e comprimento. Orçamento pelo WhatsApp e envio a todo o Brasil.
+- [Molas de torção sob medida em aço e inox](https://www.wfixspeed.com.br/molas-de-torcao): Fabricamos molas de torção sob medida, pela amostra ou pelas medidas de arame, diâmetro, voltas e pernas. Orçamento pelo WhatsApp e envio a todo o Brasil.
+- [Usinagem sob medida pelo desenho ou amostra](https://www.wfixspeed.com.br/usinagem): Peças usinadas sob medida a partir do seu desenho técnico ou de uma amostra, em aço carbono ou inox. Peça única ou lote. Orçamento pelo WhatsApp.
+- [Contato: orçamento de peças industriais](https://www.wfixspeed.com.br/contato): Peça orçamento de peças industriais e usinagem sob medida pelo WhatsApp (11) 98890-4107, de segunda a sexta em horário comercial. Atendemos todo o Brasil.
+
+## Detalhes
+
+- [Tabelas de medidas e perguntas frequentes](https://www.wfixspeed.com.br/llms-full.txt)
 
 ## Contato
-WhatsApp: (11) 98890-4107
-Instagram: https://www.instagram.com/wfix.speed
-Site: https://wspeedsp.vercel.app/
+
+- WhatsApp: (11) 98890-4107
+- Instagram: https://www.instagram.com/wfix.speed
+- Site: https://www.wfixspeed.com.br/

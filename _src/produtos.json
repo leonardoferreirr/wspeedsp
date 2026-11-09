@@ -7,8 +7,8 @@
    "codigo": "DIN 906",
    "nome": "Bujão DIN 906",
    "sub": "cônico com sextavado interno",
-   "titulo_seo": "Bujão DIN 906 cônico com sextavado interno: BSPT, NPTF e métrica",
-   "desc_seo": "Bujão DIN 906 cônico com sextavado interno em aço e inox. Tabela de medidas (L, S, T, W) para rosca BSPT, NPTF e métrica 1:16. Orçamento pelo WhatsApp e envio para todo o Brasil.",
+   "titulo_seo": "Bujão DIN 906 cônico: tabela BSPT, NPTF e métrica",
+   "desc_seo": "Bujão DIN 906 cônico com sextavado interno, em aço e inox. Tabela de medidas BSPT, NPTF e métrica 1:16. Orçamento pelo WhatsApp e envio a todo o Brasil.",
    "reconhecer": "Sem cabeça e sem colar: a rosca é cônica e o sextavado fica por dentro. Rosqueia até ficar rente à peça.",
    "texto": "O bujão DIN 906 veda furos roscados sem ficar para fora da peça. Como a rosca é cônica, a vedação acontece no próprio aperto, e por isso ele aparece em blocos hidráulicos, bombas, redutores, cárteres e linhas de óleo e graxa de máquinas agrícolas.",
    "letras": [
@@ -288,12 +288,24 @@
    ],
    "faq": [
     [
+     "O que é o bujão DIN 906?",
+     "É um bujão cônico, sem cabeça e sem colar, com sextavado interno para chave Allen. Ele fecha furos roscados e fica rente à peça, por isso aparece em blocos hidráulicos, bombas, redutores, cárteres e linhas de óleo e graxa."
+    ],
+    [
+     "Bujão, tampão e plug roscado são a mesma peça?",
+     "São nomes diferentes para a mesma função: fechar um furo roscado. Na norma, o DIN 906 é o bujão cônico com sextavado interno, que muita gente chama de bujão Allen cônico."
+    ],
+    [
      "O DIN 906 precisa de anel de vedação?",
      "Normalmente não. A rosca cônica veda no aperto, e em linhas de alta pressão muita gente completa com veda-rosca líquido."
     ],
     [
      "Qual a diferença entre BSPT e NPTF?",
      "As duas são cônicas, mas a BSPT tem filete de 55° (padrão inglês, mais comum em máquinas europeias e nacionais) e a NPTF tem filete de 60° (padrão americano). O número de fios por polegada também muda em algumas medidas."
+    ],
+    [
+     "A W Speed fabrica bujão DIN 906 em inox?",
+     "Sim. A W Speed fabrica o DIN 906 em aço com oxidação preta e em inox, nas roscas BSPT, NPTF e métrica cônica 1:16, com envio para todo o Brasil. Medidas especiais saem sob encomenda."
     ]
    ]
   },
@@ -303,8 +315,8 @@
    "codigo": "DIN 908",
    "nome": "Bujão DIN 908",
    "sub": "com colar e sextavado interno",
-   "titulo_seo": "Bujão DIN 908 com colar e sextavado interno: BSP e métrica",
-   "desc_seo": "Bujão DIN 908 com colar e sextavado interno em aço e inox. Tabela de medidas (D, C, L, S, T) para rosca BSP e métrica. Orçamento pelo WhatsApp e envio para todo o Brasil.",
+   "titulo_seo": "Bujão DIN 908 com colar: tabela BSP e métrica",
+   "desc_seo": "Bujão DIN 908 com colar e sextavado interno, em aço e inox. Tabela de medidas BSP e métrica. Orçamento pelo WhatsApp e envio a todo o Brasil.",
    "reconhecer": "Tem um colar redondo em cima e o sextavado por dentro. A rosca é reta e o colar encosta na peça.",
    "texto": "O bujão DIN 908 tem rosca reta e um colar que encosta na face da peça, onde vai o anel de vedação. Ocupa pouca altura, já que o aperto é com chave Allen, e é muito usado em carcaças de redutores, blocos de válvulas e tanques de óleo.",
    "letras": [
@@ -525,12 +537,20 @@
    ],
    "faq": [
     [
+     "O que é o bujão DIN 908?",
+     "É um bujão de rosca reta com colar e sextavado interno. O colar encosta na face da peça, onde vai o anel de vedação, e o aperto é com chave Allen. É muito usado em carcaças de redutores, blocos de válvulas e tanques de óleo."
+    ],
+    [
      "O DIN 908 usa anel de vedação?",
      "Sim. Como a rosca é reta, quem veda é o anel embaixo do colar, que pode ser de cobre, alumínio ou borracha com aço, conforme a pressão e o fluido."
     ],
     [
      "Posso trocar um DIN 908 por um DIN 910?",
      "Na maioria dos casos sim, porque a rosca e o colar seguem as mesmas medidas. A diferença é a chave: o 908 aperta com Allen e o 910 com chave de boca ou estrela."
+    ],
+    [
+     "A W Speed fabrica bujão DIN 908 em inox?",
+     "Sim. A W Speed fabrica o DIN 908 em aço com oxidação preta e em inox, nas roscas BSP e métrica, com envio para todo o Brasil. Medidas especiais saem sob encomenda."
     ]
    ]
   },
@@ -540,8 +560,8 @@
    "codigo": "DIN 910",
    "nome": "Bujão DIN 910",
    "sub": "com cabeça sextavada e colar",
-   "titulo_seo": "Bujão DIN 910 com cabeça sextavada e colar: BSP e métrica",
-   "desc_seo": "Bujão DIN 910 com cabeça sextavada e colar em aço e inox. Tabela de medidas (D, M, L, C, S) para rosca BSP e métrica. Orçamento pelo WhatsApp e envio para todo o Brasil.",
+   "titulo_seo": "Bujão DIN 910 sextavado com colar: BSP e métrica",
+   "desc_seo": "Bujão DIN 910 com cabeça sextavada e colar, em aço e inox. Tabela de medidas BSP e métrica. Orçamento pelo WhatsApp e envio a todo o Brasil.",
    "reconhecer": "Tem cabeça sextavada por fora, como um parafuso, e um colar redondo embaixo dela.",
    "texto": "O bujão DIN 910 é o bujão de dreno mais conhecido: cabeça sextavada para chave de boca, colar para o anel de vedação e rosca reta. É o que vai no cárter, na caixa de câmbio, no diferencial e nos reservatórios hidráulicos de tratores e máquinas.",
    "letras": [
@@ -754,12 +774,20 @@
    ],
    "faq": [
     [
+     "O que é o bujão DIN 910?",
+     "É um bujão de rosca reta com cabeça sextavada por fora e colar, apertado com chave de boca ou estrela. É o modelo mais usado como dreno em cárteres, caixas de câmbio, diferenciais e reservatórios hidráulicos."
+    ],
+    [
      "Qual anel de vedação usar com o DIN 910?",
      "O mais comum é o anel de cobre ou de alumínio, do mesmo diâmetro interno da rosca. Em sistemas de pressão mais alta entra o anel de aço com borracha vulcanizada."
     ],
     [
      "O DIN 910 serve como bujão de dreno de cárter?",
      "Serve. É o modelo padrão de dreno em motores, câmbios e diferenciais, desde que a rosca e o comprimento batam com o furo."
+    ],
+    [
+     "A W Speed fabrica bujão DIN 910 em inox?",
+     "Sim. A W Speed fabrica o DIN 910 em aço com oxidação preta e em inox, nas roscas BSP e métrica, com envio para todo o Brasil. Medidas especiais saem sob encomenda."
     ]
    ]
   },
@@ -769,8 +797,8 @@
    "codigo": "Posicionador",
    "nome": "Posicionador com mola e esfera",
    "sub": "com fenda, rosca métrica",
-   "titulo_seo": "Posicionador com mola e esfera em aço e inox: M3 a M16",
-   "desc_seo": "Posicionador com mola e esfera (parafuso posicionador com fenda) em aço oxidado e inox, de M3 a M16. Tabela com esfera, curso e força. Orçamento pelo WhatsApp e envio para todo o Brasil.",
+   "titulo_seo": "Posicionador com mola e esfera em aço e inox",
+   "desc_seo": "Posicionador com mola e esfera (parafuso posicionador) em aço oxidado e inox, de M3 a M16. Tabela com esfera, curso e força. Orçamento pelo WhatsApp.",
    "reconhecer": "É um parafuso sem cabeça, com fenda atrás e uma esfera na ponta que afunda quando você aperta.",
    "texto": "O posicionador com mola e esfera trava, localiza e indexa peças: a esfera afunda com a pressão e volta pela mola, dando aquele clique de posição. É usado em gabaritos, dispositivos de fixação, moldes, estampos e em mecanismos de máquinas que precisam parar sempre no mesmo ponto.",
    "letras": [
@@ -954,12 +982,24 @@
    ],
    "faq": [
     [
+     "O que é um posicionador com mola e esfera?",
+     "É um parafuso sem cabeça, com fenda atrás e uma esfera na ponta, empurrada por uma mola. A esfera afunda com a pressão e volta sozinha, o que trava, localiza e indexa peças em gabaritos, dispositivos de fixação, moldes e estampos."
+    ],
+    [
+     "Posicionador de esfera e parafuso posicionador são a mesma peça?",
+     "Sim. No mercado ele aparece como posicionador com mola e esfera, posicionador de esfera, parafuso posicionador e, em inglês, ball plunger."
+    ],
+    [
      "Qual a diferença entre o posicionador de aço e o de inox?",
      "O de aço tem oxidação preta e serve para a maioria das máquinas. O inox não enferruja, então é o indicado para ambiente úmido, contato com água, alimentos ou produtos químicos."
     ],
     [
      "Como escolher a força do posicionador?",
      "Quanto maior a rosca, maior a esfera e mais forte a mola. Se a peça precisa travar com firmeza, suba uma medida; se é só um ponto de referência, a menor que couber resolve."
+    ],
+    [
+     "Em quais medidas a W Speed fabrica o posicionador?",
+     "De M3 a M16, em aço oxidado e em inox. A tabela mostra comprimento, diâmetro da esfera, curso e força da mola de cada medida, e outras medidas saem sob encomenda."
     ]
    ]
   }

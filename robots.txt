@@ -1,4 +1,4 @@
 User-agent: *
-Disallow:
+Allow: /
 
-Sitemap: https://wspeedsp.vercel.app/sitemap.xml
+Sitemap: https://www.wfixspeed.com.br/sitemap.xml
